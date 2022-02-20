@@ -31,6 +31,7 @@ int PM_MM_GetID = 0;		// Get ID on next read
 int PM_MM_Bypass = 0;		// Flash Bypass
 int PM_MM_Command = 0;		// 0 = None, 1 = Write, 2 = Erase
 uint32_t PM_MM_Offset = 0;	// ROM Offset in bytes
+uint32_t PM_MM_Ditto_Mask = 0x1FFFFF;
 
 // For misc information
 uint32_t PM_MM_LastErase_Start = 0;	// Last erased start
@@ -270,6 +271,120 @@ void Multicart_T2W(uint32_t addr, uint8_t data)
 //	Add_InfoMessage("[DEBUG] Bus Cycle %i, Command %i, Offset $%06X\n", PM_MM_BusCycle, PM_MM_Command, PM_MM_Offset);
 }
 
+
+// Ditto 2048KB (SST39VF1681)
+// Flash command bytes written to Ditto are bit reversed. (ie; 0xC0 8'b1100_0000 = 8'b0000_0011)
+uint8_t Multicart_T3R(uint32_t addr)
+{
+	if (!PM_MM_GetID) return PM_ROM[(addr + PM_MM_Offset) & PM_MM_Ditto_Mask];
+	PM_MM_GetID = 0;
+	switch (addr >> 6) {
+	case 0: return 0xBF;	// Manufacturer ID
+	case 2: return 0xC8;	// Device ID
+	}
+	return 0xFF;
+}
+
+void Multicart_T3W(uint32_t addr, uint8_t data)
+{
+	uint32_t faddr = addr & 0xFFF;
+	uint32_t i;
+
+/*
+Bank Switching:
+Value 0 is 2MB addressing the full memory space.
+Values 1 - 31 are for 64K segments where the value chooses the respective segment.
+Values 0x80 - 0x83 are 512K segments, masking the low two bits to select bank
+*/
+	if (addr == 0x1FFFFF) { // bank switch
+	
+		if (data == 0) {
+			PM_MM_Offset = 0;
+			PM_MM_Ditto_Mask = 0x1FFFFF;
+		}
+		else if (data < 32) {
+			PM_MM_Offset = data * 0x10000; // 64kb
+			PM_MM_Ditto_Mask = 0xFFFF;
+		}
+		else if ((data >> 7) == 1) {
+			PM_MM_Offset = (data & 0x03) * 0x80000; // 512kb
+			PM_MM_Ditto_Mask = 0x7FFFF;
+		}
+	}
+	
+	// flash command sequencing
+	if (PM_MM_BusCycle == 5) {
+		PM_MM_BusCycle = 0;
+		if ((faddr == 0x555) && (data == 0x08)) {
+			// chip erase (destroy everything!)
+			PM_MM_LastErase_Start = 0;
+			PM_MM_LastErase_End = PM_ROM_Size;
+			for (i = 0; i < PM_ROM_Size; i++) PM_ROM[i] = 0xFF;
+			PM_MM_Dirty = 1;
+		}
+		else if (data == 0x0A) {
+			// sector erase
+			PM_MM_LastErase_Start = ((addr >> 12) * 4096) & PM_MM_Ditto_Mask;
+			PM_MM_LastErase_End = ((((addr >> 12) + 1) * 4096) - 1) & PM_MM_Ditto_Mask;
+			for (i = PM_MM_LastErase_Start; i <= PM_MM_LastErase_End; i++) PM_ROM[i] = 0xFF;
+			
+			PM_MM_Dirty = 1;
+		}
+		else if (data == 0x0C) {
+			// block erase
+		}
+	}
+	if (PM_MM_BusCycle == 4) {
+		if ((faddr == 0x555) && (data == 0xAA)) PM_MM_BusCycle = 5;
+		else PM_MM_BusCycle = 0;
+	}
+	if (PM_MM_BusCycle == 3) {
+		PM_MM_BusCycle = 0;
+		if (PM_MM_Command == 1) {
+			// Program (Clear bits)
+			PM_MM_LastProg = (addr + PM_MM_Offset) & PM_MM_Ditto_Mask;
+			PM_ROM[PM_MM_LastProg] &= data;
+			PM_MM_Dirty = 1;
+		}
+		if (PM_MM_Command == 2) {
+			// Erase
+			if ((faddr == 0xAAA) && (data == 0x55)) PM_MM_BusCycle = 4;
+		}
+	}
+	if (PM_MM_BusCycle == 2) {
+		PM_MM_BusCycle = 0;
+		if (faddr == 0xAAA) {
+			if (data == 0x09) {
+				// software id mode
+				PM_MM_GetID = 1;
+			}
+			else if (data == 0x05) {
+				// byte program mode
+				PM_MM_Command = 1;
+				PM_MM_BusCycle = 3;
+			}
+			else if (data == 0x01) {
+				// erase mode
+				PM_MM_Command = 2;
+				PM_MM_BusCycle = 3;
+			}
+		}
+	}
+	if (PM_MM_BusCycle == 1) {
+		if ((faddr == 0x555) && (data == 0xAA)) PM_MM_BusCycle = 2;
+		else PM_MM_BusCycle = 0;
+	}
+	if (PM_MM_BusCycle == 0) {
+		if (data == 0x0F) {
+			// exit software/cfi mode
+			PM_MM_GetID = 0;
+			PM_MM_Bypass = 0;
+		}
+		else if ((faddr == 0xAAA) && (data == 0x55)) PM_MM_BusCycle = 1;
+		PM_MM_Command = 0;
+	}
+}
+
 void NewMulticart(void)
 {
 	PM_MM_Dirty = 0;
@@ -282,7 +397,13 @@ void SetMulticart(int type)
 	PM_MM_Bypass = 0;
 	PM_MM_Command = 0;
 	PM_MM_Offset = 0;
-	if (type == 2) {
+	if (type == 3) {
+		PM_MM_Type = 3;
+		MulticartRead = Multicart_T3R;
+		MulticartWrite = Multicart_T3W;
+		PM_ROM_Mask = 0x1FFFFF;
+	}
+	else if (type == 2) {
 		PM_MM_Type = 2;
 		MulticartRead = Multicart_T2R;
 		MulticartWrite = Multicart_T2W;

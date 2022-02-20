@@ -186,7 +186,7 @@ int CommandLineArgs(int argc, char **argv, const TCommandLineCustom *custom)
 			else if (!strcasecmp(*argv, "-custom2light")) { if (--argc) CommandLine.custompal[2] = BetweenNum(atoi_Ex(*++argv, 0xFFFFFF), 0x000000, 0xFFFFFF); }
 			else if (!strcasecmp(*argv, "-custom2dark")) { if (--argc) CommandLine.custompal[3] = BetweenNum(atoi_Ex(*++argv, 0x000000), 0x000000, 0xFFFFFF); }
 			else if (!strcasecmp(*argv, "-synccycles")) { if (--argc) CommandLine.synccycles = BetweenNum(atoi_Ex(*++argv, 8), 8, 512); }
-			else if (!strcasecmp(*argv, "-multicart")) { if (--argc) CommandLine.multicart = BetweenNum(atoi_Ex(*++argv, 0), 0, 2); }
+			else if (!strcasecmp(*argv, "-multicart")) { if (--argc) CommandLine.multicart = BetweenNum(atoi_Ex(*++argv, 0), 0, 3); }
 			else if (!strcasecmp(*argv, "-lcdcontrast")) { if (--argc) CommandLine.lcdcontrast = BetweenNum(atoi_Ex(*++argv, 64), 0, 100); }
 			else if (!strcasecmp(*argv, "-lcdbright")) { if (--argc) CommandLine.lcdbright = BetweenNum(atoi_Ex(*++argv, 0), -100, 100); }
 			else if (CommandLineCustomArgs(argc, argv, &extra, custom)) { argc -= extra; argv += extra; }
@@ -335,7 +335,7 @@ int CommandLineConfFile(const char *filename, const char *platcfgfile, const TCo
 			else if (!strcasecmp(key, "custom1dark")) CommandLine.custompal[1] = BetweenNum(atoi_Ex(value, 0x000000), 0x000000, 0xFFFFFF);
 			else if (!strcasecmp(key, "custom2light")) CommandLine.custompal[2] = BetweenNum(atoi_Ex(value, 0xFFFFFF), 0x000000, 0xFFFFFF);
 			else if (!strcasecmp(key, "custom2dark")) CommandLine.custompal[3] = BetweenNum(atoi_Ex(value, 0x000000), 0x000000, 0xFFFFFF);
-			else if (!strcasecmp(key, "multicart")) CommandLine.multicart = BetweenNum(atoi_Ex(value, 0), 0, 2);
+			else if (!strcasecmp(key, "multicart")) CommandLine.multicart = BetweenNum(atoi_Ex(value, 0), 0, 3);
 			else if (!strcasecmp(key, "synccycles")) CommandLine.synccycles = BetweenNum(atoi_Ex(value, 8), 8, 512);
 			else if (!strcasecmp(key, "lcdcontrast")) CommandLine.lcdcontrast = BetweenNum(atoi_Ex(value, 64), 0, 100);
 			else if (!strcasecmp(key, "lcdbright")) CommandLine.lcdbright = BetweenNum(atoi_Ex(value, 0), -100, 100);
@@ -600,7 +600,7 @@ void PrintHelpUsage(FILE *fout)
 	fprintf(fout, "  -custom2light 0xFFFFFF Palette Custom 2 Light\n");
 	fprintf(fout, "  -custom2dark 0x000000  Palette Custom 2 Dark\n");
 	fprintf(fout, "  -synccycles 8          Number of cycles per hardware sync.\n");
-	fprintf(fout, "  -multicart 0           Multicart type (0 to 2)\n");
+	fprintf(fout, "  -multicart 0           Multicart type (0 to 3)\n");
 	fprintf(fout, "  -lcdcontrast 64        LCD contrast boost in percent\n");
 	fprintf(fout, "  -lcdbright 0           LCD brightness offset in percent\n");
 }
@@ -647,7 +647,7 @@ int PrintHelpUsageStr(char *out)
 		strcat(out, "  -custom2light 0xFFFFFF Palette Custom 2 Light\n");
 		strcat(out, "  -custom2dark 0x000000  Palette Custom 2 Dark\n");
 		strcat(out, "  -synccycles 8          Number of cycles per hardware sync.\n");
-		strcat(out, "  -multicart 0           Multicart type (0 to 2)\n");
+		strcat(out, "  -multicart 0           Multicart type (0 to 3)\n");
 		strcat(out, "  -lcdcontrast 64        LCD contrast boost in percent\n");
 		strcat(out, "  -lcdbright 0           LCD brightness offset in percent\n");
 	}

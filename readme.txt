@@ -4,12 +4,12 @@
           | |     | | | |
           |_| OKE |_| |_| INI
           -------------------
-             Version  0.60
+             Version  0.61
 
   Homebrew-emulator for Pokémon-Mini!
 
   Latest version can be found in:
-  http://pokemini.sourceforge.net/
+  https://github.com/pokemon-mini/pokemini
 
   For hardware documentation, visit:
   http://wiki.sublab.net/index.php/Pokemon_Mini
@@ -50,6 +50,9 @@
     Read, Erase, Write, Banking and Manufacturer ID
 
   Type 2 - Lupin's 512KB Flash (AM29LV040B)
+    Read, Erase, Write, Banking and Manufacturer ID
+
+  Type 3 - Ditto Mini 2048KB Flash (SST39VF1681)
     Read, Erase, Write, Banking and Manufacturer ID
 
 > Command-Line:
@@ -125,6 +128,11 @@
 
 > History:
 
+  -: 0.61 Changes :-
+  Added support for Ditto Mini flash cartridge
+  Fixed direct register access to use I register (index page)
+  Added support for Visual Studio 2019
+
   -: 0.60 Changes :-
   Changed version format to only 2 fields to avoid confusion
   Fixed RTC month being reported wrong from host
@@ -183,7 +191,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   Questions and Bugs reports are welcome!
 
   PokeMini webpage:
-  https://sourceforge.net/projects/pokemini/
+  https://github.com/pokemon-mini/pokemini
 
   Pokemon-Mini Hardware:
   http://wiki.sublab.net/index.php/Pokemon_Mini

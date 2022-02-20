@@ -58,14 +58,14 @@ const char *AboutTxt = "PokeMini " PokeMini_Version " Win32"
 	"IRC EFNET!\n\n"
 	"Please check readme.txt\n\n"
 	"For latest version visit:\n"
-	"http://pokemini.sourceforge.net/\n\n"
+	"https://github.com/pokemon-mini/pokemini\n\n"
 	"Special thanks to:\n"
 	"Museum of Electronic Games & Art\n"
 	"http://m-e-g-a.org\n"
 	"MEGA supports preservation\n"
 	"projects of digital art & culture\n";
 
-const char *WebsiteTxt = "http://pokemini.sourceforge.net/";
+const char *WebsiteTxt = "https://github.com/pokemon-mini/pokemini";
 
 // Variables
 volatile int emumodeE = EMUMODE_STOP;	// Emulation thread
@@ -1097,6 +1097,7 @@ void update_options(void)
 	CheckMenuItem(hMainMenu, ID_MULTICART_DISABLED, (CommandLine.multicart == 0) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMainMenu, ID_MULTICART_FLASH512KB, (CommandLine.multicart == 1) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMainMenu, ID_MULTICART_LUPIN512KB, (CommandLine.multicart == 2) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMainMenu, ID_MULTICART_DITTO2048KB, (CommandLine.multicart == 3) ? MF_CHECKED : MF_UNCHECKED);   
 	CheckMenuItem(hMainMenu, ID_OPTIONS_FORCEFREEBIOS, (CommandLine.forcefreebios) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMainMenu, ID_VIDEO_GDI, (wclc_videorend == 0) ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMainMenu, ID_VIDEO_DIRECTDRAW, (wclc_videorend == 1) ? MF_CHECKED : MF_UNCHECKED);
@@ -1743,6 +1744,10 @@ LRESULT CALLBACK PokeMiniW_WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 					break;
 				case ID_MULTICART_LUPIN512KB:
 					Menu_Options_Multicart(2);
+					update_options();
+					break;
+				case ID_MULTICART_DITTO2048KB:
+					Menu_Options_Multicart(3);
 					update_options();
 					break;
 				case ID_OPTIONS_FORCEFREEBIOS:

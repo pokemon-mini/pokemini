@@ -4,7 +4,7 @@
           | |     | | | |
           |_| OKE |_| |_| INI
           -------------------
-             Version  0.60
+             Version  0.61
 
   Homebrew-emulator for Pokémon-Mini!
 
@@ -128,6 +128,11 @@
   UI Menu          Mote 1
 
 > History:
+
+  -: 0.61 Changes :-
+  Added support for Ditto Mini flash cartridge
+  Fixed direct register access to use I register (index page)
+  Added support for Visual Studio 2019
 
   -: 0.60 Changes :-
   Changed version format to only 2 fields to avoid confusion

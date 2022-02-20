@@ -221,6 +221,7 @@
 #define ID_LCDBRIGHT_CUSTOM             40177
 #define ID_LCDCONTRAST_LOW              40178
 #define ID_LCDCONTRAST_HIGH             40179
+#define ID_MULTICART_DITTO2048KB        40180
 
 // Next default values for new objects
 // 

@@ -30,7 +30,7 @@ BEGIN
 	BEGIN
 		BLOCK "040904b0"
 		BEGIN
-			VALUE "Comments", "A Pokémon-Mini Emulator\r\nhttp://pokemini.sourceforge.net/\r\nhttp://www.pokemon-mini.net/"
+			VALUE "Comments", "A Pokémon-Mini Emulator\r\nhttps://github.com/pokemon-mini/pokemini\r\nhttp://www.pokemon-mini.net/"
 			VALUE "CompanyName", "JustBurn, Team Pokeme"
 			VALUE "FileDescription", "Portable Pokémon Mini Emulator"
 			VALUE "FileVersion", RES_VERSION_STR

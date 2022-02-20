@@ -4,12 +4,12 @@
           | |     | | | |
           |_| OKE |_| |_| INI
           -------------------
-             Version  0.60
+             Version  0.61
 
   Homebrew-emulator for Pokémon-Mini!
 
   Latest version can be found in:
-  http://pokemini.sourceforge.net/
+  https://github.com/pokemon-mini/pokemini
 
   For hardware documentation, visit:
   http://wiki.sublab.net/index.php/Pokemon_Mini

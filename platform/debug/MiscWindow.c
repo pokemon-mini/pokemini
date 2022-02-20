@@ -85,7 +85,8 @@ static char *EEPROM_TxtOperState[] = {
 static char *Multicart_TxtType[] = {
 	"0 - Disabled",
 	"1 - Flash 512KB (AM29LV040B)",
-	"2 - Lupin 512KB (AM29LV040B)"
+	"2 - Lupin 512KB (AM29LV040B)",
+	"3 - Ditto 2048KB (SST39VF1681)"
 };
 
 static char *Multicart_TxtBusCycle[] = {

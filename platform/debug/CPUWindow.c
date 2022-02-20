@@ -67,7 +67,7 @@ const char *AboutTxt = "PokeMini " PokeMini_Version " Debugger"
 	"IRC EFNET!\n\n"
 	"Please check readme.txt\n\n"
 	"For latest version visit:\n"
-	"http://pokemini.sourceforge.net/\n\n"
+	"https://github.com/pokemon-mini/pokemini\n\n"
 	"Special thanks to:\n"
 	"Museum of Electronic Games & Art\n"
 	"http://m-e-g-a.org\n"
@@ -2878,8 +2878,9 @@ static GtkItemFactoryEntry CPUWindow_MenuItems[] = {
 	{ "/Options/Share _EEPROM",              NULL,           Menu_Options_ShareEEP,        0, "<CheckItem>" },
 	{ "/Options/_Multicart",                 NULL,           NULL,                         0, "<Branch>" },
 	{ "/Options/Multicart/Disabled",         NULL,           Menu_Options_Multicart,       0, "<RadioItem>" },
-	{ "/Options/Multicart/Flash 512KB (AM29LV040B)",NULL,    Menu_Options_Multicart,       1, "/Options/Multicart/Disabled" },
-	{ "/Options/Multicart/Lupin 512KB (AM29LV040B)",NULL,    Menu_Options_Multicart,       2, "/Options/Multicart/Disabled" },
+	{ "/Options/Multicart/Flash 512KB (AM29LV040B)",  NULL,  Menu_Options_Multicart,       1, "/Options/Multicart/Disabled" },
+	{ "/Options/Multicart/Lupin 512KB (AM29LV040B)",  NULL,  Menu_Options_Multicart,       2, "/Options/Multicart/Disabled" },
+	{ "/Options/Multicart/Ditto 2048KB (SST39VF1681)",NULL,  Menu_Options_Multicart,       3, "/Options/Multicart/Disabled" },
 	{ "/Options/Force Free_BIOS",            NULL,           Menu_Options_FreeBIOS,        0, "<CheckItem>" },
 	{ "/Options/sep3",                       NULL,           NULL,                         0, "<Separator>" },
 	{ "/Options/File association",           NULL,           NULL,                         0, "<Branch>" },
@@ -3365,6 +3366,8 @@ void CPUWindow_UpdateConfigs(void)
 	if (CommandLine.multicart == 1) gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widg), 1);
 	widg = gtk_item_factory_get_item(ItemFactory, "/Options/Multicart/Lupin 512KB (AM29LV040B)");
 	if (CommandLine.multicart == 2) gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widg), 1);
+    widg = gtk_item_factory_get_item(ItemFactory, "/Options/Multicart/Ditto 2048KB (SST39VF1681)");
+	if (CommandLine.multicart == 3) gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widg), 1);
 	widg = gtk_item_factory_get_item(ItemFactory, "/Options/Force Free BIOS");
 	if (CommandLine.forcefreebios) gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widg), 1);
 

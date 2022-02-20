@@ -873,36 +873,36 @@ int MinxCPU_ExecCE(void)
 
 		case 0xD0: // MOV A, [#nnnn]
 			I16 = Fetch16();
-			MinxCPU.BA.B.L = MinxCPU_OnRead(1, I16);
+			MinxCPU.BA.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
 		case 0xD1: // MOV B, [#nnnn]
 			I16 = Fetch16();
-			MinxCPU.BA.B.H = MinxCPU_OnRead(1, I16);
+			MinxCPU.BA.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
 		case 0xD2: // MOV L, [#nnnn]
 			I16 = Fetch16();
-			MinxCPU.HL.B.L = MinxCPU_OnRead(1, I16);
+			MinxCPU.HL.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
 		case 0xD3: // MOV H, [#nnnn]
 			I16 = Fetch16();
-			MinxCPU.HL.B.H = MinxCPU_OnRead(1, I16);
+			MinxCPU.HL.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
 
 		case 0xD4: // MOV [#nnnn], A
 			I16 = Fetch16();
-			MinxCPU_OnWrite(1, I16, MinxCPU.BA.B.L);
+			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.BA.B.L);
 			return 20;
 		case 0xD5: // MOV [#nnnn], B
 			I16 = Fetch16();
-			MinxCPU_OnWrite(1, I16, MinxCPU.BA.B.H);
+			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.BA.B.H);
 			return 20;
 		case 0xD6: // MOV [#nnnn], L
 			I16 = Fetch16();
-			MinxCPU_OnWrite(1, I16, MinxCPU.HL.B.L);
+			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.HL.B.L);
 			return 20;
 		case 0xD7: // MOV [#nnnn], H
 			I16 = Fetch16();
-			MinxCPU_OnWrite(1, I16, MinxCPU.HL.B.H);
+			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.HL.B.H);
 			return 20;
 
 		case 0xD8: // MUL L, A

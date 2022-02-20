@@ -7,7 +7,7 @@
           -------------------
 
   Download lastest version in:
-  http://sourceforge.net/projects/pokemini/
+  https://github.com/pokemon-mini/pokemini
 
   For hardware documentation, visit:
   http://wiki.sublab.net/index.php/Pokemon_Mini

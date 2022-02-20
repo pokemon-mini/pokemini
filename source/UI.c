@@ -746,8 +746,8 @@ char *UIMenuTxt_RTC[3] = {
 	"Off", "State time diff.", "From Host"
 };
 
-char *UIMenuTxt_Multicart[3] = {
-	"Disabled", "Flash 512K", "Lupin 512K"
+char *UIMenuTxt_Multicart[4] = {
+	"Disabled", "Flash 512K", "Lupin 512K", "Ditto 2048K"
 };
 
 char *UIMenuTxt_Enabled[2] = {
@@ -849,7 +849,7 @@ int UIItems_OptionsC(int index, int reason)
 			case 9: CommandLine.forcefreebios = !CommandLine.forcefreebios;
 				break;
 			case 20: CommandLine.multicart--;
-				if (CommandLine.multicart < 0) CommandLine.multicart = 2;
+				if (CommandLine.multicart < 0) CommandLine.multicart = 3;
 				break;
 			case 50: CommandLine.synccycles >>= 1;
 				if (CommandLine.synccycles < 8) CommandLine.synccycles = 8;
@@ -898,7 +898,7 @@ int UIItems_OptionsC(int index, int reason)
 			case 9: CommandLine.forcefreebios = !CommandLine.forcefreebios;
 				break;
 			case 20: CommandLine.multicart++;
-				if (CommandLine.multicart > 2) CommandLine.multicart = 0;
+				if (CommandLine.multicart > 3) CommandLine.multicart = 0;
 				break;
 			case 50: CommandLine.synccycles <<= 1;
 #ifdef PERFORMANCE

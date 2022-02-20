@@ -19,18 +19,18 @@
 #ifndef PokeMini_Version
 
 // Version in normal format
-#define PokeMini_Version "0.60"
+#define PokeMini_Version "0.61"
 
 // Version in short format (5 chars max!)
-#define PokeMini_VerShort "0.60"
+#define PokeMini_VerShort "0.61"
 
 // Savestate file ID
 //   Change only if savestate structure file changes!
 #define PokeMini_ID 0x006B4D50
 
 // For windows resource file
-#define RES_VERSION	0,6,0,0
-#define RES_VERSION_STR	"0.60"
+#define RES_VERSION	0,6,1,0
+#define RES_VERSION_STR	"0.61"
 #define RES_COPYRIGHT	"Copyright by JustBurn 2003-2015"
 
 #endif
