@@ -918,7 +918,7 @@ static void ComboReg_changed(GtkComboBox *widget, gpointer data)
 
 static void CheckRegData_toggled(GtkToggleButton *widget, gpointer data)
 {
-	int mask = 1 << (int)data;
+	int mask = 1 << GPOINTER_TO_INT(data);
 	uint8_t din;
 
 	if (HardIOWindow_InConfigs) return;
@@ -944,7 +944,7 @@ static void HardIOW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void HardIOW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -976,28 +976,28 @@ static gboolean HardIOWindow_state_event(GtkWidget *widget, GdkEventWindowState 
 
 static GtkItemFactoryEntry HardIOWindow_MenuItems[] = {
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           HardIOW_RefreshNow,       0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)HardIOW_RefreshNow,       0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           HardIOW_Refresh,          0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           HardIOW_Refresh,          1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           HardIOW_Refresh,          2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           HardIOW_Refresh,          3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           HardIOW_Refresh,          5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           HardIOW_Refresh,          7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           HardIOW_Refresh,         11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           HardIOW_Refresh,         35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           HardIOW_Refresh,         71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           HardIOW_Refresh,         -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,          7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,         11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,         35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,         71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)HardIOW_Refresh,         -1, "/Refresh/100% 72fps" },
 };
 static gint HardIOWindow_MenuItemsNum = sizeof(HardIOWindow_MenuItems) / sizeof(*HardIOWindow_MenuItems);
 
@@ -1054,7 +1054,7 @@ int HardIOWindow_Create(void)
 	gtk_widget_show(GTK_WIDGET(ComboReg));
 	for (i=0; i<8; i++) {
 		CheckRegData[i] = GTK_TOGGLE_BUTTON(gtk_check_button_new_with_label("???"));
-		g_signal_connect(CheckRegData[i], "toggled", G_CALLBACK(CheckRegData_toggled), (gpointer)(7-i));
+		g_signal_connect(CheckRegData[i], "toggled", G_CALLBACK(CheckRegData_toggled), GINT_TO_POINTER(7-i));
 		gtk_toggle_button_set_mode(CheckRegData[i], TRUE);
 		gtk_box_pack_start(VBox2, GTK_WIDGET(CheckRegData[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(CheckRegData[i]));

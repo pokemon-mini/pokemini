@@ -303,7 +303,7 @@ static void MiscW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void MiscW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -335,35 +335,35 @@ static gboolean MiscWindow_state_event(GtkWidget *widget, GdkEventWindowState *e
 
 static GtkItemFactoryEntry MiscWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/PRC Status",                    NULL,           MiscW_View_PRC,           0, "<CheckItem>" },
-	{ "/View/Color PRC Status",              NULL,           MiscW_View_ColorPRC,      0, "<CheckItem>" },
-	{ "/View/LCD Internals",                 NULL,           MiscW_View_LCD,           0, "<CheckItem>" },
-	{ "/View/EEPROM Internals",              NULL,           MiscW_View_EEPROM,        0, "<CheckItem>" },
-	{ "/View/Multicart Internals",           NULL,           MiscW_View_Multicart,     0, "<CheckItem>" },
+	{ "/View/PRC Status",                    NULL,           (GtkItemFactoryCallback)MiscW_View_PRC,           0, "<CheckItem>" },
+	{ "/View/Color PRC Status",              NULL,           (GtkItemFactoryCallback)MiscW_View_ColorPRC,      0, "<CheckItem>" },
+	{ "/View/LCD Internals",                 NULL,           (GtkItemFactoryCallback)MiscW_View_LCD,           0, "<CheckItem>" },
+	{ "/View/EEPROM Internals",              NULL,           (GtkItemFactoryCallback)MiscW_View_EEPROM,        0, "<CheckItem>" },
+	{ "/View/Multicart Internals",           NULL,           (GtkItemFactoryCallback)MiscW_View_Multicart,     0, "<CheckItem>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           MiscW_RefreshNow,         0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)MiscW_RefreshNow,         0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           MiscW_Refresh,            0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           MiscW_Refresh,            1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           MiscW_Refresh,            2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           MiscW_Refresh,            3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           MiscW_Refresh,            5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           MiscW_Refresh,            7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           MiscW_Refresh,           11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           MiscW_Refresh,           35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           MiscW_Refresh,           71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           MiscW_Refresh,           -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,            7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,           11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,           35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)MiscW_Refresh,           71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)MiscW_Refresh,           -1, "/Refresh/100% 72fps" },
 };
 static gint MiscWindow_MenuItemsNum = sizeof(MiscWindow_MenuItems) / sizeof(*MiscWindow_MenuItems);
 

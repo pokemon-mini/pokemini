@@ -1658,7 +1658,7 @@ static void Menu_File_FreeBIOS(GtkWidget *widget, gpointer data)
 
 static void Menu_File_Autorun(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	clc_autorun = index;
 }
 
@@ -1824,7 +1824,7 @@ static void Menu_Capt_Sound(GtkWidget *widget, gpointer data)
 static void Menu_Recent_Run(GtkWidget *widget, gpointer data)
 {
 	char tmp[PMTMPV];
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 
 	if (strlen(dclc_recent[index]) == 0) return;
 	strcpy(tmp, dclc_recent[index]);
@@ -1943,7 +1943,7 @@ static void Menu_File_Quit(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_Zoom(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (clc_zoom != index) {
 		clc_zoom = index;
 		setup_screen();
@@ -1952,7 +1952,7 @@ static void Menu_Options_Zoom(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_BPP(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (clc_bpp != index) {
 		clc_bpp = index;
 		setup_screen();
@@ -1961,7 +1961,7 @@ static void Menu_Options_BPP(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_Palette(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (CommandLine.palette != index) {
 		CommandLine.palette = index;
 		PokeMini_VideoPalette_Index(CommandLine.palette, CommandLine.custompal, CommandLine.lcdcontrast, CommandLine.lcdbright);
@@ -1970,7 +1970,7 @@ static void Menu_Options_Palette(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_LCDMode(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	GtkWidget *widg;
 	if (CommandLine.lcdmode != index) {
 		CommandLine.lcdmode = index;
@@ -1985,7 +1985,7 @@ static void Menu_Options_LCDMode(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_LCDFilt(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (CommandLine.lcdfilter != index) {
 		CommandLine.lcdfilter = index;
 		PokeMini_ApplyChanges();
@@ -1994,7 +1994,7 @@ static void Menu_Options_LCDFilt(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_LCDContrast(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	GtkWidget *widg;
 	if (CommandLine.lcdcontrast != index) {
 		if (index == -1) {
@@ -2015,7 +2015,7 @@ static void Menu_Options_LCDContrast(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_LCDBright(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	GtkWidget *widg;
 	if (CommandLine.lcdbright != index) {
 		if (index == -200) {
@@ -2036,7 +2036,7 @@ static void Menu_Options_LCDBright(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_RumbleLvl(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (CommandLine.rumblelvl != index) {
 		CommandLine.rumblelvl = index;
 		PokeMini_ApplyChanges();
@@ -2045,7 +2045,7 @@ static void Menu_Options_RumbleLvl(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_Sound(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	CommandLine.sound = index;
 	if (emumode & EMUMODE_SOUND) enablesound(CommandLine.sound);
 }
@@ -2059,7 +2059,7 @@ static void Menu_Options_PiezoFilter(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_SyncCyc(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	CommandLine.synccycles = index;
 }
 
@@ -2073,7 +2073,7 @@ static void Menu_Options_LowBatt(GtkWidget *widget, gpointer data)
 static void Menu_Options_RTC(GtkWidget *widget, gpointer data)
 {
 	if (CPUWindow_InConfigs) return;
-	CommandLine.updatertc = (int)data;
+	CommandLine.updatertc = GPOINTER_TO_INT(data);
 }
 
 static void Menu_Options_ShareEEP(GtkWidget *widget, gpointer data)
@@ -2085,7 +2085,7 @@ static void Menu_Options_ShareEEP(GtkWidget *widget, gpointer data)
 
 static void Menu_Options_Multicart(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	if (CPUWindow_InConfigs) return;
 	if (CommandLine.multicart != index) {
 		CommandLine.multicart = index;
@@ -2557,7 +2557,7 @@ static void Menu_View_Trace(GtkWidget *widget, gpointer data)
 
 static void Menu_External_Run(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	int ret = ExternalWindow_Launch(dclc_extapp_exec[index], dclc_extapp_atcurrdir[index]);
 	if (ret == 0) {
 		MessageDialog(MainWindow, "File not found, no assoc. or fork error", "Launch failed", GTK_MESSAGE_ERROR, NULL);
@@ -2633,7 +2633,7 @@ static void Menu_Refresh_Now(GtkWidget *widget, gpointer data)
 
 static void Menu_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -2743,258 +2743,258 @@ static void MainWindow_drag_data_received(GtkWidget *widget, GdkDragContext *con
 
 // Mod: 0 = None, 1 = Ctrl, 2 = Shift, 4 = Alt
 TMenu_items_accel Menu_item_accel[] = {
-	{ SDLK_o,  5, Menu_File_ReloadMIN },
-	{ SDLK_c,  5, Menu_File_ReloadColor },
-	{ SDLK_q,  1, Menu_File_Quit },
-	{ SDLK_F5, 0, Menu_Debug_RunFull },
-	{ SDLK_F5, 2, Menu_Debug_RunDFrameSnd },
-	{ SDLK_F5, 1, Menu_Debug_RunDFrame },
-	{ SDLK_F3, 1, Menu_Debug_RunDStep },
-	{ SDLK_F4, 0, Menu_Debug_SingleFrame },
-	{ SDLK_F3, 0, Menu_Debug_SingleStep },
-	{ SDLK_F3, 2, Menu_Debug_StepSkip },
-	{ SDLK_F2, 0, Menu_Debug_Stop },
-	{ SDLK_r,  1, Menu_Debug_ResetHard },
-	{ SDLK_r,  2, Menu_Debug_ResetSoft },
+	{ SDLK_o,  5, (GtkItemFactoryCallback)Menu_File_ReloadMIN },
+	{ SDLK_c,  5, (GtkItemFactoryCallback)Menu_File_ReloadColor },
+	{ SDLK_q,  1, (GtkItemFactoryCallback)Menu_File_Quit },
+	{ SDLK_F5, 0, (GtkItemFactoryCallback)Menu_Debug_RunFull },
+	{ SDLK_F5, 2, (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd },
+	{ SDLK_F5, 1, (GtkItemFactoryCallback)Menu_Debug_RunDFrame },
+	{ SDLK_F3, 1, (GtkItemFactoryCallback)Menu_Debug_RunDStep },
+	{ SDLK_F4, 0, (GtkItemFactoryCallback)Menu_Debug_SingleFrame },
+	{ SDLK_F3, 0, (GtkItemFactoryCallback)Menu_Debug_SingleStep },
+	{ SDLK_F3, 2, (GtkItemFactoryCallback)Menu_Debug_StepSkip },
+	{ SDLK_F2, 0, (GtkItemFactoryCallback)Menu_Debug_Stop },
+	{ SDLK_r,  1, (GtkItemFactoryCallback)Menu_Debug_ResetHard },
+	{ SDLK_r,  2, (GtkItemFactoryCallback)Menu_Debug_ResetSoft },
 	{ 0, 0, NULL }
 };
 static GtkItemFactoryEntry CPUWindow_MenuItems[] = {
 	{ "/_File",                              NULL,           NULL,                         0, "<Branch>" },
-	{ "/File/Open _Min...",                  "<CTRL>O",      Menu_File_OpenMIN,            0, "<Item>" },
-	{ "/File/Open _BIOS...",                 "<CTRL>B",      Menu_File_OpenBIOS,           0, "<Item>" },
-	{ "/File/_Reload Min",                   "<CTRL><ALT>O", Menu_File_ReloadMIN,          0, "<Item>" },
-	{ "/File/Use internal _FreeBIOS",        NULL,           Menu_File_FreeBIOS,           0, "<Item>" },
-	{ "/File/Autorun/Disabled",              NULL,           Menu_File_Autorun,            0, "<RadioItem>" },
-	{ "/File/Autorun/Run full speed",        NULL,           Menu_File_Autorun,            1, "/File/Autorun/Disabled" },
-	{ "/File/Autorun/Debug frames (Sound)",  NULL,           Menu_File_Autorun,            2, "/File/Autorun/Disabled" },
-	{ "/File/Autorun/Debug frames",          NULL,           Menu_File_Autorun,            3, "/File/Autorun/Disabled" },
+	{ "/File/Open _Min...",                  "<CTRL>O",      (GtkItemFactoryCallback)Menu_File_OpenMIN,            0, "<Item>" },
+	{ "/File/Open _BIOS...",                 "<CTRL>B",      (GtkItemFactoryCallback)Menu_File_OpenBIOS,           0, "<Item>" },
+	{ "/File/_Reload Min",                   "<CTRL><ALT>O", (GtkItemFactoryCallback)Menu_File_ReloadMIN,          0, "<Item>" },
+	{ "/File/Use internal _FreeBIOS",        NULL,           (GtkItemFactoryCallback)Menu_File_FreeBIOS,           0, "<Item>" },
+	{ "/File/Autorun/Disabled",              NULL,           (GtkItemFactoryCallback)Menu_File_Autorun,            0, "<RadioItem>" },
+	{ "/File/Autorun/Run full speed",        NULL,           (GtkItemFactoryCallback)Menu_File_Autorun,            1, "/File/Autorun/Disabled" },
+	{ "/File/Autorun/Debug frames (Sound)",  NULL,           (GtkItemFactoryCallback)Menu_File_Autorun,            2, "/File/Autorun/Disabled" },
+	{ "/File/Autorun/Debug frames",          NULL,           (GtkItemFactoryCallback)Menu_File_Autorun,            3, "/File/Autorun/Disabled" },
 	{ "/File/sep0",                          NULL,           NULL,                         0, "<Separator>" },
 	{ "/File/_Recent",                       NULL,           NULL,                         0, "<Branch>" },
-	{ "/File/Recent/ROM0",                   "<CTRL><SHIFT>1",Menu_Recent_Run,             0, "<Item>" },
-	{ "/File/Recent/ROM1",                   "<CTRL><SHIFT>2",Menu_Recent_Run,             1, "<Item>" },
-	{ "/File/Recent/ROM2",                   "<CTRL><SHIFT>3",Menu_Recent_Run,             2, "<Item>" },
-	{ "/File/Recent/ROM3",                   "<CTRL><SHIFT>4",Menu_Recent_Run,             3, "<Item>" },
-	{ "/File/Recent/ROM4",                   "<CTRL><SHIFT>5",Menu_Recent_Run,             4, "<Item>" },
-	{ "/File/Recent/ROM5",                   "<CTRL><SHIFT>6",Menu_Recent_Run,             5, "<Item>" },
-	{ "/File/Recent/ROM6",                   "<CTRL><SHIFT>7",Menu_Recent_Run,             6, "<Item>" },
-	{ "/File/Recent/ROM7",                   "<CTRL><SHIFT>8",Menu_Recent_Run,             7, "<Item>" },
-	{ "/File/Recent/ROM8",                   "<CTRL><SHIFT>9",Menu_Recent_Run,             8, "<Item>" },
-	{ "/File/Recent/ROM9",                   "<CTRL><SHIFT>0",Menu_Recent_Run,             9, "<Item>" },
+	{ "/File/Recent/ROM0",                   "<CTRL><SHIFT>1",(GtkItemFactoryCallback)Menu_Recent_Run,             0, "<Item>" },
+	{ "/File/Recent/ROM1",                   "<CTRL><SHIFT>2",(GtkItemFactoryCallback)Menu_Recent_Run,             1, "<Item>" },
+	{ "/File/Recent/ROM2",                   "<CTRL><SHIFT>3",(GtkItemFactoryCallback)Menu_Recent_Run,             2, "<Item>" },
+	{ "/File/Recent/ROM3",                   "<CTRL><SHIFT>4",(GtkItemFactoryCallback)Menu_Recent_Run,             3, "<Item>" },
+	{ "/File/Recent/ROM4",                   "<CTRL><SHIFT>5",(GtkItemFactoryCallback)Menu_Recent_Run,             4, "<Item>" },
+	{ "/File/Recent/ROM5",                   "<CTRL><SHIFT>6",(GtkItemFactoryCallback)Menu_Recent_Run,             5, "<Item>" },
+	{ "/File/Recent/ROM6",                   "<CTRL><SHIFT>7",(GtkItemFactoryCallback)Menu_Recent_Run,             6, "<Item>" },
+	{ "/File/Recent/ROM7",                   "<CTRL><SHIFT>8",(GtkItemFactoryCallback)Menu_Recent_Run,             7, "<Item>" },
+	{ "/File/Recent/ROM8",                   "<CTRL><SHIFT>9",(GtkItemFactoryCallback)Menu_Recent_Run,             8, "<Item>" },
+	{ "/File/Recent/ROM9",                   "<CTRL><SHIFT>0",(GtkItemFactoryCallback)Menu_Recent_Run,             9, "<Item>" },
 	{ "/File/Recent/sep1",                   NULL,           NULL,                         0, "<Separator>" },
-	{ "/File/Recent/Clear List",             NULL,           Menu_Recent_Clear,            0, "<Item>" },
+	{ "/File/Recent/Clear List",             NULL,           (GtkItemFactoryCallback)Menu_Recent_Clear,            0, "<Item>" },
 	{ "/File/sep1",                          NULL,           NULL,                         0, "<Separator>" },
-	{ "/File/_Load state...",                NULL,           Menu_File_LoadState,          0, "<Item>" },
-	{ "/File/_Save state...",                NULL,           Menu_File_SaveState,          0, "<Item>" },
+	{ "/File/_Load state...",                NULL,           (GtkItemFactoryCallback)Menu_File_LoadState,          0, "<Item>" },
+	{ "/File/_Save state...",                NULL,           (GtkItemFactoryCallback)Menu_File_SaveState,          0, "<Item>" },
 	{ "/File/sep2",                          NULL,           NULL,                         0, "<Separator>" },
-	{ "/File/Open _Color Info...",           "<CTRL><ALT>C",Menu_File_OpenColor,           0, "<Item>" },
-	{ "/File/Reload _Color Info",            "<CTRL><SHIFT>C",Menu_File_ReloadColor,       0, "<Item>" },
+	{ "/File/Open _Color Info...",           "<CTRL><ALT>C",(GtkItemFactoryCallback)Menu_File_OpenColor,           0, "<Item>" },
+	{ "/File/Reload _Color Info",            "<CTRL><SHIFT>C",(GtkItemFactoryCallback)Menu_File_ReloadColor,       0, "<Item>" },
 	{ "/File/sep3",                          NULL,           NULL,                         0, "<Separator>" },
 	{ "/File/_Capture",                      NULL,           NULL,                         0, "<Branch>" },
-	{ "/File/Capture/Snapshot 1x preview",   NULL,           Menu_Capt_Snapshot1x,         0, "<Item>" },
-	{ "/File/Capture/Snapshot from LCD",     NULL,           Menu_Capt_SnapshotLCD,        0, "<Item>" },
-	{ "/File/Capture/Sound (Start & Stop)",  NULL,           Menu_Capt_Sound,              0, "<Item>" },
-	{ "/File/Save _Min...",                  "<CTRL>S",      Menu_File_SaveMIN,            0, "<Item>" },
-	{ "/File/Save _BIOS...",                 NULL,           Menu_File_SaveBIOS,           0, "<Item>" },
+	{ "/File/Capture/Snapshot 1x preview",   NULL,           (GtkItemFactoryCallback)Menu_Capt_Snapshot1x,         0, "<Item>" },
+	{ "/File/Capture/Snapshot from LCD",     NULL,           (GtkItemFactoryCallback)Menu_Capt_SnapshotLCD,        0, "<Item>" },
+	{ "/File/Capture/Sound (Start & Stop)",  NULL,           (GtkItemFactoryCallback)Menu_Capt_Sound,              0, "<Item>" },
+	{ "/File/Save _Min...",                  "<CTRL>S",      (GtkItemFactoryCallback)Menu_File_SaveMIN,            0, "<Item>" },
+	{ "/File/Save _BIOS...",                 NULL,           (GtkItemFactoryCallback)Menu_File_SaveBIOS,           0, "<Item>" },
 	{ "/File/sep4",                          NULL,           NULL,                         0, "<Separator>" },
-	{ "/File/_Quit",                         "<CTRL>Q",      Menu_File_Quit,               0, "<Item>" },
+	{ "/File/_Quit",                         "<CTRL>Q",      (GtkItemFactoryCallback)Menu_File_Quit,               0, "<Item>" },
 
 	{ "/_Options",                           NULL,           NULL,                         0, "<Branch>" },
 	{ "/Options/_Zoom",                      NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Zoom/1x (96x64)",            NULL,           Menu_Options_Zoom,            1, "<RadioItem>" },
-	{ "/Options/Zoom/2x (192x128)",          NULL,           Menu_Options_Zoom,            2, "/Options/Zoom/1x (96x64)" },
-	{ "/Options/Zoom/3x (288x192)",          NULL,           Menu_Options_Zoom,            3, "/Options/Zoom/1x (96x64)" },
-	{ "/Options/Zoom/4x (384x256)",          NULL,           Menu_Options_Zoom,            4, "/Options/Zoom/1x (96x64)" },
-	{ "/Options/Zoom/5x (480x320)",          NULL,           Menu_Options_Zoom,            5, "/Options/Zoom/1x (96x64)" },
-	{ "/Options/Zoom/6x (576x384)",          NULL,           Menu_Options_Zoom,            6, "/Options/Zoom/1x (96x64)" },
+	{ "/Options/Zoom/1x (96x64)",            NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            1, "<RadioItem>" },
+	{ "/Options/Zoom/2x (192x128)",          NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            2, "/Options/Zoom/1x (96x64)" },
+	{ "/Options/Zoom/3x (288x192)",          NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            3, "/Options/Zoom/1x (96x64)" },
+	{ "/Options/Zoom/4x (384x256)",          NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            4, "/Options/Zoom/1x (96x64)" },
+	{ "/Options/Zoom/5x (480x320)",          NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            5, "/Options/Zoom/1x (96x64)" },
+	{ "/Options/Zoom/6x (576x384)",          NULL,           (GtkItemFactoryCallback)Menu_Options_Zoom,            6, "/Options/Zoom/1x (96x64)" },
 	{ "/Options/_Bits-Per-Pixel",            NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Bits-Per-Pixel/16 bpp",      NULL,           Menu_Options_BPP,            16, "<RadioItem>" },
-	{ "/Options/Bits-Per-Pixel/32 bpp",      NULL,           Menu_Options_BPP,            32, "/Options/Bits-Per-Pixel/16 bpp" },
+	{ "/Options/Bits-Per-Pixel/16 bpp",      NULL,           (GtkItemFactoryCallback)Menu_Options_BPP,            16, "<RadioItem>" },
+	{ "/Options/Bits-Per-Pixel/32 bpp",      NULL,           (GtkItemFactoryCallback)Menu_Options_BPP,            32, "/Options/Bits-Per-Pixel/16 bpp" },
 	{ "/Options/_Palette",                   NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Palette/Default",            NULL,           Menu_Options_Palette,         0, "<RadioItem>" },
-	{ "/Options/Palette/Old",                NULL,           Menu_Options_Palette,         1, "/Options/Palette/Default" },
-	{ "/Options/Palette/Black & White",      NULL,           Menu_Options_Palette,         2, "/Options/Palette/Default" },
-	{ "/Options/Palette/Green Palette",      NULL,           Menu_Options_Palette,         3, "/Options/Palette/Default" },
-	{ "/Options/Palette/Green Vector",       NULL,           Menu_Options_Palette,         4, "/Options/Palette/Default" },
-	{ "/Options/Palette/Red Palette",        NULL,           Menu_Options_Palette,         5, "/Options/Palette/Default" },
-	{ "/Options/Palette/Red Vector",         NULL,           Menu_Options_Palette,         6, "/Options/Palette/Default" },
-	{ "/Options/Palette/Blue LCD",           NULL,           Menu_Options_Palette,         7, "/Options/Palette/Default" },
-	{ "/Options/Palette/LED Backlight",      NULL,           Menu_Options_Palette,         8, "/Options/Palette/Default" },
-	{ "/Options/Palette/Girl Power",         NULL,           Menu_Options_Palette,         9, "/Options/Palette/Default" },
-	{ "/Options/Palette/Blue Palette",       NULL,           Menu_Options_Palette,        10, "/Options/Palette/Default" },
-	{ "/Options/Palette/Blue Vector",        NULL,           Menu_Options_Palette,        11, "/Options/Palette/Default" },
-	{ "/Options/Palette/Sepia",              NULL,           Menu_Options_Palette,        12, "/Options/Palette/Default" },
-	{ "/Options/Palette/Inverted B&W",       NULL,           Menu_Options_Palette,        13, "/Options/Palette/Default" },
-	{ "/Options/Palette/Custom 1",           NULL,           Menu_Options_Palette,        14, "/Options/Palette/Default" },
-	{ "/Options/Palette/Custom 2",           NULL,           Menu_Options_Palette,        15, "/Options/Palette/Default" },
+	{ "/Options/Palette/Default",            NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         0, "<RadioItem>" },
+	{ "/Options/Palette/Old",                NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         1, "/Options/Palette/Default" },
+	{ "/Options/Palette/Black & White",      NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         2, "/Options/Palette/Default" },
+	{ "/Options/Palette/Green Palette",      NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         3, "/Options/Palette/Default" },
+	{ "/Options/Palette/Green Vector",       NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         4, "/Options/Palette/Default" },
+	{ "/Options/Palette/Red Palette",        NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         5, "/Options/Palette/Default" },
+	{ "/Options/Palette/Red Vector",         NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         6, "/Options/Palette/Default" },
+	{ "/Options/Palette/Blue LCD",           NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         7, "/Options/Palette/Default" },
+	{ "/Options/Palette/LED Backlight",      NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         8, "/Options/Palette/Default" },
+	{ "/Options/Palette/Girl Power",         NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,         9, "/Options/Palette/Default" },
+	{ "/Options/Palette/Blue Palette",       NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        10, "/Options/Palette/Default" },
+	{ "/Options/Palette/Blue Vector",        NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        11, "/Options/Palette/Default" },
+	{ "/Options/Palette/Sepia",              NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        12, "/Options/Palette/Default" },
+	{ "/Options/Palette/Inverted B&W",       NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        13, "/Options/Palette/Default" },
+	{ "/Options/Palette/Custom 1",           NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        14, "/Options/Palette/Default" },
+	{ "/Options/Palette/Custom 2",           NULL,           (GtkItemFactoryCallback)Menu_Options_Palette,        15, "/Options/Palette/Default" },
 	{ "/Options/_LCD Mode",                  NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/LCD Mode/Analog",            NULL,           Menu_Options_LCDMode,         0, "<RadioItem>" },
-	{ "/Options/LCD Mode/3-Shades",          NULL,           Menu_Options_LCDMode,         1, "/Options/LCD Mode/Analog" },
-	{ "/Options/LCD Mode/2-Shades",          NULL,           Menu_Options_LCDMode,         2, "/Options/LCD Mode/Analog" },
-	{ "/Options/LCD Mode/Colors*",           NULL,           Menu_Options_LCDMode,         3, "/Options/LCD Mode/Analog" },
+	{ "/Options/LCD Mode/Analog",            NULL,           (GtkItemFactoryCallback)Menu_Options_LCDMode,         0, "<RadioItem>" },
+	{ "/Options/LCD Mode/3-Shades",          NULL,           (GtkItemFactoryCallback)Menu_Options_LCDMode,         1, "/Options/LCD Mode/Analog" },
+	{ "/Options/LCD Mode/2-Shades",          NULL,           (GtkItemFactoryCallback)Menu_Options_LCDMode,         2, "/Options/LCD Mode/Analog" },
+	{ "/Options/LCD Mode/Colors*",           NULL,           (GtkItemFactoryCallback)Menu_Options_LCDMode,         3, "/Options/LCD Mode/Analog" },
 	{ "/Options/LCD _Filter",                NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/LCD Filter/None",            NULL,           Menu_Options_LCDFilt,         0, "<RadioItem>" },
-	{ "/Options/LCD Filter/Dot-Matrix",      NULL,           Menu_Options_LCDFilt,         1, "/Options/LCD Filter/None" },
-	{ "/Options/LCD Filter/50% Scanline",    NULL,           Menu_Options_LCDFilt,         2, "/Options/LCD Filter/None" },
+	{ "/Options/LCD Filter/None",            NULL,           (GtkItemFactoryCallback)Menu_Options_LCDFilt,         0, "<RadioItem>" },
+	{ "/Options/LCD Filter/Dot-Matrix",      NULL,           (GtkItemFactoryCallback)Menu_Options_LCDFilt,         1, "/Options/LCD Filter/None" },
+	{ "/Options/LCD Filter/50% Scanline",    NULL,           (GtkItemFactoryCallback)Menu_Options_LCDFilt,         2, "/Options/LCD Filter/None" },
 	{ "/Options/LCD _Contrast",              NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/LCD Contrast/Default",       NULL,           Menu_Options_LCDContrast,    64, "<RadioItem>" },
-	{ "/Options/LCD Contrast/Lowest",        NULL,           Menu_Options_LCDContrast,     0, "/Options/LCD Contrast/Default" },
-	{ "/Options/LCD Contrast/Low",           NULL,           Menu_Options_LCDContrast,    25, "/Options/LCD Contrast/Default" },
-	{ "/Options/LCD Contrast/Medium",        NULL,           Menu_Options_LCDContrast,    50, "/Options/LCD Contrast/Default" },
-	{ "/Options/LCD Contrast/High",          NULL,           Menu_Options_LCDContrast,    75, "/Options/LCD Contrast/Default" },
-	{ "/Options/LCD Contrast/Highest",       NULL,           Menu_Options_LCDContrast,   100, "/Options/LCD Contrast/Default" },
-	{ "/Options/LCD Contrast/Custom...",     NULL,           Menu_Options_LCDContrast,    -1, "<Item>" },
+	{ "/Options/LCD Contrast/Default",       NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,    64, "<RadioItem>" },
+	{ "/Options/LCD Contrast/Lowest",        NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,     0, "/Options/LCD Contrast/Default" },
+	{ "/Options/LCD Contrast/Low",           NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,    25, "/Options/LCD Contrast/Default" },
+	{ "/Options/LCD Contrast/Medium",        NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,    50, "/Options/LCD Contrast/Default" },
+	{ "/Options/LCD Contrast/High",          NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,    75, "/Options/LCD Contrast/Default" },
+	{ "/Options/LCD Contrast/Highest",       NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,   100, "/Options/LCD Contrast/Default" },
+	{ "/Options/LCD Contrast/Custom...",     NULL,           (GtkItemFactoryCallback)Menu_Options_LCDContrast,    -1, "<Item>" },
 	{ "/Options/LCD _Brightness",            NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/LCD Brightness/Default",     NULL,           Menu_Options_LCDBright,       0, "<RadioItem>" },
-	{ "/Options/LCD Brightness/Lighter",     NULL,           Menu_Options_LCDBright,      24, "/Options/LCD Brightness/Default" },
-	{ "/Options/LCD Brightness/Light",       NULL,           Menu_Options_LCDBright,      12, "/Options/LCD Brightness/Default" },
-	{ "/Options/LCD Brightness/Dark",        NULL,           Menu_Options_LCDBright,     -12, "/Options/LCD Brightness/Default" },
-	{ "/Options/LCD Brightness/Darker",      NULL,           Menu_Options_LCDBright,     -24, "/Options/LCD Brightness/Default" },
-	{ "/Options/LCD Brightness/Custom...",   NULL,           Menu_Options_LCDBright,    -200, "<Item>" },
+	{ "/Options/LCD Brightness/Default",     NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,       0, "<RadioItem>" },
+	{ "/Options/LCD Brightness/Lighter",     NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,      24, "/Options/LCD Brightness/Default" },
+	{ "/Options/LCD Brightness/Light",       NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,      12, "/Options/LCD Brightness/Default" },
+	{ "/Options/LCD Brightness/Dark",        NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,     -12, "/Options/LCD Brightness/Default" },
+	{ "/Options/LCD Brightness/Darker",      NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,     -24, "/Options/LCD Brightness/Default" },
+	{ "/Options/LCD Brightness/Custom...",   NULL,           (GtkItemFactoryCallback)Menu_Options_LCDBright,    -200, "<Item>" },
 	{ "/Options/_Rumble Level",              NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Rumble Level/None",          NULL,           Menu_Options_RumbleLvl,       0, "<RadioItem>" },
-	{ "/Options/Rumble Level/Weak",          NULL,           Menu_Options_RumbleLvl,       1, "/Options/Rumble Level/None" },
-	{ "/Options/Rumble Level/Medium",        NULL,           Menu_Options_RumbleLvl,       2, "/Options/Rumble Level/None" },
-	{ "/Options/Rumble Level/Strong",        NULL,           Menu_Options_RumbleLvl,       3, "/Options/Rumble Level/None" },
+	{ "/Options/Rumble Level/None",          NULL,           (GtkItemFactoryCallback)Menu_Options_RumbleLvl,       0, "<RadioItem>" },
+	{ "/Options/Rumble Level/Weak",          NULL,           (GtkItemFactoryCallback)Menu_Options_RumbleLvl,       1, "/Options/Rumble Level/None" },
+	{ "/Options/Rumble Level/Medium",        NULL,           (GtkItemFactoryCallback)Menu_Options_RumbleLvl,       2, "/Options/Rumble Level/None" },
+	{ "/Options/Rumble Level/Strong",        NULL,           (GtkItemFactoryCallback)Menu_Options_RumbleLvl,       3, "/Options/Rumble Level/None" },
 	{ "/Options/sep1",                       NULL,           NULL,                         0, "<Separator>" },
 	{ "/Options/_Sound",                     NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Sound/Disabled",             NULL,           Menu_Options_Sound,           0, "<RadioItem>" },
-	{ "/Options/Sound/Generated",            NULL,           Menu_Options_Sound,           1, "/Options/Sound/Disabled" },
-	{ "/Options/Sound/Direct",               NULL,           Menu_Options_Sound,           2, "/Options/Sound/Disabled" },
-	{ "/Options/Sound/Emulated",             NULL,           Menu_Options_Sound,           3, "/Options/Sound/Disabled" },
-	{ "/Options/Sound/Direct PWM",           NULL,           Menu_Options_Sound,           4, "/Options/Sound/Disabled" },
-	{ "/Options/Pie_zo Filter",              NULL,           Menu_Options_PiezoFilter,     0, "<CheckItem>" },
+	{ "/Options/Sound/Disabled",             NULL,           (GtkItemFactoryCallback)Menu_Options_Sound,           0, "<RadioItem>" },
+	{ "/Options/Sound/Generated",            NULL,           (GtkItemFactoryCallback)Menu_Options_Sound,           1, "/Options/Sound/Disabled" },
+	{ "/Options/Sound/Direct",               NULL,           (GtkItemFactoryCallback)Menu_Options_Sound,           2, "/Options/Sound/Disabled" },
+	{ "/Options/Sound/Emulated",             NULL,           (GtkItemFactoryCallback)Menu_Options_Sound,           3, "/Options/Sound/Disabled" },
+	{ "/Options/Sound/Direct PWM",           NULL,           (GtkItemFactoryCallback)Menu_Options_Sound,           4, "/Options/Sound/Disabled" },
+	{ "/Options/Pie_zo Filter",              NULL,           (GtkItemFactoryCallback)Menu_Options_PiezoFilter,     0, "<CheckItem>" },
 	{ "/Options/sep2",                       NULL,           NULL,                         0, "<Separator>" },
 	{ "/Options/_Sync Cycles",               NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Sync Cycles/  8 (Accurancy)",       NULL,    Menu_Options_SyncCyc,         8, "<RadioItem>" },
-	{ "/Options/Sync Cycles/ 16",                   NULL,    Menu_Options_SyncCyc,        16, "/Options/Sync Cycles/  8 (Accurancy)" },
-	{ "/Options/Sync Cycles/ 32",                   NULL,    Menu_Options_SyncCyc,        32, "/Options/Sync Cycles/  8 (Accurancy)" },
-	{ "/Options/Sync Cycles/ 64 (Performance)",     NULL,    Menu_Options_SyncCyc,        64, "/Options/Sync Cycles/  8 (Accurancy)" },
+	{ "/Options/Sync Cycles/  8 (Accurancy)",       NULL,    (GtkItemFactoryCallback)Menu_Options_SyncCyc,         8, "<RadioItem>" },
+	{ "/Options/Sync Cycles/ 16",                   NULL,    (GtkItemFactoryCallback)Menu_Options_SyncCyc,        16, "/Options/Sync Cycles/  8 (Accurancy)" },
+	{ "/Options/Sync Cycles/ 32",                   NULL,    (GtkItemFactoryCallback)Menu_Options_SyncCyc,        32, "/Options/Sync Cycles/  8 (Accurancy)" },
+	{ "/Options/Sync Cycles/ 64 (Performance)",     NULL,    (GtkItemFactoryCallback)Menu_Options_SyncCyc,        64, "/Options/Sync Cycles/  8 (Accurancy)" },
 	{ "/Options/sep3",                       NULL,           NULL,                         0, "<Separator>" },
-	{ "/Options/_Low Battery",               NULL,           Menu_Options_LowBatt,         0, "<CheckItem>" },
+	{ "/Options/_Low Battery",               NULL,           (GtkItemFactoryCallback)Menu_Options_LowBatt,         0, "<CheckItem>" },
 	{ "/Options/_RTC",                       NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/RTC/No RTC",                 NULL,           Menu_Options_RTC,             0, "<RadioItem>" },
-	{ "/Options/RTC/State time difference",  NULL,           Menu_Options_RTC,             1, "/Options/RTC/No RTC" },
-	{ "/Options/RTC/RTC from Host",          NULL,           Menu_Options_RTC,             2, "/Options/RTC/No RTC" },
-	{ "/Options/Share _EEPROM",              NULL,           Menu_Options_ShareEEP,        0, "<CheckItem>" },
+	{ "/Options/RTC/No RTC",                 NULL,           (GtkItemFactoryCallback)Menu_Options_RTC,             0, "<RadioItem>" },
+	{ "/Options/RTC/State time difference",  NULL,           (GtkItemFactoryCallback)Menu_Options_RTC,             1, "/Options/RTC/No RTC" },
+	{ "/Options/RTC/RTC from Host",          NULL,           (GtkItemFactoryCallback)Menu_Options_RTC,             2, "/Options/RTC/No RTC" },
+	{ "/Options/Share _EEPROM",              NULL,           (GtkItemFactoryCallback)Menu_Options_ShareEEP,        0, "<CheckItem>" },
 	{ "/Options/_Multicart",                 NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/Multicart/Disabled",         NULL,           Menu_Options_Multicart,       0, "<RadioItem>" },
-	{ "/Options/Multicart/Flash 512KB (AM29LV040B)",  NULL,  Menu_Options_Multicart,       1, "/Options/Multicart/Disabled" },
-	{ "/Options/Multicart/Lupin 512KB (AM29LV040B)",  NULL,  Menu_Options_Multicart,       2, "/Options/Multicart/Disabled" },
-	{ "/Options/Multicart/Ditto 2048KB (SST39VF1681)",NULL,  Menu_Options_Multicart,       3, "/Options/Multicart/Disabled" },
-	{ "/Options/Force Free_BIOS",            NULL,           Menu_Options_FreeBIOS,        0, "<CheckItem>" },
+	{ "/Options/Multicart/Disabled",         NULL,           (GtkItemFactoryCallback)Menu_Options_Multicart,       0, "<RadioItem>" },
+	{ "/Options/Multicart/Flash 512KB (AM29LV040B)",  NULL,  (GtkItemFactoryCallback)Menu_Options_Multicart,       1, "/Options/Multicart/Disabled" },
+	{ "/Options/Multicart/Lupin 512KB (AM29LV040B)",  NULL,  (GtkItemFactoryCallback)Menu_Options_Multicart,       2, "/Options/Multicart/Disabled" },
+	{ "/Options/Multicart/Ditto 2048KB (SST39VF1681)",NULL,  (GtkItemFactoryCallback)Menu_Options_Multicart,       3, "/Options/Multicart/Disabled" },
+	{ "/Options/Force Free_BIOS",            NULL,           (GtkItemFactoryCallback)Menu_Options_FreeBIOS,        0, "<CheckItem>" },
 	{ "/Options/sep3",                       NULL,           NULL,                         0, "<Separator>" },
 	{ "/Options/File association",           NULL,           NULL,                         0, "<Branch>" },
-	{ "/Options/File association/Register",  NULL,           Menu_FileAss_Reg,             0, "<Item>" },
-	{ "/Options/File association/Unregister", NULL,          Menu_FileAss_Unreg,           0, "<Item>" },
+	{ "/Options/File association/Register",  NULL,           (GtkItemFactoryCallback)Menu_FileAss_Reg,             0, "<Item>" },
+	{ "/Options/File association/Unregister", NULL,          (GtkItemFactoryCallback)Menu_FileAss_Unreg,           0, "<Item>" },
 	{ "/Options/sep4",                       NULL,           NULL,                         0, "<Separator>" },
-	{ "/Options/_Custom Palette Edit...",    NULL,           Menu_Options_PalEdit,         0, "<Item>" },
-	{ "/Options/Define _Keyboard...",        NULL,           Menu_Options_DefKeyboard,     0, "<Item>" },
-	{ "/Options/Define _Joystick...",        NULL,           Menu_Options_DefJoystick,     0, "<Item>" },
-	{ "/Options/_Update EEPROM",             NULL,           Menu_Options_UpdEEPROM,       0, "<Item>" },
+	{ "/Options/_Custom Palette Edit...",    NULL,           (GtkItemFactoryCallback)Menu_Options_PalEdit,         0, "<Item>" },
+	{ "/Options/Define _Keyboard...",        NULL,           (GtkItemFactoryCallback)Menu_Options_DefKeyboard,     0, "<Item>" },
+	{ "/Options/Define _Joystick...",        NULL,           (GtkItemFactoryCallback)Menu_Options_DefJoystick,     0, "<Item>" },
+	{ "/Options/_Update EEPROM",             NULL,           (GtkItemFactoryCallback)Menu_Options_UpdEEPROM,       0, "<Item>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                         0, "<Branch>" },
-	{ "/Debugger/_Run full speed",           "F5",           Menu_Debug_RunFull,           0, "<Item>" },
-	{ "/Debugger/Run debug frames (_Sound)", "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,      0, "<Item>" },
-	{ "/Debugger/Run debug _frames",         "<CTRL>F5",     Menu_Debug_RunDFrame,         0, "<Item>" },
-	{ "/Debugger/Run debug _steps",          "<CTRL>F3",     Menu_Debug_RunDStep,          0, "<Item>" },
-	{ "/Debugger/Single _frame",             "F4",           Menu_Debug_SingleFrame,       0, "<Item>" },
-	{ "/Debugger/Single _step",              "F3",           Menu_Debug_SingleStep,        0, "<Item>" },
-	{ "/Debugger/Step s_kip",                "<SHIFT>F3",    Menu_Debug_StepSkip,          0, "<Item>" },
-	{ "/Debugger/_Stop",                     "F2",           Menu_Debug_Stop,              0, "<Item>" },
+	{ "/Debugger/_Run full speed",           "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,           0, "<Item>" },
+	{ "/Debugger/Run debug frames (_Sound)", "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,      0, "<Item>" },
+	{ "/Debugger/Run debug _frames",         "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,         0, "<Item>" },
+	{ "/Debugger/Run debug _steps",          "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,          0, "<Item>" },
+	{ "/Debugger/Single _frame",             "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,       0, "<Item>" },
+	{ "/Debugger/Single _step",              "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,        0, "<Item>" },
+	{ "/Debugger/Step s_kip",                "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,          0, "<Item>" },
+	{ "/Debugger/_Stop",                     "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,              0, "<Item>" },
 	{ "/Debugger/sep1",                      NULL,           NULL,                         0, "<Separator>" },
-	{ "/Debugger/_Physical range",           "<CTRL>P",      Menu_Debug_FullRange,         0, "<CheckItem>" },
-	{ "/Debugger/_Follow PC",                "<CTRL>F",      Menu_Debug_FollowPC,          0, "<CheckItem>" },
-	{ "/Debugger/_Follow SP",                "<CTRL><ALT>F", Menu_Debug_FollowSP,          0, "<CheckItem>" },
-	{ "/Debugger/_Go to program address...", "<CTRL>G",      Menu_Debug_GotoProgAddr,      0, "<Item>" },
-	{ "/Debugger/_Go to RAM address...",     "<SHIFT>G",     Menu_Debug_GotoRAMAddr,       0, "<Item>" },
-	{ "/Debugger/_Go to BIOS IRQ...",        NULL,           Menu_Debug_GotoBIOSIRQ,       0, "<Item>" },
-	{ "/Debugger/_Go to cartridge IRQ...",   "<CTRL><ALT>G", Menu_Debug_GotoCartIRQ,       0, "<Item>" },
-	{ "/Debugger/Go to _PC",                 "<SHIFT>P",     Menu_Debug_GotoPC,            0, "<Item>" },
-	{ "/Debugger/Go to _SP",                 "<SHIFT>S",     Menu_Debug_GotoSP,            0, "<Item>" },
+	{ "/Debugger/_Physical range",           "<CTRL>P",      (GtkItemFactoryCallback)Menu_Debug_FullRange,         0, "<CheckItem>" },
+	{ "/Debugger/_Follow PC",                "<CTRL>F",      (GtkItemFactoryCallback)Menu_Debug_FollowPC,          0, "<CheckItem>" },
+	{ "/Debugger/_Follow SP",                "<CTRL><ALT>F", (GtkItemFactoryCallback)Menu_Debug_FollowSP,          0, "<CheckItem>" },
+	{ "/Debugger/_Go to program address...", "<CTRL>G",      (GtkItemFactoryCallback)Menu_Debug_GotoProgAddr,      0, "<Item>" },
+	{ "/Debugger/_Go to RAM address...",     "<SHIFT>G",     (GtkItemFactoryCallback)Menu_Debug_GotoRAMAddr,       0, "<Item>" },
+	{ "/Debugger/_Go to BIOS IRQ...",        NULL,           (GtkItemFactoryCallback)Menu_Debug_GotoBIOSIRQ,       0, "<Item>" },
+	{ "/Debugger/_Go to cartridge IRQ...",   "<CTRL><ALT>G", (GtkItemFactoryCallback)Menu_Debug_GotoCartIRQ,       0, "<Item>" },
+	{ "/Debugger/Go to _PC",                 "<SHIFT>P",     (GtkItemFactoryCallback)Menu_Debug_GotoPC,            0, "<Item>" },
+	{ "/Debugger/Go to _SP",                 "<SHIFT>S",     (GtkItemFactoryCallback)Menu_Debug_GotoSP,            0, "<Item>" },
 	{ "/Debugger/sep2",                      NULL,           NULL,                         0, "<Separator>" },
 	{ "/Debugger/_PRC",                      NULL,           NULL,                         0, "<Branch>" },
-	{ "/Debugger/PRC/Show _Background",      NULL,           Menu_DebPRC_ShowBG,           0, "<CheckItem>" },
-	{ "/Debugger/PRC/Show _Sprites",         NULL,           Menu_DebPRC_ShowSpr,          0, "<CheckItem>" },
-	{ "/Debugger/PRC/Stall _CPU",            NULL,           Menu_DebPRC_StallCPU,         0, "<CheckItem>" },
-	{ "/Debugger/PRC/Stall _Cycles...",      NULL,           Menu_DebPRC_StallCycles,      0, "<Item>" },
-	{ "/Debugger/_IRQ call...",              NULL,           Menu_Debug_IRQCall,           0, "<Item>" },
+	{ "/Debugger/PRC/Show _Background",      NULL,           (GtkItemFactoryCallback)Menu_DebPRC_ShowBG,           0, "<CheckItem>" },
+	{ "/Debugger/PRC/Show _Sprites",         NULL,           (GtkItemFactoryCallback)Menu_DebPRC_ShowSpr,          0, "<CheckItem>" },
+	{ "/Debugger/PRC/Stall _CPU",            NULL,           (GtkItemFactoryCallback)Menu_DebPRC_StallCPU,         0, "<CheckItem>" },
+	{ "/Debugger/PRC/Stall _Cycles...",      NULL,           (GtkItemFactoryCallback)Menu_DebPRC_StallCycles,      0, "<Item>" },
+	{ "/Debugger/_IRQ call...",              NULL,           (GtkItemFactoryCallback)Menu_Debug_IRQCall,           0, "<Item>" },
 	{ "/Debugger/_Reset",                    NULL,           NULL,                         0, "<Branch>" },
-	{ "/Debugger/Reset/_Soft (Partial)",     "<SHIFT>R",     Menu_Debug_ResetSoft,         0, "<Item>" },
-	{ "/Debugger/Reset/_Hard (Full)",        "<CTRL>R",      Menu_Debug_ResetHard,         0, "<Item>" },
+	{ "/Debugger/Reset/_Soft (Partial)",     "<SHIFT>R",     (GtkItemFactoryCallback)Menu_Debug_ResetSoft,         0, "<Item>" },
+	{ "/Debugger/Reset/_Hard (Full)",        "<CTRL>R",      (GtkItemFactoryCallback)Menu_Debug_ResetHard,         0, "<Item>" },
 
 	{ "/_Break",                             NULL,           NULL,                         0, "<Branch>" },
-	{ "/Break/_Enable breakpoints",          "<ALT><SHIFT>B",Menu_Break_EnableBP,          0, "<CheckItem>" },
-	{ "/Break/_Add breakpoint at...",        "<SHIFT>B",     Menu_Break_AddBPAt,           0, "<Item>" },
-	{ "/Break/_Delete breakpoint at...",     "<CTRL><SHIFT>B",Menu_Break_DelBPAt,          0, "<Item>" },
-	{ "/Break/_Delete all breakpoints",      NULL,           Menu_Break_DelAllBP,          0, "<Item>" },
+	{ "/Break/_Enable breakpoints",          "<ALT><SHIFT>B",(GtkItemFactoryCallback)Menu_Break_EnableBP,          0, "<CheckItem>" },
+	{ "/Break/_Add breakpoint at...",        "<SHIFT>B",     (GtkItemFactoryCallback)Menu_Break_AddBPAt,           0, "<Item>" },
+	{ "/Break/_Delete breakpoint at...",     "<CTRL><SHIFT>B",(GtkItemFactoryCallback)Menu_Break_DelBPAt,          0, "<Item>" },
+	{ "/Break/_Delete all breakpoints",      NULL,           (GtkItemFactoryCallback)Menu_Break_DelAllBP,          0, "<Item>" },
 	{ "/Break/sep1",                         NULL,           NULL,                         0, "<Separator>" },
-	{ "/Break/_Enable watchpoints",          "<ALT><SHIFT>W",Menu_Break_EnableWP,          0, "<CheckItem>" },
-	{ "/Break/_Add Watchpoint at...",        "<SHIFT>W",     Menu_Break_AddWPAt,           0, "<Item>" },
-	{ "/Break/_Delete all watchpoints",      NULL,           Menu_Break_DelAllWP,          0, "<Item>" },
+	{ "/Break/_Enable watchpoints",          "<ALT><SHIFT>W",(GtkItemFactoryCallback)Menu_Break_EnableWP,          0, "<CheckItem>" },
+	{ "/Break/_Add Watchpoint at...",        "<SHIFT>W",     (GtkItemFactoryCallback)Menu_Break_AddWPAt,           0, "<Item>" },
+	{ "/Break/_Delete all watchpoints",      NULL,           (GtkItemFactoryCallback)Menu_Break_DelAllWP,          0, "<Item>" },
 	{ "/Break/sep1",                         NULL,           NULL,                         0, "<Separator>" },
-	{ "/Break/_Enable exceptions",           NULL,           Menu_Break_EnableEx,          0, "<CheckItem>" },
-	{ "/Break/_Enable HALT break",           NULL,           Menu_Break_EnableHalt,        0, "<CheckItem>" },
-	{ "/Break/_Enable STOP break",           NULL,           Menu_Break_EnableStop,        0, "<CheckItem>" },
+	{ "/Break/_Enable exceptions",           NULL,           (GtkItemFactoryCallback)Menu_Break_EnableEx,          0, "<CheckItem>" },
+	{ "/Break/_Enable HALT break",           NULL,           (GtkItemFactoryCallback)Menu_Break_EnableHalt,        0, "<CheckItem>" },
+	{ "/Break/_Enable STOP break",           NULL,           (GtkItemFactoryCallback)Menu_Break_EnableStop,        0, "<CheckItem>" },
 
 	{ "/_Viewers",                           NULL,           NULL,                         0, "<Branch>" },
-	{ "/Viewers/_Memory View",               "<CTRL>1",      Menu_View_Memory,             0, "<Item>" },
-	{ "/Viewers/_PRC Tiles View",            "<CTRL>2",      Menu_View_PRCTiles,           0, "<Item>" },
-	{ "/Viewers/_PRC Map View",              "<CTRL>3",      Menu_View_PRCMap,             0, "<Item>" },
-	{ "/Viewers/_PRC Sprites View",          "<CTRL>4",      Menu_View_PRCSpr,             0, "<Item>" },
-	{ "/Viewers/_Timers View",               "<CTRL>5",      Menu_View_Timers,             0, "<Item>" },
-	{ "/Viewers/_Hardware IO View",          "<CTRL>6",      Menu_View_HardIO,             0, "<Item>" },
-	{ "/Viewers/_IRQ View",                  "<CTRL>7",      Menu_View_IRQ,                0, "<Item>" },
-	{ "/Viewers/_Misc. View",                "<CTRL>8",      Menu_View_Misc,               0, "<Item>" },
-	{ "/Viewers/_Symbols List View",         "<CTRL>9",      Menu_View_Symb,               0, "<Item>" },
-	{ "/Viewers/_Run Trace View",            "<CTRL>0",      Menu_View_Trace,              0, "<Item>" },
+	{ "/Viewers/_Memory View",               "<CTRL>1",      (GtkItemFactoryCallback)Menu_View_Memory,             0, "<Item>" },
+	{ "/Viewers/_PRC Tiles View",            "<CTRL>2",      (GtkItemFactoryCallback)Menu_View_PRCTiles,           0, "<Item>" },
+	{ "/Viewers/_PRC Map View",              "<CTRL>3",      (GtkItemFactoryCallback)Menu_View_PRCMap,             0, "<Item>" },
+	{ "/Viewers/_PRC Sprites View",          "<CTRL>4",      (GtkItemFactoryCallback)Menu_View_PRCSpr,             0, "<Item>" },
+	{ "/Viewers/_Timers View",               "<CTRL>5",      (GtkItemFactoryCallback)Menu_View_Timers,             0, "<Item>" },
+	{ "/Viewers/_Hardware IO View",          "<CTRL>6",      (GtkItemFactoryCallback)Menu_View_HardIO,             0, "<Item>" },
+	{ "/Viewers/_IRQ View",                  "<CTRL>7",      (GtkItemFactoryCallback)Menu_View_IRQ,                0, "<Item>" },
+	{ "/Viewers/_Misc. View",                "<CTRL>8",      (GtkItemFactoryCallback)Menu_View_Misc,               0, "<Item>" },
+	{ "/Viewers/_Symbols List View",         "<CTRL>9",      (GtkItemFactoryCallback)Menu_View_Symb,               0, "<Item>" },
+	{ "/Viewers/_Run Trace View",            "<CTRL>0",      (GtkItemFactoryCallback)Menu_View_Trace,              0, "<Item>" },
 
 	{ "/_External",                          NULL,           NULL,                         0, "<Branch>" },
-	{ "/External/App1",                      "<CTRL><ALT>1", Menu_External_Run,            0, "<Item>" },
-	{ "/External/App2",                      "<CTRL><ALT>2", Menu_External_Run,            1, "<Item>" },
-	{ "/External/App3",                      "<CTRL><ALT>3", Menu_External_Run,            2, "<Item>" },
-	{ "/External/App4",                      "<CTRL><ALT>4", Menu_External_Run,            3, "<Item>" },
-	{ "/External/App5",                      "<CTRL><ALT>5", Menu_External_Run,            4, "<Item>" },
-	{ "/External/App6",                      "<CTRL><ALT>6", Menu_External_Run,            5, "<Item>" },
-	{ "/External/App7",                      "<CTRL><ALT>7", Menu_External_Run,            6, "<Item>" },
-	{ "/External/App8",                      "<CTRL><ALT>8", Menu_External_Run,            7, "<Item>" },
-	{ "/External/App9",                      "<CTRL><ALT>9", Menu_External_Run,            8, "<Item>" },
-	{ "/External/App10",                     "<CTRL><ALT>0", Menu_External_Run,            9, "<Item>" },
+	{ "/External/App1",                      "<CTRL><ALT>1", (GtkItemFactoryCallback)Menu_External_Run,            0, "<Item>" },
+	{ "/External/App2",                      "<CTRL><ALT>2", (GtkItemFactoryCallback)Menu_External_Run,            1, "<Item>" },
+	{ "/External/App3",                      "<CTRL><ALT>3", (GtkItemFactoryCallback)Menu_External_Run,            2, "<Item>" },
+	{ "/External/App4",                      "<CTRL><ALT>4", (GtkItemFactoryCallback)Menu_External_Run,            3, "<Item>" },
+	{ "/External/App5",                      "<CTRL><ALT>5", (GtkItemFactoryCallback)Menu_External_Run,            4, "<Item>" },
+	{ "/External/App6",                      "<CTRL><ALT>6", (GtkItemFactoryCallback)Menu_External_Run,            5, "<Item>" },
+	{ "/External/App7",                      "<CTRL><ALT>7", (GtkItemFactoryCallback)Menu_External_Run,            6, "<Item>" },
+	{ "/External/App8",                      "<CTRL><ALT>8", (GtkItemFactoryCallback)Menu_External_Run,            7, "<Item>" },
+	{ "/External/App9",                      "<CTRL><ALT>9", (GtkItemFactoryCallback)Menu_External_Run,            8, "<Item>" },
+	{ "/External/App10",                     "<CTRL><ALT>0", (GtkItemFactoryCallback)Menu_External_Run,            9, "<Item>" },
 	{ "/External/sep1",                      NULL,           NULL,                         0, "<Separator>" },
-	{ "/External/Configure...",              NULL,           Menu_External_Conf,           0, "<Item>" },
+	{ "/External/Configure...",              NULL,           (GtkItemFactoryCallback)Menu_External_Conf,           0, "<Item>" },
 
 	{ "/Messages/Enable _messages",          NULL,           NULL,                         0, "<Branch>" },
-	{ "/Messages/Enable messages/Breakpoints",NULL,          Menu_Messages_BPMsg,          0, "<CheckItem>" },
-	{ "/Messages/Enable messages/Watchpoints",NULL,          Menu_Messages_WPMsg,          0, "<CheckItem>" },
-	{ "/Messages/Enable messages/Exceptions", NULL,          Menu_Messages_ExMsg,          0, "<CheckItem>" },
-	{ "/Messages/Enable messages/HALT break", NULL,          Menu_Messages_HaltMsg,        0, "<CheckItem>" },
-	{ "/Messages/Enable messages/STOP break", NULL,          Menu_Messages_StopMsg,        0, "<CheckItem>" },
+	{ "/Messages/Enable messages/Breakpoints",NULL,          (GtkItemFactoryCallback)Menu_Messages_BPMsg,          0, "<CheckItem>" },
+	{ "/Messages/Enable messages/Watchpoints",NULL,          (GtkItemFactoryCallback)Menu_Messages_WPMsg,          0, "<CheckItem>" },
+	{ "/Messages/Enable messages/Exceptions", NULL,          (GtkItemFactoryCallback)Menu_Messages_ExMsg,          0, "<CheckItem>" },
+	{ "/Messages/Enable messages/HALT break", NULL,          (GtkItemFactoryCallback)Menu_Messages_HaltMsg,        0, "<CheckItem>" },
+	{ "/Messages/Enable messages/STOP break", NULL,          (GtkItemFactoryCallback)Menu_Messages_StopMsg,        0, "<CheckItem>" },
 	{ "/Messages/sep1",                      NULL,           NULL,                         0, "<Separator>" },
-	{ "/Messages/_Enable debug output",      NULL,           Menu_Messages_EnableDbgOut,   0, "<CheckItem>" },
-	{ "/Messages/_Auto-open debug output",   NULL,           Menu_Messages_AutoDbgOut,     0, "<CheckItem>" },
+	{ "/Messages/_Enable debug output",      NULL,           (GtkItemFactoryCallback)Menu_Messages_EnableDbgOut,   0, "<CheckItem>" },
+	{ "/Messages/_Auto-open debug output",   NULL,           (GtkItemFactoryCallback)Menu_Messages_AutoDbgOut,     0, "<CheckItem>" },
 	{ "/Messages/sep2",                      NULL,           NULL,                         0, "<Separator>" },
-	{ "/Messages/Clear _messages",           NULL,           Menu_Messages_ClearMsgs,      0, "<Item>" },
-	{ "/Messages/Clear debug _output",       NULL,           Menu_Messages_ClearDebugOut,  0, "<Item>" },
+	{ "/Messages/Clear _messages",           NULL,           (GtkItemFactoryCallback)Menu_Messages_ClearMsgs,      0, "<Item>" },
+	{ "/Messages/Clear debug _output",       NULL,           (GtkItemFactoryCallback)Menu_Messages_ClearDebugOut,  0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                         0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           Menu_Refresh_Now,             0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)Menu_Refresh_Now,             0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                         0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           Menu_Refresh,                 0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           Menu_Refresh,                 1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           Menu_Refresh,                 2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           Menu_Refresh,                 3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           Menu_Refresh,                 5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           Menu_Refresh,                 7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           Menu_Refresh,                11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           Menu_Refresh,                35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           Menu_Refresh,                71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           Menu_Refresh,                -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                 7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)Menu_Refresh,                71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)Menu_Refresh,                -1, "/Refresh/100% 72fps" },
 
 	{ "/_Help",                              NULL,           NULL,                         0, "<Branch>" },
-	{ "/Help/_Documentation",                "F1",           Menu_Help_Documentation,      0, "<Item>" },
-	{ "/Help/_Visit website",                NULL,           Menu_Help_VisitWebsite,       0, "<Item>" },
+	{ "/Help/_Documentation",                "F1",           (GtkItemFactoryCallback)Menu_Help_Documentation,      0, "<Item>" },
+	{ "/Help/_Visit website",                NULL,           (GtkItemFactoryCallback)Menu_Help_VisitWebsite,       0, "<Item>" },
 	{ "/Help/sep1",                          NULL,           NULL,                         0, "<Separator>" },
-	{ "/Help/_Command-line switches...",     NULL,           Menu_Help_CommandLine,        0, "<Item>" },
-	{ "/Help/_About...",                     NULL,           Menu_Help_About,              0, "<Item>" },
+	{ "/Help/_Command-line switches...",     NULL,           (GtkItemFactoryCallback)Menu_Help_CommandLine,        0, "<Item>" },
+	{ "/Help/_About...",                     NULL,           (GtkItemFactoryCallback)Menu_Help_About,              0, "<Item>" },
 };
 static gint CPUWindow_MenuItemsNum = sizeof(CPUWindow_MenuItems) / sizeof(*CPUWindow_MenuItems);
 
@@ -3004,7 +3004,7 @@ int ProcessMenuItemAccel(int key, int modifier, TMenu_items_accel *list)
 	if (!list) return 0;
 	while (list->callback) {
 		if ((list->key == key) && (list->modifier == modifier)) {
-			list->callback(NULL, NULL);
+			((void (*)(GtkWidget *, gpointer)) list->callback)(NULL, NULL);
 			return 1;
 		}
 		list++;

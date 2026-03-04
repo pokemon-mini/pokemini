@@ -9,7 +9,7 @@ WINTARGET = PokeMiniD.exe
 WINRES_TRG = $(BUILD)/pokemini_rc.o
 WINRES_SRC = $(POKEROOT)resource/pokemini.rc
 
-CFLAGS = -O -Wall `$(SDL_BASE)sdl-config --cflags` `pkg-config --cflags gtk+-2.0` $(INCLUDE)
+CFLAGS = -O -Wall -Wno-deprecated-declarations `$(SDL_BASE)sdl-config --cflags` `pkg-config --cflags gtk+-2.0` $(INCLUDE)
 SLFLAGS = -O `$(SDL_BASE)sdl-config --libs` `pkg-config --libs gtk+-2.0` -lm -lz
 
 RELEASE_DIR = ../../release

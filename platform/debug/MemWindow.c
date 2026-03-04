@@ -287,7 +287,7 @@ static void MemW_Goto_Address(GtkWidget *widget, gpointer data)
 
 static void MemW_Goto_SAddress(GtkWidget *widget, gpointer data)
 {
-	int addr = (int)data;
+	int addr = GPOINTER_TO_INT(data);
 	sgtkx_drawing_view_sbvalue(&MemView, addr/16);
 }
 
@@ -585,7 +585,7 @@ static void MemW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void MemW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -617,52 +617,52 @@ static gboolean MemWindow_state_event(GtkWidget *widget, GdkEventWindowState *ev
 
 static GtkItemFactoryEntry MemWindow_MenuItems[] = {
 	{ "/_Go to",                             NULL,           NULL,                     0, "<Branch>" },
-	{ "/Go to/_Address...",                  "<CTRL>G",      MemW_Goto_Address,        0, "<Item>" },
-	{ "/Go to/_BIOS top",                    "<SHIFT>B",     MemW_Goto_SAddress,  0x0000, "<Item>" },
-	{ "/Go to/RA_M top",                     "<SHIFT>M",     MemW_Goto_SAddress,  0x1000, "<Item>" },
-	{ "/Go to/_Hardware IO top",             "<SHIFT>H",     MemW_Goto_SAddress,  0x2000, "<Item>" },
-	{ "/Go to/Cartridge R_OM top",           "<SHIFT>O",     MemW_Goto_SAddress,  0x2100, "<Item>" },
-	{ "/Go to/Cartridge _Bank n top",        "<CTRL>B",      MemW_Goto_BAddress,       0, "<Item>" },
+	{ "/Go to/_Address...",                  "<CTRL>G",      (GtkItemFactoryCallback)MemW_Goto_Address,        0, "<Item>" },
+	{ "/Go to/_BIOS top",                    "<SHIFT>B",     (GtkItemFactoryCallback)MemW_Goto_SAddress,  0x0000, "<Item>" },
+	{ "/Go to/RA_M top",                     "<SHIFT>M",     (GtkItemFactoryCallback)MemW_Goto_SAddress,  0x1000, "<Item>" },
+	{ "/Go to/_Hardware IO top",             "<SHIFT>H",     (GtkItemFactoryCallback)MemW_Goto_SAddress,  0x2000, "<Item>" },
+	{ "/Go to/Cartridge R_OM top",           "<SHIFT>O",     (GtkItemFactoryCallback)MemW_Goto_SAddress,  0x2100, "<Item>" },
+	{ "/Go to/Cartridge _Bank n top",        "<CTRL>B",      (GtkItemFactoryCallback)MemW_Goto_BAddress,       0, "<Item>" },
 
 	{ "/_Break",                             NULL,           NULL,                     0, "<Branch>" },
-	{ "/Break/_Add Watchpoint at...",        "<SHIFT>W",     MemW_Break_AddWPAt,       0, "<Item>" },
-	{ "/Break/_Delete all watchpoints",      NULL,           MemW_Break_DelAllWP,      0, "<Item>" },
+	{ "/Break/_Add Watchpoint at...",        "<SHIFT>W",     (GtkItemFactoryCallback)MemW_Break_AddWPAt,       0, "<Item>" },
+	{ "/Break/_Delete all watchpoints",      NULL,           (GtkItemFactoryCallback)MemW_Break_DelAllWP,      0, "<Item>" },
 
 	{ "/_Character set",                     NULL,           NULL,                     0, "<Branch>" },
-	{ "/Character set/_Default",             "<SHIFT>C",     MemW_CharSet_Default,     0, "<Item>" },
-	{ "/Character set/From _ROM...",         "<CTRL>C",      MemW_CharSet_FromROM,     0, "<Item>" },
-	{ "/Character set/From _file...",        "<SHIFT><CTRL>C",MemW_CharSet_FromFile,   0, "<Item>" },
+	{ "/Character set/_Default",             "<SHIFT>C",     (GtkItemFactoryCallback)MemW_CharSet_Default,     0, "<Item>" },
+	{ "/Character set/From _ROM...",         "<CTRL>C",      (GtkItemFactoryCallback)MemW_CharSet_FromROM,     0, "<Item>" },
+	{ "/Character set/From _file...",        "<SHIFT><CTRL>C",(GtkItemFactoryCallback)MemW_CharSet_FromFile,   0, "<Item>" },
 
 	{ "/_Memory data",                       NULL,           NULL,                     0, "<Branch>" },
-	{ "/Memory data/_Import from file...",   "<CTRL>I",      MemW_ImportData,          0, "<Item>" },
-	{ "/Memory data/_Export to file...",     "<CTRL>E",      MemW_ExportData,          0, "<Item>" },
-	{ "/Memory data/_Copy block",            "<CTRL>V",      MemW_CopyData,            0, "<Item>" },
-	{ "/Memory data/_Fill 8-bits value",     "<CTRL>X",      MemW_FillData8,           0, "<Item>" },
-	{ "/Memory data/_Fill 16-bits value",    "<CTRL>Y",      MemW_FillData16,          0, "<Item>" },
+	{ "/Memory data/_Import from file...",   "<CTRL>I",      (GtkItemFactoryCallback)MemW_ImportData,          0, "<Item>" },
+	{ "/Memory data/_Export to file...",     "<CTRL>E",      (GtkItemFactoryCallback)MemW_ExportData,          0, "<Item>" },
+	{ "/Memory data/_Copy block",            "<CTRL>V",      (GtkItemFactoryCallback)MemW_CopyData,            0, "<Item>" },
+	{ "/Memory data/_Fill 8-bits value",     "<CTRL>X",      (GtkItemFactoryCallback)MemW_FillData8,           0, "<Item>" },
+	{ "/Memory data/_Fill 16-bits value",    "<CTRL>Y",      (GtkItemFactoryCallback)MemW_FillData16,          0, "<Item>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           MemW_RefreshNow,          0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)MemW_RefreshNow,          0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           MemW_Refresh,             0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           MemW_Refresh,             1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           MemW_Refresh,             2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           MemW_Refresh,             3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           MemW_Refresh,             5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           MemW_Refresh,             7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           MemW_Refresh,            11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           MemW_Refresh,            35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           MemW_Refresh,            71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           MemW_Refresh,            -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,             7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,            11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,            35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)MemW_Refresh,            71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)MemW_Refresh,            -1, "/Refresh/100% 72fps" },
 };
 static gint MemWindow_MenuItemsNum = sizeof(MemWindow_MenuItems) / sizeof(*MemWindow_MenuItems);
 

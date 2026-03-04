@@ -501,14 +501,14 @@ static void PRCSprW_Minimalist(GtkWidget *widget, gpointer data)
 static void PRCSprW_Zoom(GtkWidget *widget, gpointer data)
 {
 	if (PRCSprWindow_InConfigs) return;
-	dclc_zoom_prcspr = (int)data;
+	dclc_zoom_prcspr = GPOINTER_TO_INT(data);
 	FullRedraw = 1;
 	PRCSprWindow_Refresh(1);
 }
 
 static void PRCSprW_Transparency(GtkWidget *widget, gpointer data)
 {
-	int number, index = (int)data;
+	int number, index = GPOINTER_TO_INT(data);
 	static int lasttransindex = -2;
 
 	if (lasttransindex == index) return;
@@ -535,7 +535,7 @@ static void PRCSprW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void PRCSprW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -567,59 +567,59 @@ static gboolean PRCSprWindow_state_event(GtkWidget *widget, GdkEventWindowState 
 
 static GtkItemFactoryEntry PRCSprWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Show hidden sprites",           NULL,           PRCSprW_ShowHSpr,         0, "<CheckItem>" },
-	{ "/View/Minimalist view",               NULL,           PRCSprW_Minimalist,       0, "<CheckItem>" },
+	{ "/View/Show hidden sprites",           NULL,           (GtkItemFactoryCallback)PRCSprW_ShowHSpr,         0, "<CheckItem>" },
+	{ "/View/Minimalist view",               NULL,           (GtkItemFactoryCallback)PRCSprW_Minimalist,       0, "<CheckItem>" },
 	{ "/View/Zoom",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Zoom/100%",                     NULL,           PRCSprW_Zoom,             1, "<RadioItem>" },
-	{ "/View/Zoom/200%",                     NULL,           PRCSprW_Zoom,             2, "/View/Zoom/100%" },
-	{ "/View/Zoom/300%",                     NULL,           PRCSprW_Zoom,             3, "/View/Zoom/100%" },
-	{ "/View/Zoom/400%",                     NULL,           PRCSprW_Zoom,             4, "/View/Zoom/100%" },
-	{ "/View/Zoom/500%",                     NULL,           PRCSprW_Zoom,             5, "/View/Zoom/100%" },
-	{ "/View/Zoom/600%",                     NULL,           PRCSprW_Zoom,             6, "/View/Zoom/100%" },
-	{ "/View/Zoom/700%",                     NULL,           PRCSprW_Zoom,             7, "/View/Zoom/100%" },
-	{ "/View/Zoom/800%",                     NULL,           PRCSprW_Zoom,             8, "/View/Zoom/100%" },
+	{ "/View/Zoom/100%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             1, "<RadioItem>" },
+	{ "/View/Zoom/200%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             2, "/View/Zoom/100%" },
+	{ "/View/Zoom/300%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             3, "/View/Zoom/100%" },
+	{ "/View/Zoom/400%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             4, "/View/Zoom/100%" },
+	{ "/View/Zoom/500%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             5, "/View/Zoom/100%" },
+	{ "/View/Zoom/600%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             6, "/View/Zoom/100%" },
+	{ "/View/Zoom/700%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             7, "/View/Zoom/100%" },
+	{ "/View/Zoom/800%",                     NULL,           (GtkItemFactoryCallback)PRCSprW_Zoom,             8, "/View/Zoom/100%" },
 	{ "/View/Transparency",                  NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Transparency/Pink",             NULL,           PRCSprW_Transparency,     0, "<RadioItem>" },
-	{ "/View/Transparency/Red",              NULL,           PRCSprW_Transparency,     1, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Green",            NULL,           PRCSprW_Transparency,     2, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Blue",             NULL,           PRCSprW_Transparency,     3, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Yellow",           NULL,           PRCSprW_Transparency,     4, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Orange",           NULL,           PRCSprW_Transparency,     5, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Purple",           NULL,           PRCSprW_Transparency,     6, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Red",       NULL,           PRCSprW_Transparency,     7, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Green",     NULL,           PRCSprW_Transparency,     8, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Blue",      NULL,           PRCSprW_Transparency,     9, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Yellow",    NULL,           PRCSprW_Transparency,    10, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Cyan",             NULL,           PRCSprW_Transparency,    11, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Black",            NULL,           PRCSprW_Transparency,    12, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Grey",             NULL,           PRCSprW_Transparency,    13, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Silver",           NULL,           PRCSprW_Transparency,    14, "/View/Transparency/Pink" },
-	{ "/View/Transparency/White",            NULL,           PRCSprW_Transparency,    15, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Custom",           NULL,           PRCSprW_Transparency,    -1, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Pink",             NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     0, "<RadioItem>" },
+	{ "/View/Transparency/Red",              NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     1, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Green",            NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     2, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Blue",             NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     3, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Yellow",           NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     4, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Orange",           NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     5, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Purple",           NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     6, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Red",       NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     7, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Green",     NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     8, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Blue",      NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,     9, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Yellow",    NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    10, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Cyan",             NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    11, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Black",            NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    12, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Grey",             NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    13, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Silver",           NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    14, "/View/Transparency/Pink" },
+	{ "/View/Transparency/White",            NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    15, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Custom",           NULL,           (GtkItemFactoryCallback)PRCSprW_Transparency,    -1, "/View/Transparency/Pink" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           PRCSprW_RefreshNow,       0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)PRCSprW_RefreshNow,       0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           PRCSprW_Refresh,          0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           PRCSprW_Refresh,          1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           PRCSprW_Refresh,          2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           PRCSprW_Refresh,          3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           PRCSprW_Refresh,          5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           PRCSprW_Refresh,          7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           PRCSprW_Refresh,         11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           PRCSprW_Refresh,         35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           PRCSprW_Refresh,         71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           PRCSprW_Refresh,         -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,          7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,         11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,         35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,         71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)PRCSprW_Refresh,         -1, "/Refresh/100% 72fps" },
 };
 static gint PRCSprWindow_MenuItemsNum = sizeof(PRCSprWindow_MenuItems) / sizeof(*PRCSprWindow_MenuItems);
 
