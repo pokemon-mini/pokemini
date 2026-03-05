@@ -329,16 +329,73 @@ void Add_DebugOutputFixed8_8(unsigned char num, int reg)
 // ------
 
 static char *ColDCPUInstructions_Operand[] = {
-	"",
-	"\e234%j", "\e234%J", "\e234%i", "\e234%u", "\e234%U", "\e234%s", "\e234%S",
-	"\e240A", "\e240B", "\e234%u", "\e203[HL]",
-	"\e203[N+\e234%u\e203]", "\e203[\e234%U\e203]", "\e203[X]", "\e203[Y]",
-	"\e240L", "\e240H", "\e240N", "\e240SP", 
-	"\e240BA", "\e240HL", "\e240X", "\e240Y",
-	"\e240F", "\e240I", "\e240XI", "\e240YI",
-	"\e203[X+\e234%s\e203]", "\e203[Y+\e234%s\e203]", "\e203[X+L]", "\e203[Y+L]",
-	"\e240U", "\e240V", "\e240XI", "\e240YI",
-	"\e203[SP+\e234%s\e203]", "\e240PC", "\e234%h",
+	"",                                 // 0
+	"\e234%j",                          // 1
+	"\e234%J",                          // 2
+	"\e234%i",                          // 3
+	"\e234%u",                          // 4
+	"\e234%U",                          // 5
+	"\e234%s",                          // 6
+	"\e234%S",                          // 7
+	"\e240A",                           // 8
+	"\e240B",                           // 9
+	"\e234%u",                          // 10
+	"\e203[\e240HL\e203]",              // 11
+	"\e203[\e240BR\e203:\e234%u\e203]", // 12
+	"\e203[\e234%U\e203]",              // 13
+	"\e203[\e240IX\e203]",              // 14
+	"\e203[\e240IY\e203]",              // 15
+	"\e240L",                           // 16
+	"\e240H",                           // 17
+	"\e240BR",                          // 18
+	"\e240SP",                          // 19
+	"\e240BA",                          // 20
+	"\e240HL",                          // 21
+	"\e240IX",                          // 22
+	"\e240IY",                          // 23
+	"\e240SC",                          // 24
+	"\e240EP",                          // 25
+	"\e240XP",                          // 26
+	"\e240YP",                          // 27
+	"\e203[\e240IX\e203+\e234%s\e203]", // 28
+	"\e203[\e240IY\e203+\e234%s\e203]", // 29
+	"\e203[\e240IX\e203+\e240L\e203]",  // 30
+	"\e203[\e240IY\e203+\e240L\e203]",  // 31
+	"\e240NB",                          // 32
+	"\e240CB",                          // 33
+	"\e240XP",                          // 34
+	"\e240YP",                          // 35
+	"\e203[\e240SP+\e234%s\e203]",      // 36
+	"\e240PC",                          // 37
+	"\e234%h",                          // 38
+	// PUSH / POP
+	"\e352ALL",                         // 39
+	"\e352ALE",                         // 40
+	// JRS / JRL / DJR / CARS / CARL
+	"\e352C",                           // 41
+	"\e352NC",                          // 42
+	"\e352Z",                           // 43
+	"\e352NZ",                          // 44
+	"\e352LT",                          // 45
+	"\e352LE",                          // 46
+	"\e352GT",                          // 47
+	"\e352GE",                          // 48
+	"\e352V",                           // 49
+	"\e352NV",                          // 50
+	"\e352P",                           // 51
+	"\e352M",                           // 52
+	"\e352F0",                          // 53
+	"\e352F1",                          // 54
+	"\e352F2",                          // 55
+	"\e352F3",                          // 56
+	"\e352NF0",                         // 57
+	"\e352NF1",                         // 58
+	"\e352NF2",                         // 59
+	"\e352NF3",                         // 60
+	// PUSH
+	"\e352IP",                          // 61
+	// Illegal
+	"#\e234%u\e203:\e240L",             // 62
 	NULL
 };
 
@@ -702,25 +759,25 @@ static int RegistersView_exposure(SGtkXDrawingView *widg, int width, int height,
 	y += 12;
 	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "HL = $\e345%02X\e003%04X,%i", (int)MinxCPU.HL.B.I, (int)MinxCPU.HL.W.L, (int)MinxCPU.HL.W.L);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " X = $\e345%02X\e003%04X,%i", (int)MinxCPU.X.B.I, (int)MinxCPU.X.W.L, (int)MinxCPU.X.W.L);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "IX = $\e345%02X\e003%04X,%i", (int)MinxCPU.X.B.I, (int)MinxCPU.X.W.L, (int)MinxCPU.X.W.L);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " Y = $\e345%02X\e003%04X,%i", (int)MinxCPU.Y.B.I, (int)MinxCPU.Y.W.L, (int)MinxCPU.Y.W.L);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "IY = $\e345%02X\e003%04X,%i", (int)MinxCPU.Y.B.I, (int)MinxCPU.Y.W.L, (int)MinxCPU.Y.W.L);
 	y += 12;
 	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "SP =   $%04X,%i", (int)MinxCPU.SP.W.L, (int)MinxCPU.SP.W.L);
 	y += 12;
 	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "PC = \e345%02X\e003$%04X,%i", (int)MinxCPU.PC.B.I, (int)MinxCPU.PC.W.L, (int)MinxCPU.PC.W.L);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " U = $%02X->$%02X (%i)", (int)MinxCPU.U1, (int)MinxCPU.U2, (int)MinxCPU.Shift_U);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "NB = $%02X->$%02X (%i)", (int)MinxCPU.U1, (int)MinxCPU.U2, (int)MinxCPU.Shift_U);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " V = $%02X,%i", (int)MinxCPU.PC.B.I, (int)MinxCPU.PC.B.I);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "CB = $%02X,%i", (int)MinxCPU.PC.B.I, (int)MinxCPU.PC.B.I);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " N = $%02X,%i", (int)MinxCPU.N.B.H, (int)MinxCPU.N.B.H);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "BR = $%02X,%i", (int)MinxCPU.N.B.H, (int)MinxCPU.N.B.H);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " I = $%02X,%i", (int)MinxCPU.HL.B.I, (int)MinxCPU.HL.B.I);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "EP = $%02X,%i", (int)MinxCPU.HL.B.I, (int)MinxCPU.HL.B.I);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "XI = $%02X,%i", (int)MinxCPU.X.B.I, (int)MinxCPU.X.B.I);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "XP = $%02X,%i", (int)MinxCPU.X.B.I, (int)MinxCPU.X.B.I);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "YI = $%02X,%i", (int)MinxCPU.Y.B.I, (int)MinxCPU.Y.B.I);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "YP = $%02X,%i", (int)MinxCPU.Y.B.I, (int)MinxCPU.Y.B.I);
 	y += 12;
 	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " A = $%02X,%i", (int)MinxCPU.BA.B.L, (int)MinxCPU.BA.B.L);
 	y += 12;
@@ -730,10 +787,10 @@ static int RegistersView_exposure(SGtkXDrawingView *widg, int width, int height,
 	y += 12;
 	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " H = $%02X,%i", (int)MinxCPU.HL.B.H, (int)MinxCPU.HL.B.H);
 	y += 12;
-	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, " F = $%02X,%i", (int)MinxCPU.F, (int)MinxCPU.F);
+	sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "SC = $%02X,%i", (int)MinxCPU.F, (int)MinxCPU.F);
 	y += 12;
 	if (emumode != EMUMODE_RUNFULL) {
-		sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "\e%sI.D. \e%sI.F. \e%sNib. \e%sBCD",
+		sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "\e%sI1   \e%sI0   \e%sUpk. \e%sBCD",
 		 (MinxCPU.F & 0x80) ? "003" : "766",
 		 (MinxCPU.F & 0x40) ? "003" : "766",
 		 (MinxCPU.F & 0x20) ? "003" : "766",
@@ -746,7 +803,7 @@ static int RegistersView_exposure(SGtkXDrawingView *widg, int width, int height,
 		 (MinxCPU.F & 0x01) ? "003" : "766");
 		y += 12;
 	} else {
-		sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "\e%sI.D. \e%sI.F. \e%sNib. \e%sBCD",
+		sgtkx_drawing_view_drawtext(widg, 4, y, 0x00004C, "\e%sI1   \e%sI0   \e%sUpk. \e%sBCD",
 		 (MinxCPU.F & 0x80) ? "003" : "433",
 		 (MinxCPU.F & 0x40) ? "003" : "433",
 		 (MinxCPU.F & 0x20) ? "003" : "433",
@@ -806,9 +863,9 @@ static int RegistersView_buttonpress(SGtkXDrawingView *widg, int button, int pre
 				break;
 			case 1: result = EnterNumberDialog(MainWindow, "Change register", "Set HL value:", &val, (int)MinxCPU.HL.W.L, 4, 1, -65535, 65535);
 				break;
-			case 2: result = EnterNumberDialog(MainWindow, "Change register", "Set X value:", &val, (int)MinxCPU.X.W.L, 4, 1, -65535, 65535);
+			case 2: result = EnterNumberDialog(MainWindow, "Change register", "Set IX value:", &val, (int)MinxCPU.X.W.L, 4, 1, -65535, 65535);
 				break;
-			case 3: result = EnterNumberDialog(MainWindow, "Change register", "Set Y value:", &val, (int)MinxCPU.Y.W.L, 4, 1, -65535, 65535);
+			case 3: result = EnterNumberDialog(MainWindow, "Change register", "Set IY value:", &val, (int)MinxCPU.Y.W.L, 4, 1, -65535, 65535);
 				break;
 			case 4: result = EnterNumberDialog(MainWindow, "Change register", "Set SP value:", &val, (int)MinxCPU.SP.W.L, 4, 1, -65535, 65535);
 				break;
@@ -819,15 +876,15 @@ static int RegistersView_buttonpress(SGtkXDrawingView *widg, int button, int pre
 				RegistersView_Uregister[5].number = (int)MinxCPU.Shift_U;
 				result = CustomDialog(MainWindow, "Change register", RegistersView_Uregister);
 				break;
-			case 7: result = EnterNumberDialog(MainWindow, "Change register", "Set V value:", &val, (int)MinxCPU.PC.B.I, 2, 1, -255, 255);
+			case 7: result = EnterNumberDialog(MainWindow, "Change register", "Set CB value:", &val, (int)MinxCPU.PC.B.I, 2, 1, -255, 255);
 				break;
-			case 8: result = EnterNumberDialog(MainWindow, "Change register", "Set N value:", &val, (int)MinxCPU.N.B.H, 2, 1, -255, 255);
+			case 8: result = EnterNumberDialog(MainWindow, "Change register", "Set BR value:", &val, (int)MinxCPU.N.B.H, 2, 1, -255, 255);
 				break;
-			case 9: result = EnterNumberDialog(MainWindow, "Change register", "Set I value:", &val, (int)MinxCPU.HL.B.I, 2, 1, -255, 255);
+			case 9: result = EnterNumberDialog(MainWindow, "Change register", "Set EP value:", &val, (int)MinxCPU.HL.B.I, 2, 1, -255, 255);
 				break;
-			case 10:result = EnterNumberDialog(MainWindow, "Change register", "Set XI value:", &val, (int)MinxCPU.X.B.I, 2, 1, -255, 255);
+			case 10:result = EnterNumberDialog(MainWindow, "Change register", "Set XP value:", &val, (int)MinxCPU.X.B.I, 2, 1, -255, 255);
 				break;
-			case 11:result = EnterNumberDialog(MainWindow, "Change register", "Set YI value:", &val, (int)MinxCPU.Y.B.I, 2, 1, -255, 255);
+			case 11:result = EnterNumberDialog(MainWindow, "Change register", "Set YP value:", &val, (int)MinxCPU.Y.B.I, 2, 1, -255, 255);
 				break;
 			case 12:result = EnterNumberDialog(MainWindow, "Change register", "Set A value:", &val, (int)MinxCPU.BA.B.L, 2, 1, -255, 255);
 				break;
@@ -837,7 +894,7 @@ static int RegistersView_buttonpress(SGtkXDrawingView *widg, int button, int pre
 				break;
 			case 15:result = EnterNumberDialog(MainWindow, "Change register", "Set H value:", &val, (int)MinxCPU.HL.B.H, 2, 1, -255, 255);
 				break;
-			case 16:result = EnterNumberDialog(MainWindow, "Change register", "Set F value:", &val, (int)MinxCPU.F, 2, 1, -255, 255);
+			case 16:result = EnterNumberDialog(MainWindow, "Change register", "Set SC value:", &val, (int)MinxCPU.F, 2, 1, -255, 255);
 				break;
 			case 17:if (xs == 0) MinxCPU.F ^= 0x80;
 				if (xs == 1) MinxCPU.F ^= 0x40;
@@ -2259,7 +2316,7 @@ static void Menu_Debug_GotoCartIRQ(GtkWidget *widget, gpointer data)
 						if (aoff++ == 6) break;
 					}
 				} else if (dat == 0xF1) {
-					// JMPb @nn
+					// JRS @nn
 					laddr = MinxCPU_OnRead(0, addr + aoff);
 					if (aoff++ == 6) break;
 					if (laddr & 0x80) laddr |= 0xFF00;
@@ -2267,7 +2324,7 @@ static void Menu_Debug_GotoCartIRQ(GtkWidget *widget, gpointer data)
 					addr = (haddr << 16) | laddr;
 					break;		
 				} else if (dat == 0xF3) {
-					// JMPw @nnnn
+					// JRL @nnnn
 					laddr = MinxCPU_OnRead(0, addr + aoff);
 					if (aoff++ == 6) break;
 					laddr |= MinxCPU_OnRead(0, addr + aoff) << 8;

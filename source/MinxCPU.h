@@ -112,18 +112,18 @@ static inline uint16_t S8_TO_16(int8_t a)
 typedef struct {
 	// Registers
 	MinxRegx BA;			// Registers A, B
-	MinxRegx HL;			// Registers L, H, I
-	MinxRegx X;			// Registers X, XI
-	MinxRegx Y;			// Registers Y, YI
+	MinxRegx HL;			// Registers L, H, EP
+	MinxRegx X;			// Registers IX, XP
+	MinxRegx Y;			// Registers IY, YP
 	MinxRegx SP;			// Register SP
-	MinxRegx PC;			// Registers PC, V
-	MinxRegx N;			// for [N+#nn], I is written here too
-	uint8_t U1;			// V Shadow 1
-	uint8_t U2;			// V Shadow 2
-	uint8_t F;			// Flags
+	MinxRegx PC;			// Registers PC, CB
+	MinxRegx N;			// for [BR:#nn], EP is written here too
+	uint8_t U1;			// CB Shadow 1
+	uint8_t U2;			// CB Shadow 2
+	uint8_t F;			// Flags (SC)
 	uint8_t E;			// Exception
 	uint8_t IR;			// Last Instruction Register (for open-bus)
-	uint8_t Shift_U;		// Shift U, set to 2 when: U modify, branch, return
+	uint8_t Shift_U;		// Shift NB, set to 2 when: NB modify, branch, return
 	uint8_t Status;			// CPU Status (0 = Normal, 1 = Halt, 2 = Stoped, 3 = IRQ)
 	uint8_t IRQ_Vector;		// IRQ Vector when Status is IRQ
 	uint8_t Reserved[28];		// Reserved bytes

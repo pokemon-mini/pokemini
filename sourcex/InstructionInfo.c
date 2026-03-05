@@ -1,5 +1,5 @@
 /*
-  PokeMini - Pok�mon-Mini Emulator
+  PokeMini - Pokémon-Mini Emulator
   Copyright (C) 2009-2012  JustBurn
 
   This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ char *DebugCPUInstructions_Operand[] = {
 	"",			//  0 (No operand)
 	"%j",		//  1
 	"%J",		//  2
-	"%EP",		//  3
+	"%i",		//  3
 	"%u",		//  4
 	"%U",		//  5
 	"%s",		//  6
