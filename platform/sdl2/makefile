@@ -8,7 +8,7 @@ WINTARGET = PokeMini.exe
 WINRES_TRG = $(BUILD)/pokemini_rc.o
 WINRES_SRC = $(POKEROOT)resource/pokemini.rc
 
-CFLAGS += -Wall `$(SDL_BASE)sdl2-config --cflags` $(INCLUDE)
+CFLAGS += -Wall -g `$(SDL_BASE)sdl2-config --cflags` $(INCLUDE)
 SLFLAGS += `$(SDL_BASE)sdl2-config --libs` -lm -lz
 
 INCDIRS = source sourcex resource freebios dependencies/minizip
@@ -120,5 +120,4 @@ win:
 	make -f makefile.win
 
 clean:
-	-rm -f $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG)
-	-rmdir --ignore-fail-on-non-empty $(BUILD)
+	-rm -rf $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG) $(BUILD)
