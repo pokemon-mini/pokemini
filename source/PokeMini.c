@@ -572,7 +572,7 @@ int PokeMini_CheckSSFile(const char *statefile, char *romfile)
 		return 0;
 	}
 	PMiniStr[127] = 0;
-	if (romfile) strcpy(romfile, PMiniStr);
+	if (romfile) memmove(romfile, PMiniStr, strlen(PMiniStr) + 1);
 	fclose(fi);
 
 	return 1;
@@ -722,7 +722,7 @@ int PokeMini_SaveSSFile(const char *statefile, const char *romfile)
 	PMiniID = PokeMini_ID;
 	fwrite(&PMiniID, 1, 4, fo);	// Write State ID
 	memset(PMiniStr, 0, 128);
-	strcpy(PMiniStr, romfile);
+  memmove(PMiniStr, romfile, strlen(romfile) + 1);
 	fwrite(PMiniStr, 1, 128, fo);	// Write ROM related to state
 	StatTime = Endian32((uint32_t)time(NULL));
 	fwrite(&StatTime, 1, 4, fo);	// Write Time
@@ -912,7 +912,7 @@ static int PokeMini_iLoadROMZip(const char *zipfile, int *colorloaded)
 			}
 		}
 		// Filename based of the zip
-		strcpy(filein, zipfile);
+		memmove(filein, zipfile, strlen(zipfile) + 1);
 		RemoveExtension(filein);
 		strcat(filein, ".minc");
 		if (FileExist(filein)) {
@@ -946,21 +946,21 @@ int PokeMini_LoadROM(const char *filename)
 	if (ExtensionCheck(filename, ".zip")) {
 		// Load new MIN ROM and Color Information inside zip
 		if (!PokeMini_iLoadROMZip(filename, &colorloaded)) return 0;
-		strcpy(CommandLine.min_file, filename);
+    memmove(CommandLine.min_file, filename, strlen(filename) + 1);
 	} else
 #endif
  	{
 		// Setup LCD mode based of color support
 		if (ExtensionCheck(filename, ".minc")) {
 			// Remove c and load new MIN ROM
-			strcpy(tmp, filename);
+      memmove(tmp, filename, strlen(filename) + 1);
 			tmp[strlen(filename)-1] = 0;
 			if (!PokeMini_LoadMINFile(tmp)) return 0;
-			strcpy(CommandLine.min_file, tmp);
+      memmove(CommandLine.min_file, tmp, strlen(tmp) + 1);
 		} else {
 			// Load new MIN ROM
 			if (!PokeMini_LoadMINFile(filename)) return 0;
-			strcpy(CommandLine.min_file, filename);
+      memmove(CommandLine.min_file, filename, strlen(filename) + 1);
 		}
 
 		// Load Color Information
