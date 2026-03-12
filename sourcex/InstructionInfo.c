@@ -148,7 +148,7 @@ char *DebugCPUInstructions_Operand[] = {
 // %S = Signed 16-Bits
 // %j = Relative jump (8-Bits)
 // %J = Relative jump (16-Bits)
-// %EP = Interrupt
+// %i = Interrupt
 
 InstructionInfo DebugCPUInstructions_DX[8] = {
 	{0x00, 1, 0, 0, 4, 0, 0, 0},	// ".DB %u"
@@ -414,8 +414,8 @@ InstructionInfo DebugCPUInstructions_XX[256] = {
 	{0x00, 1,36, 0, 0, 0, 0, 0},	// F9 __ "RETE"
 	{0x00, 1,37, 0, 0, 0, 0, 0},	// FA __ "RETS"
 	{0x00, 3,26, 0, 5, 1, 0, 0},	// FB __ "CALL [%U]"
-	{0x00, 2,38, 0, 3, 1, 0, 0},	// FC __ "INT %EP"
-	{0x00, 2,30, 0, 3, 1, 0, 0},	// FD __ "JP [%EP]"
+	{0x00, 2,38, 0, 4, 1, 0, 0},	// FC __ "INT %u"
+	{0x00, 2,30, 0, 4, 1, 0, 0},	// FD __ "JP [%u]"
 	{0x00, 1, 0, 0, 4, 0, 0, 0},	// FE __ ".DB $FE"
 	{0x00, 1, 1, 0, 0, 0, 0, 0},	// FF __ "NOP"
 };

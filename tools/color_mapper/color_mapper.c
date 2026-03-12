@@ -955,7 +955,8 @@ int main(int argc, char **argv)
 	int i;
 
 	gtk_init (&argc, &argv);
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	PokeMini_GetCurrentDir();
 	PokeMini_GotoExecDir();
 	CustomConfFile("colormapper.cfg", CustomConf, NULL);

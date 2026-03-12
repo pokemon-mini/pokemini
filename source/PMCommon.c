@@ -435,7 +435,7 @@ char PokeMini_ExecDir[PMTMPV];	// Executable directory
 char PokeMini_CurrDir[PMTMPV];	// Current directory
 
 // Initialize directories
-void PokeMini_InitDirs(char *argv0, char *exec)
+int PokeMini_InitDirs(char *argv0, char *exec)
 {
 	// Get current directory
 	PokeMini_GetCurrentDir();
@@ -449,15 +449,21 @@ void PokeMini_InitDirs(char *argv0, char *exec)
 			ExtractPath(PokeMini_ExecDir, 1);
 		} else {
 			// Not an absolute path
+			if (strlen(PokeMini_CurrDir) + strlen(argv0) + 1 > sizeof(PokeMini_ExecDir)) {
+				return 0;
+			}
+			#pragma GCC diagnostic push
+			#pragma GCC diagnostic ignored "-Wformat-overflow"
 			if (HasLastSlash(PokeMini_CurrDir)) sprintf(PokeMini_ExecDir, "%s%s", PokeMini_CurrDir, argv0);
 			else sprintf(PokeMini_ExecDir, "%s/%s", PokeMini_CurrDir, argv0);
+			#pragma GCC diagnostic pop
 			if (exec) strcpy(exec, PokeMini_ExecDir);
 			ExtractPath(PokeMini_ExecDir, 1);
 		}
 	} else {
 		strcpy(PokeMini_ExecDir, PokeMini_CurrDir);
 	}
-
+	return 1;
 }
 
 // Get current directory and save on parameter
@@ -509,7 +515,7 @@ void PokeMini_GotoExecDir(void)
 
 #else
 
-void PokeMini_InitDirs(char *execdir) {}
+int PokeMini_InitDirs(char *execdir) {}
 void PokeMini_GetCurrentDir(void) {}
 void PokeMini_GotoCurrentDir(void) {}
 void PokeMini_GotoExecDir(void) {}

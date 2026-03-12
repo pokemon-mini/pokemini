@@ -459,7 +459,8 @@ int main(int argc, char **argv)
 
 	// Process arguments
 	printf("%s\n\n", AppName);
-	PokeMini_InitDirs("/PokeMini", NULL);
+	if (!PokeMini_InitDirs("/PokeMini", NULL))
+		return 1;
 	CommandLineInit();
 	CommandLineConfFile("pokemini.cfg", "pokemini_gc.cfg", CustomConf);
 	JoystickSetup("GC", 0, 30000, GC_KeysNames, 13, GC_KeysMapping);
