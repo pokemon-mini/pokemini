@@ -152,5 +152,4 @@ win:
 	make -f makefile.win
 
 clean:
-	-rm -f $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG)
-	-rmdir --ignore-fail-on-non-empty $(BUILD)
+	-rm -rf $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG) $(BUILD)
