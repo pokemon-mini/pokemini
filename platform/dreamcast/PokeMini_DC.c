@@ -584,7 +584,8 @@ int main(int argc, char **argv)
 
 	// Process no arguments
 	printf("%s\n\n", AppName);
-	PokeMini_InitDirs("/cd/PokeMini", NULL);
+	if (!PokeMini_InitDirs("/cd/PokeMini", NULL))
+		return 1;
 	CommandLineInit();
 	CommandLineConfFile("/ram/PokeMini.cfg", "/ram/PokeMini.cDC", CustomConf);
 	CommandLine.sound = CommandLine.sound ? 1 : 0;

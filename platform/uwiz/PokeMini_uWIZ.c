@@ -193,7 +193,8 @@ int main(int argc, char **argv)
 
 	// Process arguments
 	printf("%s\n\n", AppName);
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	CommandLineInit();
 	CommandLine.low_battery = 2;	// libuwiz can report battery status
 	CommandLineConfFile("pokemini.cfg", "pokemini_uwiz.cfg", CustomConf);

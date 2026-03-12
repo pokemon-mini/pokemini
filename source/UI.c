@@ -354,7 +354,7 @@ void UIMenu_SwapEntries(int a, int b)
 int UIMenu_ReadDir(char *dirname)
 {
 	int i, j, cmp, hasslash, isdir, items = 0;
-	char file[PMTMPV];
+	char file[PMTMPV * 2 + 2];
 
 	// Clear all cache
 	for (i=0; i<UI_MAXCACHE; i++) {
@@ -378,8 +378,8 @@ int UIMenu_ReadDir(char *dirname)
 		if (de->name[0] == '.') continue;
 		UIMenu_FileListCache[items].stats = 1;
 		strcpy(UIMenu_FileListCache[items].name, de->name);
-		if (hasslash) sprintf(file, "%s%s", dirname, de->name);
-		else sprintf(file, "%s/%s", dirname, de->name);
+		if (hasslash) sprintf(file, "%s%.255s", dirname, de->name);
+		else sprintf(file, "%s/%.255s", dirname, de->name);
 		isdir = (de->size < 0);
 		if (isdir) {
 			// Directory
@@ -420,8 +420,8 @@ int UIMenu_ReadDir(char *dirname)
 			continue;
 		} else {
 			// Current directory, file or directory
-			if (hasslash) sprintf(file, "%s%s", dirname, dirEntry->d_name);
-			else sprintf(file, "%s/%s", dirname, dirEntry->d_name);
+			if (hasslash) sprintf(file, "%s%.255s", dirname, dirEntry->d_name);
+			else sprintf(file, "%s/%.255s", dirname, dirEntry->d_name);
 			if (stat(file, &Stat) == -1) {
 				PokeDPrint(POKEMSG_ERR, "stat('%s') error\n", file);
 				continue;
@@ -470,16 +470,16 @@ int UIMenu_ReadDir(char *dirname)
 
 void UIMenu_GotoRelativeDir(char *newdir)
 {
-	char file[PMTMPV];
+	char file[PMTMPV * 2 + 2];
 	int hasslash;
 
 	hasslash = HasLastSlash(PokeMini_CurrDir);
 
 	if (newdir) {
 		if (hasslash)
-			sprintf(file, "%s%s", PokeMini_CurrDir, newdir);
+			sprintf(file, "%s%.255s", PokeMini_CurrDir, newdir);
 		else
-			sprintf(file, "%s/%s", PokeMini_CurrDir, newdir);
+			sprintf(file, "%s/%.255s", PokeMini_CurrDir, newdir);
 #ifdef FS_DC
 		chdir(file);
 #else
@@ -1251,7 +1251,7 @@ int UIMenu_Process(void)
 void UIMenu_Display_32(uint32_t *screen, int pitchW)
 {
 	int padd, i, j;
-	char text[PMTMPV];
+	char text[PMTMPV + 5];
 
 	if (UIMenu_Width >= 288) padd = 10;
 	else padd = 8; // Padding need to be small for small resolutions
@@ -1410,7 +1410,16 @@ void UIMenu_Display_16(uint16_t *screen, int pitchW)
 		UIDraw_Icon_16(screen, pitchW, 2, 20 + (UIMenu_Cur-UIMenu_MOff)*12, ((UIMenu_Ani>>2) & 3));
 
 		// Loaded ROM
-		sprintf(text, "ROM: %s", CommandLine.min_file);
+		if (strlen(CommandLine.min_file) > sizeof(text) - 6) {
+			memmove(text, "ROM: ...", 9);
+			memmove(text + 8,
+				CommandLine.min_file
+					+ strlen(CommandLine.min_file)
+					- sizeof(text) + 9,
+				sizeof(text) - 8);
+		}
+		else
+			sprintf(text, "ROM: %.122s", CommandLine.min_file);
 		text[(UIMenu_Width/padd)-1] = 0; // Avoid string going out of the screen
 		UIDraw_String_16(screen, pitchW, 2, 20 + (UIMenu_MMax+1)*12, padd, text, UI_Font1_Pal16);
 	}

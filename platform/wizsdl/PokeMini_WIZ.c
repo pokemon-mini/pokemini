@@ -193,7 +193,8 @@ int main(int argc, char **argv)
 
 	// Process arguments
 	printf("%s\n\n", AppName);
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	CommandLineInit();
 	CommandLineConfFile("pokemini.cfg", NULL, NULL);
 	if (!CommandLineArgs(argc, argv, NULL)) {

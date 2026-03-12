@@ -60,7 +60,7 @@ static gint PalEditWindow_delete_event(GtkWidget *widget, GdkEvent *event, gpoin
 
 static gboolean ColorPrev_exposure(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	uint32_t color;
 	cairo_t *cr;
 
@@ -92,7 +92,7 @@ static gboolean ColorPrev_exposure(GtkWidget *widget, GdkEventExpose *event, gpo
 
 static void ColorComp_Adj_changed(GtkAdjustment *adj, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	int r, g, b, ix, ic;
 
 	if (PalEditWindow_InConfigs) return;
@@ -112,7 +112,7 @@ static void ColorComp_Adj_changed(GtkAdjustment *adj, gpointer data)
 
 static gchar *ColorComp_formatvalue(GtkScale *scale, gdouble value, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	switch (index) {
 		case  0: return g_strdup_printf("Red: %i", (int)value);
 		case  1: return g_strdup_printf("Green: %i", (int)value);
@@ -171,14 +171,14 @@ int PalEditWindow_Create(void)
 		gtk_widget_show(GTK_WIDGET(ColorLabel[y]));
 		ColorPrev[y] = GTK_DRAWING_AREA(gtk_drawing_area_new());
 		gtk_widget_set_size_request(GTK_WIDGET(ColorPrev[y]), 32, 32);
-		g_signal_connect(GTK_WIDGET(ColorPrev[y]), "expose_event", G_CALLBACK(ColorPrev_exposure), (gpointer)y);
+		g_signal_connect(GTK_WIDGET(ColorPrev[y]), "expose_event", G_CALLBACK(ColorPrev_exposure), GINT_TO_POINTER(y));
 		gtk_table_attach(CTable, GTK_WIDGET(ColorPrev[y]), 0, 3, y*3+1, y*3+2, GTK_FILL | GTK_EXPAND, GTK_FILL, 12, 2);
 		gtk_widget_show(GTK_WIDGET(ColorPrev[y]));
 		for (x=0; x<3; x++) {
 			ColorComp_Adj[y][x] = GTK_ADJUSTMENT(gtk_adjustment_new(0.0, 0.0, 255.0, 1.0, 16.0, 0.0));
-			g_signal_connect(ColorComp_Adj[y][x], "value_changed", G_CALLBACK(ColorComp_Adj_changed), (gpointer)(y*4+x));
+			g_signal_connect(ColorComp_Adj[y][x], "value_changed", G_CALLBACK(ColorComp_Adj_changed), GINT_TO_POINTER(y*4+x));
 			ColorComp[x][y] = GTK_SCALE(gtk_hscale_new(ColorComp_Adj[y][x]));
-			g_signal_connect(ColorComp[x][y], "format-value", G_CALLBACK(ColorComp_formatvalue), (gpointer)(y*4+x));
+			g_signal_connect(ColorComp[x][y], "format-value", G_CALLBACK(ColorComp_formatvalue), GINT_TO_POINTER(y*4+x));
 			gtk_table_attach(CTable, GTK_WIDGET(ColorComp[x][y]), x, x+1, y*3+2, y*3+3, GTK_FILL | GTK_EXPAND, GTK_FILL, 12, 2);
 			gtk_widget_show(GTK_WIDGET(ColorComp[x][y]));
 		}

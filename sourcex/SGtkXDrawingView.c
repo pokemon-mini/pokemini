@@ -260,7 +260,7 @@ int sgtkx_drawing_view_new(SGtkXDrawingView *widg, int scrollbar)
 
 	// Scroll bar adjustment
 	widg->sba = GTK_ADJUSTMENT(gtk_adjustment_new(0.0, 0.0, 0.0, 1.0, 16.0, 0.0));
-	g_signal_connect(widg->sba, "value_changed", G_CALLBACK(sgtkx_drawing_view_sbachanged), (gpointer)widg);
+	g_signal_connect(widg->sba, "value_changed", G_CALLBACK(sgtkx_drawing_view_sbachanged), GINT_TO_POINTER(widg));
 	if (!widg->sba) return 0;
 	widg->sboffset = 0;
 
@@ -334,5 +334,5 @@ static gboolean sgtkx_drawing_view_repaint_NOW(gpointer user_data)
 
 void sgtkx_drawing_view_repaint_after(SGtkXDrawingView *widg, int milisec)
 {
-	g_timeout_add(milisec, sgtkx_drawing_view_repaint_NOW, (gpointer)widg);
+	g_timeout_add(milisec, sgtkx_drawing_view_repaint_NOW, GINT_TO_POINTER(widg));
 }

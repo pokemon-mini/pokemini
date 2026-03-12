@@ -576,7 +576,8 @@ int main(int argc, char **argv)
 	int AutoRun = 0;
 
 	// Get current directory
-	PokeMini_InitDirs(argv[0], argv0);
+	if(!PokeMini_InitDirs(argv[0], argv0))
+		return 1;
 
 	// Change to executable directory
 	PokeMini_GotoExecDir();

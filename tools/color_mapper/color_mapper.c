@@ -263,7 +263,7 @@ void Menu_File_SaveColor(GtkWidget *widget, gpointer data)
 void Menu_File_Export(GtkWidget *widget, gpointer data)
 {
 	int x, y, z, htiles, vtiles, vsingle;
-	int monorender = (int)data;
+	int monorender = GPOINTER_TO_INT(data);
 	cairo_surface_t *tmpimg;
 	uint32_t *ptr;
 	char tmp[256];
@@ -642,8 +642,8 @@ gboolean ComboZoom_enter(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 
 void Menu_Edit_Zoom(GtkWidget *widget, gpointer data)
 {
-	if ((int)data != Zoom) {
-		Zoom = (int)data;
+	if (GPOINTER_TO_INT(data) != Zoom) {
+		Zoom = GPOINTER_TO_INT(data);
 		gtkx_colormapper_setzoom(ColorMapper, Zoom);
 		// Update other components
 		gtk_combo_box_set_active(ComboZoom, Zoom - 1);
@@ -652,7 +652,7 @@ void Menu_Edit_Zoom(GtkWidget *widget, gpointer data)
 
 void Menu_Mark_GetMark(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	CurrAddr = MarkAddr[index];
 	gtk_adjustment_set_value(VScroll1_Adj, (double)CurrAddr);
 	gtkx_colormapper_settileoff(ColorMapper, CurrAddr);
@@ -660,7 +660,7 @@ void Menu_Mark_GetMark(GtkWidget *widget, gpointer data)
 
 void Menu_Mark_SetMark(GtkWidget *widget, gpointer data)
 {
-	int index = (int)data;
+	int index = GPOINTER_TO_INT(data);
 	MarkAddr[index] = CurrAddr;
 	if (index == 0) gtkx_colormapper_settileblendoff(ColorMapper, MarkAddr[0]);
 }
@@ -736,7 +736,7 @@ static const uint32_t TransparencyColor[16] = {
 
 void Menu_Transparency(GtkWidget *widget, gpointer data)
 {
-	int number, index = (int)data;
+	int number, index = GPOINTER_TO_INT(data);
 	static int lasttransindex = -2;
 
 	if (lasttransindex == index) return;
@@ -955,7 +955,8 @@ int main(int argc, char **argv)
 	int i;
 
 	gtk_init (&argc, &argv);
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	PokeMini_GetCurrentDir();
 	PokeMini_GotoExecDir();
 	CustomConfFile("colormapper.cfg", CustomConf, NULL);
