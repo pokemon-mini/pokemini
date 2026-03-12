@@ -770,8 +770,8 @@ int main(int argc, char **argv)
 		CPUWindow_FrameRendered();
 
 		// Handle events
-		while (SDL_PollEvent(&event)) handleevents(&event);
 		while (gtk_events_pending()) gtk_main_iteration();
+		while (SDL_PollEvent(&event)) handleevents(&event);
 
 		// calculate FPS
 		fpscnt++;
