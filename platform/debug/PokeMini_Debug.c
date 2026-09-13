@@ -926,13 +926,14 @@ int main(int argc, char **argv)
 
 			// Unlock surface
 			SDL_UnlockSurface(screen);
-			#ifdef INTEGRATE_GRAPHICS
-			#else
+			#ifndef INTEGRATE_GRAPHICS
 			SDL_Flip(screen);
 			#endif
 		}
 		// Tell gtk to redraw
+		#ifdef INTEGRATE_GRAPHICS
 		gtk_widget_queue_draw(main_drawing_area);
+		#endif
 
 		CPUWindow_FrameRendered();
 
