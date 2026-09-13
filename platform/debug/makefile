@@ -135,7 +135,10 @@ DEPENDSHDR = $(addprefix $(POKEROOT), $(DEPENDS))
 INCLUDE = $(foreach inc, $(INCDIRS), -I$(POKEROOT)$(inc))
 VPATH = $(addprefix $(POKEROOT),$(INCDIRS))
 
-.PHONY: all win clean
+.PHONY: all win clean integrated_graphics
+
+integrated_graphics: CFLAGS += -DINTEGRATE_GRAPHICS
+integrated_graphics: all
 
 all: $(BUILD) $(TARGET)
 
