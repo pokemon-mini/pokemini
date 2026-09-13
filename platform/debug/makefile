@@ -156,4 +156,4 @@ win:
 
 clean:
 	-rm -f $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG)
-	-rmdir --ignore-fail-on-non-empty $(BUILD)
+	-rm -rf $(BUILD)
