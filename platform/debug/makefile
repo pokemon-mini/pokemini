@@ -11,6 +11,10 @@ WINRES_SRC = $(POKEROOT)resource/pokemini.rc
 CFLAGS += -Wall `$(SDL_BASE)sdl-config --cflags` `pkg-config --cflags gtk+-2.0` $(INCLUDE)
 SLFLAGS += `$(SDL_BASE)sdl-config --libs` `pkg-config --libs gtk+-2.0` -lm -lz
 
+ifeq ($(INTEGRATED_GRAPHICS), 1)
+    CFLAGS += -DINTEGRATE_GRAPHICS
+endif
+
 INCDIRS = source sourcex resource freebios dependencies/minizip
 
 OBJS = \
@@ -135,10 +139,7 @@ DEPENDSHDR = $(addprefix $(POKEROOT), $(DEPENDS))
 INCLUDE = $(foreach inc, $(INCDIRS), -I$(POKEROOT)$(inc))
 VPATH = $(addprefix $(POKEROOT),$(INCDIRS))
 
-.PHONY: all win clean integrated_graphics
-
-integrated_graphics: CFLAGS += -DINTEGRATE_GRAPHICS
-integrated_graphics: all
+.PHONY: all win clean
 
 all: $(BUILD) $(TARGET)
 
