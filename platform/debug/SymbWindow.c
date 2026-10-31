@@ -375,7 +375,7 @@ int SymbItemsSaveToFile(char *filename)
 
 void SymbWindow_Reload(void)
 {
-	char tmp[PMTMPV];
+	char tmp[PMTMPV + 1];
 	if (!strlen(pmsymbfile)) SymbsModified = 0;
 	sprintf(tmp, "%c%s", (SymbsModified) ? '*' : ' ', pmsymbfile);
 	gtk_label_set_text(PMSymbFile, tmp);
@@ -718,7 +718,9 @@ static int DataView_buttonpress(SGtkXDrawingView *widg, int button, int press, i
 		}
 		SymbView_NewValue_CD[3].number = PMD_TrapPoints[item->addr] & TRAPPOINT_WATCHREAD;
 		SymbView_NewValue_CD[4].number = PMD_TrapPoints[item->addr] & TRAPPOINT_WATCHWRITE;
-		sprintf(SymbView_NewValue_CD[0].text, "Set new value for $%04X (%s):", item->addr, item->name);
+		char tmp[128 - 31 + 1];
+		strncpy(tmp, item->name, 128 - 31);
+		sprintf(SymbView_NewValue_CD[0].text, "Set new value for $%04X (%s):", item->addr, tmp);
 		result = CustomDialog(SymbWindow, "Change memory", SymbView_NewValue_CD);
 		if (result == 1) {
 			val = atoi_Ex(SymbView_NewValue_CD[1].text, 0);
@@ -960,7 +962,7 @@ static void SymbW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void SymbW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -993,46 +995,46 @@ static gboolean SymbWindow_state_event(GtkWidget *widget, GdkEventWindowState *e
 static GtkItemFactoryEntry SymbWindow_MenuItems[] = {
 
 	{ "/_File",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/File/_Import sym...",                "<CTRL>I",      SymbW_ImportSym,          0, "<Item>" },
-	{ "/File/_Load pmsymbols...",            "<CTRL>L",      SymbW_LoadPMSymbols,      0, "<Item>" },
-	{ "/File/_Save pmsymbols",               "<CTRL>S",      SymbW_SavePMSymbols,      0, "<Item>" },
-	{ "/File/S_ave pmsymbols as...",         "<CTRL><ALT>S", SymbW_SaveAsPMSymbols,    0, "<Item>" },
+	{ "/File/_Import sym...",                "<CTRL>I",      (GtkItemFactoryCallback)SymbW_ImportSym,          0, "<Item>" },
+	{ "/File/_Load pmsymbols...",            "<CTRL>L",      (GtkItemFactoryCallback)SymbW_LoadPMSymbols,      0, "<Item>" },
+	{ "/File/_Save pmsymbols",               "<CTRL>S",      (GtkItemFactoryCallback)SymbW_SavePMSymbols,      0, "<Item>" },
+	{ "/File/S_ave pmsymbols as...",         "<CTRL><ALT>S", (GtkItemFactoryCallback)SymbW_SaveAsPMSymbols,    0, "<Item>" },
 	{ "/File/sep1",                          NULL,           NULL,                     0, "<Separator>" },
-	{ "/File/Auto read .sym",                NULL,           SymbW_AutoReadSym,        0, "<CheckItem>" },
-	{ "/File/Auto rw .pmsymbols",            NULL,           SymbW_AutoRWPMSym,        0, "<CheckItem>" },
+	{ "/File/Auto read .sym",                NULL,           (GtkItemFactoryCallback)SymbW_AutoReadSym,        0, "<CheckItem>" },
+	{ "/File/Auto rw .pmsymbols",            NULL,           (GtkItemFactoryCallback)SymbW_AutoRWPMSym,        0, "<CheckItem>" },
 
 	{ "/_Symbols",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Symbols/Add code symbol...",         "<CTRL>C",      SymbW_AddSetCode,         0, "<Item>" },
-	{ "/Symbols/Add data symbol...",         "<CTRL>D",      SymbW_AddSetData,         0, "<Item>" },
+	{ "/Symbols/Add code symbol...",         "<CTRL>C",      (GtkItemFactoryCallback)SymbW_AddSetCode,         0, "<Item>" },
+	{ "/Symbols/Add data symbol...",         "<CTRL>D",      (GtkItemFactoryCallback)SymbW_AddSetData,         0, "<Item>" },
 	{ "/Symbols/sep1",                       NULL,           NULL,                     0, "<Separator>" },
 	{ "/Symbols/Clear all",                  NULL,           NULL,                     0, "<Branch>" },
-	{ "/Symbols/Clear all/Code symbols",     NULL,           SymbW_ClrAllCode,         0, "<Item>" },
-	{ "/Symbols/Clear all/Data symbols",     NULL,           SymbW_ClrAllData,         0, "<Item>" },
-	{ "/Symbols/Clear all/Code and data",    NULL,           SymbW_ClrAll,             0, "<Item>" },
+	{ "/Symbols/Clear all/Code symbols",     NULL,           (GtkItemFactoryCallback)SymbW_ClrAllCode,         0, "<Item>" },
+	{ "/Symbols/Clear all/Data symbols",     NULL,           (GtkItemFactoryCallback)SymbW_ClrAllData,         0, "<Item>" },
+	{ "/Symbols/Clear all/Code and data",    NULL,           (GtkItemFactoryCallback)SymbW_ClrAll,             0, "<Item>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           SymbW_RefreshNow,         0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)SymbW_RefreshNow,         0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           SymbW_Refresh,            0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           SymbW_Refresh,            1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           SymbW_Refresh,            2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           SymbW_Refresh,            3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           SymbW_Refresh,            5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           SymbW_Refresh,            7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           SymbW_Refresh,           11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           SymbW_Refresh,           35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           SymbW_Refresh,           71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           SymbW_Refresh,           -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,            7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,           11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,           35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)SymbW_Refresh,           71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)SymbW_Refresh,           -1, "/Refresh/100% 72fps" },
 };
 static gint SymbWindow_MenuItemsNum = sizeof(SymbWindow_MenuItems) / sizeof(*SymbWindow_MenuItems);
 

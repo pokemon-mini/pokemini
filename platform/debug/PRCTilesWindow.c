@@ -473,13 +473,13 @@ static void PRCTilesW_Negative(GtkWidget *widget, gpointer data)
 static void PRCTilesW_Zoom(GtkWidget *widget, gpointer data)
 {
 	if (PRCTilesWindow_InConfigs) return;
-	dclc_zoom_prctiles = (int)data;
+	dclc_zoom_prctiles = GPOINTER_TO_INT(data);
 	PRCTilesWindow_Refresh(1);
 }
 
 static void PRCTilesW_Transparency(GtkWidget *widget, gpointer data)
 {
-	int number, index = (int)data;
+	int number, index = GPOINTER_TO_INT(data);
 	static int lasttransindex = -2;
 
 	if (lasttransindex == index) return;
@@ -537,7 +537,7 @@ static void PRCTilesW_Goto_SpriteTB(GtkWidget *widget, gpointer data)
 
 static void PRCTilesW_Follow(GtkWidget *widget, gpointer data)
 {
-	Follow = (int)data;
+	Follow = GPOINTER_TO_INT(data);
 	PRCTilesWindow_Refresh(1);
 }
 
@@ -548,7 +548,7 @@ static void PRCTilesW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void PRCTilesW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefreshindex = -2;
 
 	if (lastrefreshindex == index) return;
@@ -580,72 +580,72 @@ static gboolean PRCTilesWindow_state_event(GtkWidget *widget, GdkEventWindowStat
 
 static GtkItemFactoryEntry PRCTilesWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Sprite Mode",                   NULL,           PRCTilesW_SpriteMode,     0, "<CheckItem>" },
-	{ "/View/Show Grid",                     NULL,           PRCTilesW_ShowGrid,       0, "<CheckItem>" },
-	{ "/View/Show Negative",                 NULL,           PRCTilesW_Negative,       0, "<CheckItem>" },
+	{ "/View/Sprite Mode",                   NULL,           (GtkItemFactoryCallback)PRCTilesW_SpriteMode,     0, "<CheckItem>" },
+	{ "/View/Show Grid",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_ShowGrid,       0, "<CheckItem>" },
+	{ "/View/Show Negative",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Negative,       0, "<CheckItem>" },
 	{ "/View/Zoom",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Zoom/100%",                     NULL,           PRCTilesW_Zoom,           1, "<RadioItem>" },
-	{ "/View/Zoom/200%",                     NULL,           PRCTilesW_Zoom,           2, "/View/Zoom/100%" },
-	{ "/View/Zoom/300%",                     NULL,           PRCTilesW_Zoom,           3, "/View/Zoom/100%" },
-	{ "/View/Zoom/400%",                     NULL,           PRCTilesW_Zoom,           4, "/View/Zoom/100%" },
-	{ "/View/Zoom/500%",                     NULL,           PRCTilesW_Zoom,           5, "/View/Zoom/100%" },
-	{ "/View/Zoom/600%",                     NULL,           PRCTilesW_Zoom,           6, "/View/Zoom/100%" },
-	{ "/View/Zoom/700%",                     NULL,           PRCTilesW_Zoom,           7, "/View/Zoom/100%" },
-	{ "/View/Zoom/800%",                     NULL,           PRCTilesW_Zoom,           8, "/View/Zoom/100%" },
+	{ "/View/Zoom/100%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           1, "<RadioItem>" },
+	{ "/View/Zoom/200%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           2, "/View/Zoom/100%" },
+	{ "/View/Zoom/300%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           3, "/View/Zoom/100%" },
+	{ "/View/Zoom/400%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           4, "/View/Zoom/100%" },
+	{ "/View/Zoom/500%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           5, "/View/Zoom/100%" },
+	{ "/View/Zoom/600%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           6, "/View/Zoom/100%" },
+	{ "/View/Zoom/700%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           7, "/View/Zoom/100%" },
+	{ "/View/Zoom/800%",                     NULL,           (GtkItemFactoryCallback)PRCTilesW_Zoom,           8, "/View/Zoom/100%" },
 	{ "/View/Transparency",                  NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Transparency/Pink",             NULL,           PRCTilesW_Transparency,   0, "<RadioItem>" },
-	{ "/View/Transparency/Red",              NULL,           PRCTilesW_Transparency,   1, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Green",            NULL,           PRCTilesW_Transparency,   2, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Blue",             NULL,           PRCTilesW_Transparency,   3, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Yellow",           NULL,           PRCTilesW_Transparency,   4, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Orange",           NULL,           PRCTilesW_Transparency,   5, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Purple",           NULL,           PRCTilesW_Transparency,   6, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Red",       NULL,           PRCTilesW_Transparency,   7, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Green",     NULL,           PRCTilesW_Transparency,   8, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Blue",      NULL,           PRCTilesW_Transparency,   9, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Bright Yellow",    NULL,           PRCTilesW_Transparency,  10, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Cyan",             NULL,           PRCTilesW_Transparency,  11, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Black",            NULL,           PRCTilesW_Transparency,  12, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Grey",             NULL,           PRCTilesW_Transparency,  13, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Silver",           NULL,           PRCTilesW_Transparency,  14, "/View/Transparency/Pink" },
-	{ "/View/Transparency/White",            NULL,           PRCTilesW_Transparency,  15, "/View/Transparency/Pink" },
-	{ "/View/Transparency/Custom",           NULL,           PRCTilesW_Transparency,  -1, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Pink",             NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   0, "<RadioItem>" },
+	{ "/View/Transparency/Red",              NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   1, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Green",            NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   2, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Blue",             NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   3, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Yellow",           NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   4, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Orange",           NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   5, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Purple",           NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   6, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Red",       NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   7, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Green",     NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   8, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Blue",      NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,   9, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Bright Yellow",    NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  10, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Cyan",             NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  11, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Black",            NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  12, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Grey",             NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  13, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Silver",           NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  14, "/View/Transparency/Pink" },
+	{ "/View/Transparency/White",            NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  15, "/View/Transparency/Pink" },
+	{ "/View/Transparency/Custom",           NULL,           (GtkItemFactoryCallback)PRCTilesW_Transparency,  -1, "/View/Transparency/Pink" },
 
 	{ "/_Go to",                             NULL,           NULL,                     0, "<Branch>" },
-	{ "/Go to/_Address...",                  "<SHIFT>G",     PRCTilesW_Goto_Address,   0, "<Item>" },
-	{ "/Go to/_Tile...",                     "<CTRL>T",      PRCTilesW_Goto_Tile,      0, "<Item>" },
-	{ "/Go to/_Framebuffer Base",            "<SHIFT>F",     PRCTilesW_Goto_FrameTB,   0, "<Item>" },
-	{ "/Go to/_Map Tile Base",               "<SHIFT>M",     PRCTilesW_Goto_MapTB,     0, "<Item>" },
-	{ "/Go to/_Sprite Tile Base",            "<SHIFT>S",     PRCTilesW_Goto_SpriteTB,  0, "<Item>" },
+	{ "/Go to/_Address...",                  "<SHIFT>G",     (GtkItemFactoryCallback)PRCTilesW_Goto_Address,   0, "<Item>" },
+	{ "/Go to/_Tile...",                     "<CTRL>T",      (GtkItemFactoryCallback)PRCTilesW_Goto_Tile,      0, "<Item>" },
+	{ "/Go to/_Framebuffer Base",            "<SHIFT>F",     (GtkItemFactoryCallback)PRCTilesW_Goto_FrameTB,   0, "<Item>" },
+	{ "/Go to/_Map Tile Base",               "<SHIFT>M",     (GtkItemFactoryCallback)PRCTilesW_Goto_MapTB,     0, "<Item>" },
+	{ "/Go to/_Sprite Tile Base",            "<SHIFT>S",     (GtkItemFactoryCallback)PRCTilesW_Goto_SpriteTB,  0, "<Item>" },
 
 	{ "/_Follow",                            NULL,           NULL,                     0, "<Branch>" },
-	{ "/Follow/Don't follow",                NULL,           PRCTilesW_Follow,         0, "<RadioItem>" },
-	{ "/Follow/Follow Map Tile Base",        NULL,           PRCTilesW_Follow,         1, "/Follow/Don't follow" },
-	{ "/Follow/Follow Sprite Tile Base",     NULL,           PRCTilesW_Follow,         2, "/Follow/Don't follow" },
+	{ "/Follow/Don't follow",                NULL,           (GtkItemFactoryCallback)PRCTilesW_Follow,         0, "<RadioItem>" },
+	{ "/Follow/Follow Map Tile Base",        NULL,           (GtkItemFactoryCallback)PRCTilesW_Follow,         1, "/Follow/Don't follow" },
+	{ "/Follow/Follow Sprite Tile Base",     NULL,           (GtkItemFactoryCallback)PRCTilesW_Follow,         2, "/Follow/Don't follow" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           PRCTilesW_RefreshNow,     0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)PRCTilesW_RefreshNow,     0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           PRCTilesW_Refresh,        0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           PRCTilesW_Refresh,        1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           PRCTilesW_Refresh,        2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           PRCTilesW_Refresh,        3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           PRCTilesW_Refresh,        5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           PRCTilesW_Refresh,        7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           PRCTilesW_Refresh,       11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           PRCTilesW_Refresh,       35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           PRCTilesW_Refresh,       71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           PRCTilesW_Refresh,       -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,        7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,       11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,       35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,       71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)PRCTilesW_Refresh,       -1, "/Refresh/100% 72fps" },
 };
 static gint PRCTilesWindow_MenuItemsNum = sizeof(PRCTilesWindow_MenuItems) / sizeof(*PRCTilesWindow_MenuItems);
 

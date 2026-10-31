@@ -148,7 +148,7 @@ static void IRQWindow_Render(int force)
 static void ComboPri_changed(GtkComboBox *widget, gpointer data)
 {
 	if (IRQWindow_InConfigs) return;
-	switch((int)data) {
+	switch(GPOINTER_TO_INT(data)) {
 		case 0: PMR_IRQ_PRI1 &= ~0xC0;
 			PMR_IRQ_PRI1 |= gtk_combo_box_get_active(ComboPri[0]) << 6;
 			break;
@@ -185,7 +185,7 @@ static void CheckEna_toggled(GtkToggleButton *togglebutton, gpointer data)
 {
 	uint8_t regn, mask;
 	if (IRQWindow_InConfigs) return;
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case  0: regn = 1; mask = 0x80; break;
 		case  1: regn = 1; mask = 0x40; break;
 		case  2: regn = 1; mask = 0x20; break;
@@ -238,7 +238,7 @@ static void CheckAct_toggled(GtkToggleButton *togglebutton, gpointer data)
 {
 	uint8_t regn, mask;
 	if (IRQWindow_InConfigs) return;
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case  0: regn = 1; mask = 0x80; break;
 		case  1: regn = 1; mask = 0x40; break;
 		case  2: regn = 1; mask = 0x20; break;
@@ -351,7 +351,7 @@ static void IRQW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void IRQW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -383,35 +383,35 @@ static gboolean IRQWindow_state_event(GtkWidget *widget, GdkEventWindowState *ev
 
 static GtkItemFactoryEntry IRQWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/IRQ Priority",                  NULL,           IRQW_View_Priority,       0, "<CheckItem>" },
-	{ "/View/IRQ Enable",                    NULL,           IRQW_View_Enable,         0, "<CheckItem>" },
-	{ "/View/IRQ Active",                    NULL,           IRQW_View_Active,         0, "<CheckItem>" },
+	{ "/View/IRQ Priority",                  NULL,           (GtkItemFactoryCallback)IRQW_View_Priority,       0, "<CheckItem>" },
+	{ "/View/IRQ Enable",                    NULL,           (GtkItemFactoryCallback)IRQW_View_Enable,         0, "<CheckItem>" },
+	{ "/View/IRQ Active",                    NULL,           (GtkItemFactoryCallback)IRQW_View_Active,         0, "<CheckItem>" },
 	{ "/View/sep1",                          NULL,           NULL,                     0, "<Separator>" },
-	{ "/View/Frames in single-row",          NULL,           IRQW_View_Frame1Row,      0, "<CheckItem>" },
+	{ "/View/Frames in single-row",          NULL,           (GtkItemFactoryCallback)IRQW_View_Frame1Row,      0, "<CheckItem>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           IRQW_RefreshNow,          0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)IRQW_RefreshNow,          0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           IRQW_Refresh,             0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           IRQW_Refresh,             1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           IRQW_Refresh,             2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           IRQW_Refresh,             3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           IRQW_Refresh,             5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           IRQW_Refresh,             7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           IRQW_Refresh,            11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           IRQW_Refresh,            35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           IRQW_Refresh,            71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           IRQW_Refresh,            -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,             7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,            11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,            35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)IRQW_Refresh,            71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)IRQW_Refresh,            -1, "/Refresh/100% 72fps" },
 };
 static gint IRQWindow_MenuItemsNum = sizeof(IRQWindow_MenuItems) / sizeof(*IRQWindow_MenuItems);
 
@@ -520,7 +520,7 @@ int IRQWindow_Create(void)
 		gtk_table_attach(TablePri, GTK_WIDGET(LabelsPri[i]), 0, 1, i, i+1, GTK_FILL, GTK_FILL, 2, 2);
 		gtk_widget_show(GTK_WIDGET(LabelsPri[i]));
 		ComboPri[i] = GTK_COMBO_BOX(gtk_combo_box_new_text());
-		g_signal_connect(ComboPri[i], "changed", G_CALLBACK(ComboPri_changed), (gpointer)i);
+		g_signal_connect(ComboPri[i], "changed", G_CALLBACK(ComboPri_changed), GINT_TO_POINTER(i));
 		LoadPriOnCombo(ComboPri[i]);
 		gtk_table_attach(TablePri, GTK_WIDGET(ComboPri[i]), 1, 2, i, i+1, GTK_FILL | GTK_EXPAND, GTK_FILL, 2, 2);
 		gtk_widget_show(GTK_WIDGET(ComboPri[i]));
@@ -535,7 +535,7 @@ int IRQWindow_Create(void)
 	gtk_widget_show(GTK_WIDGET(VBoxEna));
 	for (i=0; i<27; i++) {
 		CheckEna[i] = GTK_TOGGLE_BUTTON(gtk_check_button_new_with_label(IRQEnaAct_Txt[i]));
-		g_signal_connect(CheckEna[i], "toggled", G_CALLBACK(CheckEna_toggled), (gpointer)i);
+		g_signal_connect(CheckEna[i], "toggled", G_CALLBACK(CheckEna_toggled), GINT_TO_POINTER(i));
 		gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(CheckEna[i]), TRUE);
 		gtk_box_pack_start(VBoxEna, GTK_WIDGET(CheckEna[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(CheckEna[i]));
@@ -550,7 +550,7 @@ int IRQWindow_Create(void)
 	gtk_widget_show(GTK_WIDGET(VBoxAct));
 	for (i=0; i<27; i++) {
 		CheckAct[i] = GTK_TOGGLE_BUTTON(gtk_check_button_new_with_label(IRQEnaAct_Txt[i]));
-		g_signal_connect(CheckAct[i], "toggled", G_CALLBACK(CheckAct_toggled), (gpointer)i);
+		g_signal_connect(CheckAct[i], "toggled", G_CALLBACK(CheckAct_toggled), GINT_TO_POINTER(i));
 		gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(CheckAct[i]), TRUE);
 		gtk_box_pack_start(VBoxAct, GTK_WIDGET(CheckAct[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(CheckAct[i]));

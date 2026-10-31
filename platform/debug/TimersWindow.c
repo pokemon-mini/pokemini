@@ -416,7 +416,7 @@ static void TimersW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void TimersW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -448,35 +448,35 @@ static gboolean TimersWindow_state_event(GtkWidget *widget, GdkEventWindowState 
 
 static GtkItemFactoryEntry TimersWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Oscillators",                   NULL,           TimersW_View_Osc,         0, "<CheckItem>" },
-	{ "/View/Fixed Timers",                  NULL,           TimersW_View_TmrF,        0, "<CheckItem>" },
-	{ "/View/Timer 1",                       NULL,           TimersW_View_Tmr1,        0, "<CheckItem>" },
-	{ "/View/Timer 2",                       NULL,           TimersW_View_Tmr2,        0, "<CheckItem>" },
-	{ "/View/Timer 3 + Sound",               NULL,           TimersW_View_Tmr3,        0, "<CheckItem>" },
+	{ "/View/Oscillators",                   NULL,           (GtkItemFactoryCallback)TimersW_View_Osc,         0, "<CheckItem>" },
+	{ "/View/Fixed Timers",                  NULL,           (GtkItemFactoryCallback)TimersW_View_TmrF,        0, "<CheckItem>" },
+	{ "/View/Timer 1",                       NULL,           (GtkItemFactoryCallback)TimersW_View_Tmr1,        0, "<CheckItem>" },
+	{ "/View/Timer 2",                       NULL,           (GtkItemFactoryCallback)TimersW_View_Tmr2,        0, "<CheckItem>" },
+	{ "/View/Timer 3 + Sound",               NULL,           (GtkItemFactoryCallback)TimersW_View_Tmr3,        0, "<CheckItem>" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           TimersW_RefreshNow,       0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)TimersW_RefreshNow,       0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           TimersW_Refresh,          0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           TimersW_Refresh,          1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           TimersW_Refresh,          2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           TimersW_Refresh,          3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           TimersW_Refresh,          5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           TimersW_Refresh,          7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           TimersW_Refresh,         11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           TimersW_Refresh,         35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           TimersW_Refresh,         71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           TimersW_Refresh,         -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,          7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,         11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,         35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)TimersW_Refresh,         71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)TimersW_Refresh,         -1, "/Refresh/100% 72fps" },
 };
 static gint TimersWindow_MenuItemsNum = sizeof(TimersWindow_MenuItems) / sizeof(*TimersWindow_MenuItems);
 

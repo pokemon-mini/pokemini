@@ -40,7 +40,7 @@ void HelpLaunchURL(const char *url)
 
 void HelpLaunchDoc(const char *sid)
 {
-	char tmp[PMTMPV];
+	char tmp[7 + PMTMPV + 5 + strlen(sid) + 5];
 #ifdef _WIN32
 	sprintf(tmp, "%s\\doc\\%s.html", PokeMini_ExecDir, sid);
 	ShellExecuteA(NULL, "open", tmp, "", NULL, SW_SHOWNORMAL);

@@ -79,10 +79,10 @@ void StackView_GotoSP(void);
 void RAMView_GotoAddr(uint32_t addr, int highlight);
 
 // Disassembler with color codes
-TSOpcDec CDisAsm_SOpcDec;
+extern TSOpcDec CDisAsm_SOpcDec;
 
 // Any view trap colors
-uint32_t AnyView_TrapColor[8];
+extern uint32_t AnyView_TrapColor[8];
 
 // Any view new value custom dialog
 extern GtkXCustomDialog AnyView_NewValue_CD[];

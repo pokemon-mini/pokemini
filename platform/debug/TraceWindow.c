@@ -87,7 +87,7 @@ static void TraceWindow_Render(void)
 static void TmrEna_toggled(GtkToggleButton *togglebutton, gpointer data)
 {
 	if (TraceWindow_InConfigs) return;
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case 0: CYCTmr1Ena = gtk_toggle_button_get_active(togglebutton); break;
 		case 1: CYCTmr2Ena = gtk_toggle_button_get_active(togglebutton); break;
 		case 2: CYCTmr3Ena = gtk_toggle_button_get_active(togglebutton); break;
@@ -96,7 +96,7 @@ static void TmrEna_toggled(GtkToggleButton *togglebutton, gpointer data)
 
 static void TmrClear_clicked(GtkWidget *widget, gpointer data)
 {
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case 0: CYCTmr1Cnt = 0; break;
 		case 1: CYCTmr2Cnt = 0; break;
 		case 2: CYCTmr3Cnt = 0; break;
@@ -108,7 +108,7 @@ static void TmrClipCopy_clicked(GtkWidget *widget, gpointer data)
 {
 	char txt[PMTMPV];
 	txt[0] = 0;
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case 0: sprintf(txt, "%i", CYCTmr1Cnt); break;
 		case 1: sprintf(txt, "%i", CYCTmr2Cnt); break;
 		case 2: sprintf(txt, "%i", CYCTmr3Cnt); break;
@@ -121,7 +121,7 @@ static void TmrClipPaste_clicked(GtkWidget *widget, gpointer data)
 {
 	gchar *clip = gtk_clipboard_wait_for_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD));
 	if (clip == NULL) return;
-	switch ((int)data) {
+	switch (GPOINTER_TO_INT(data)) {
 		case 0: CYCTmr1Cnt = atoi(clip); break;
 		case 1: CYCTmr2Cnt = atoi(clip); break;
 		case 2: CYCTmr3Cnt = atoi(clip); break;
@@ -254,7 +254,7 @@ static void TraceW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void TraceW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -287,28 +287,28 @@ static gboolean TraceWindow_state_event(GtkWidget *widget, GdkEventWindowState *
 static GtkItemFactoryEntry TraceWindow_MenuItems[] = {
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           TraceW_RefreshNow,        0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)TraceW_RefreshNow,        0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           TraceW_Refresh,           0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           TraceW_Refresh,           1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           TraceW_Refresh,           2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           TraceW_Refresh,           3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           TraceW_Refresh,           5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           TraceW_Refresh,           7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           TraceW_Refresh,          11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           TraceW_Refresh,          35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           TraceW_Refresh,          71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           TraceW_Refresh,          -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,           7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,          11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,          35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)TraceW_Refresh,          71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)TraceW_Refresh,          -1, "/Refresh/100% 72fps" },
 };
 static gint TraceWindow_MenuItemsNum = sizeof(TraceWindow_MenuItems) / sizeof(*TraceWindow_MenuItems);
 
@@ -383,26 +383,26 @@ int TraceWindow_Create(void)
 
 		// Enable checkbox
 		TmrEna[i] = GTK_TOGGLE_BUTTON(gtk_check_button_new_with_label("Enable"));
-		g_signal_connect(TmrEna[i], "toggled", G_CALLBACK(TmrEna_toggled), (gpointer)i);
+		g_signal_connect(TmrEna[i], "toggled", G_CALLBACK(TmrEna_toggled), GINT_TO_POINTER(i));
 		gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(TmrEna[i]), TRUE);
 		gtk_box_pack_start(VBox2[i], GTK_WIDGET(TmrEna[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(TmrEna[i]));
 
 		// Timer clear button
 		TmrClear[i] = GTK_BUTTON(gtk_button_new_with_label("Clear"));
-		g_signal_connect(TmrClear[i], "clicked", G_CALLBACK(TmrClear_clicked), (gpointer)i);
+		g_signal_connect(TmrClear[i], "clicked", G_CALLBACK(TmrClear_clicked), GINT_TO_POINTER(i));
 		gtk_box_pack_start(VBox2[i], GTK_WIDGET(TmrClear[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(TmrClear[i]));
 
 		// Timer clipboard copy button
 		TmrClipCopy[i] = GTK_BUTTON(gtk_button_new_with_label("Copy"));
-		g_signal_connect(TmrClipCopy[i], "clicked", G_CALLBACK(TmrClipCopy_clicked), (gpointer)i);
+		g_signal_connect(TmrClipCopy[i], "clicked", G_CALLBACK(TmrClipCopy_clicked), GINT_TO_POINTER(i));
 		gtk_box_pack_start(VBox2[i], GTK_WIDGET(TmrClipCopy[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(TmrClipCopy[i]));
 
 		// Timer clipboard copy button
 		TmrClipPaste[i] = GTK_BUTTON(gtk_button_new_with_label("Paste"));
-		g_signal_connect(TmrClipPaste[i], "clicked", G_CALLBACK(TmrClipPaste_clicked), (gpointer)i);
+		g_signal_connect(TmrClipPaste[i], "clicked", G_CALLBACK(TmrClipPaste_clicked), GINT_TO_POINTER(i));
 		gtk_box_pack_start(VBox2[i], GTK_WIDGET(TmrClipPaste[i]), FALSE, TRUE, 0);
 		gtk_widget_show(GTK_WIDGET(TmrClipPaste[i]));
 	}

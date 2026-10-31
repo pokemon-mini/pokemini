@@ -89,7 +89,7 @@ static int RunCmdNoWait(const char *runcmd, int atcurrdir)
 
 #ifdef _WIN32
 	// Shell execute
-	res = (int)ShellExecute(NULL, "open", argv[0], argpars, launchdir, SW_SHOW) > 32;
+	res = (INT_PTR)ShellExecute(NULL, "open", argv[0], argpars, launchdir, SW_SHOW) > 32;
 #else
 	// Fork and execute
 	i = fork();

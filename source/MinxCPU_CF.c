@@ -36,10 +36,10 @@ int MinxCPU_ExecCF(void)
 		case 0x01: // ADD BA, HL
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x02: // ADD BA, X
+		case 0x02: // ADD BA, IX
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x03: // ADD BA, Y
+		case 0x03: // ADD BA, IY
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -49,10 +49,10 @@ int MinxCPU_ExecCF(void)
 		case 0x05: // ADC BA, HL
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x06: // ADC BA, X
+		case 0x06: // ADC BA, IX
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x07: // ADC BA, Y
+		case 0x07: // ADC BA, IY
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -62,10 +62,10 @@ int MinxCPU_ExecCF(void)
 		case 0x09: // SUB BA, HL
 			MinxCPU.BA.W.L = SUB16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x0A: // SUB BA, X
+		case 0x0A: // SUB BA, IX
 			MinxCPU.BA.W.L = SUB16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x0B: // SUB BA, Y
+		case 0x0B: // SUB BA, IY
 			MinxCPU.BA.W.L = SUB16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -75,10 +75,10 @@ int MinxCPU_ExecCF(void)
 		case 0x0D: // SBC BA, HL
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x0E: // SBC BA, X
+		case 0x0E: // SBC BA, IX
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x0F: // SBC BA, Y
+		case 0x0F: // SBC BA, IY
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -88,10 +88,10 @@ int MinxCPU_ExecCF(void)
 		case 0x11: // *ADD BA, HL
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x12: // *ADD BA, X
+		case 0x12: // *ADD BA, IX
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x13: // *ADD BA, Y
+		case 0x13: // *ADD BA, IY
 			MinxCPU.BA.W.L = ADD16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -101,23 +101,23 @@ int MinxCPU_ExecCF(void)
 		case 0x15: // *ADC BA, HL
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x16: // *ADC BA, X
+		case 0x16: // *ADC BA, IX
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x17: // *ADC BA, Y
+		case 0x17: // *ADC BA, IY
 			MinxCPU.BA.W.L = ADC16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
-		case 0x18: // CMP BA, BA
+		case 0x18: // CP BA, BA
 			SUB16(MinxCPU.BA.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x19: // CMP BA, HL
+		case 0x19: // CP BA, HL
 			SUB16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x1A: // CMP BA, X
+		case 0x1A: // CP BA, IX
 			SUB16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x1B: // CMP BA, Y
+		case 0x1B: // CP BA, IY
 			SUB16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -127,10 +127,10 @@ int MinxCPU_ExecCF(void)
 		case 0x1D: // *SBC BA, HL
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x1E: // *SBC BA, X
+		case 0x1E: // *SBC BA, IX
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x1F: // *SBC BA, Y
+		case 0x1F: // *SBC BA, IY
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -140,10 +140,10 @@ int MinxCPU_ExecCF(void)
 		case 0x21: // ADD HL, HL
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x22: // ADD HL, X
+		case 0x22: // ADD HL, IX
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x23: // ADD HL, Y
+		case 0x23: // ADD HL, IY
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -153,10 +153,10 @@ int MinxCPU_ExecCF(void)
 		case 0x25: // ADC HL, HL
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x26: // ADC HL, X
+		case 0x26: // ADC HL, IX
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x27: // ADC HL, Y
+		case 0x27: // ADC HL, IY
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -166,10 +166,10 @@ int MinxCPU_ExecCF(void)
 		case 0x29: // SUB HL, HL
 			MinxCPU.HL.W.L = SUB16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x2A: // SUB HL, X
+		case 0x2A: // SUB HL, IX
 			MinxCPU.HL.W.L = SUB16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x2B: // SUB HL, Y
+		case 0x2B: // SUB HL, IY
 			MinxCPU.HL.W.L = SUB16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -179,10 +179,10 @@ int MinxCPU_ExecCF(void)
 		case 0x2D: // SBC HL, HL
 			MinxCPU.HL.W.L = SBC16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x2E: // SBC HL, X
+		case 0x2E: // SBC HL, IX
 			MinxCPU.HL.W.L = SBC16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x2F: // SBC HL, Y
+		case 0x2F: // SBC HL, IY
 			MinxCPU.HL.W.L = SBC16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -192,10 +192,10 @@ int MinxCPU_ExecCF(void)
 		case 0x31: // *ADD BA, HL
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x32: // *ADD BA, X
+		case 0x32: // *ADD BA, IX
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x33: // *ADD BA, Y
+		case 0x33: // *ADD BA, IY
 			MinxCPU.HL.W.L = ADD16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -205,23 +205,23 @@ int MinxCPU_ExecCF(void)
 		case 0x35: // *ADC HL, HL
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x36: // *ADC HL, X
+		case 0x36: // *ADC HL, IX
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x37: // *ADC HL, Y
+		case 0x37: // *ADC HL, IY
 			MinxCPU.HL.W.L = ADC16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
-		case 0x38: // CMP HL, BA
+		case 0x38: // CP HL, BA
 			SUB16(MinxCPU.HL.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x39: // CMP HL, HL
+		case 0x39: // CP HL, HL
 			SUB16(MinxCPU.HL.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x3A: // CMP HL, X
+		case 0x3A: // CP HL, IX
 			SUB16(MinxCPU.HL.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x3B: // CMP HL, Y
+		case 0x3B: // CP HL, IY
 			SUB16(MinxCPU.HL.W.L, MinxCPU.Y.W.L);
 			return 16;
 
@@ -231,23 +231,23 @@ int MinxCPU_ExecCF(void)
 		case 0x3D: // *SBC BA, HL
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x3E: // *SBC BA, X
+		case 0x3E: // *SBC BA, IX
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.X.W.L);
 			return 16;
-		case 0x3F: // *SBC BA, Y
+		case 0x3F: // *SBC BA, IY
 			MinxCPU.BA.W.L = SBC16(MinxCPU.BA.W.L, MinxCPU.Y.W.L);
 			return 16;
 
-		case 0x40: // ADD X, BA
+		case 0x40: // ADD IX, BA
 			MinxCPU.X.W.L = ADD16(MinxCPU.X.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x41: // ADD X, HL
+		case 0x41: // ADD IX, HL
 			MinxCPU.X.W.L = ADD16(MinxCPU.X.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x42: // ADD Y, BA
+		case 0x42: // ADD IY, BA
 			MinxCPU.Y.W.L = ADD16(MinxCPU.Y.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x43: // ADD Y, HL
+		case 0x43: // ADD IY, HL
 			MinxCPU.Y.W.L = ADD16(MinxCPU.Y.W.L, MinxCPU.HL.W.L);
 			return 16;
 		case 0x44: // ADD SP, BA
@@ -263,16 +263,16 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_CRASH_INSTRUCTION, 0x47CF);
 			return 16;
 
-		case 0x48: // SUB X, BA
+		case 0x48: // SUB IX, BA
 			MinxCPU.X.W.L = SUB16(MinxCPU.X.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x49: // SUB X, HL
+		case 0x49: // SUB IX, HL
 			MinxCPU.X.W.L = SUB16(MinxCPU.X.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x4A: // SUB Y, BA
+		case 0x4A: // SUB IY, BA
 			MinxCPU.Y.W.L = SUB16(MinxCPU.Y.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x4B: // SUB Y, HL
+		case 0x4B: // SUB IY, HL
 			MinxCPU.Y.W.L = SUB16(MinxCPU.Y.W.L, MinxCPU.HL.W.L);
 			return 16;
 		case 0x4C: // SUB SP, BA
@@ -288,16 +288,16 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_CRASH_INSTRUCTION, 0x4FCF);
 			return 16;
 
-		case 0x50: // *ADD X, BA
+		case 0x50: // *ADD IX, BA
 			MinxCPU.X.W.L = ADD16(MinxCPU.X.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x51: // *ADD X, HL
+		case 0x51: // *ADD IX, HL
 			MinxCPU.X.W.L = ADD16(MinxCPU.X.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x52: // *ADD Y, BA
+		case 0x52: // *ADD IY, BA
 			MinxCPU.Y.W.L = ADD16(MinxCPU.Y.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x53: // *ADD Y, HL
+		case 0x53: // *ADD IY, HL
 			MinxCPU.Y.W.L = ADD16(MinxCPU.Y.W.L, MinxCPU.HL.W.L);
 			return 16;
 		case 0x54: // *ADD SP, BA
@@ -313,22 +313,22 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_CRASH_INSTRUCTION, 0x57CF);
 			return 16;
 
-		case 0x58: // *SUB X, BA
+		case 0x58: // *SUB IX, BA
 			MinxCPU.X.W.L = SUB16(MinxCPU.X.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x59: // *SUB X, HL
+		case 0x59: // *SUB IX, HL
 			MinxCPU.X.W.L = SUB16(MinxCPU.X.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x5A: // *SUB Y, BA
+		case 0x5A: // *SUB IY, BA
 			MinxCPU.Y.W.L = SUB16(MinxCPU.Y.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x5B: // *SUB Y, HL
+		case 0x5B: // *SUB IY, HL
 			MinxCPU.Y.W.L = SUB16(MinxCPU.Y.W.L, MinxCPU.HL.W.L);
 			return 16;
-		case 0x5C: // CMP SP, BA
+		case 0x5C: // CP SP, BA
 			SUB16(MinxCPU.SP.W.L, MinxCPU.BA.W.L);
 			return 16;
-		case 0x5D: // CMP SP, HL
+		case 0x5D: // CP SP, HL
 			SUB16(MinxCPU.SP.W.L, MinxCPU.HL.W.L);
 			return 16;
 		case 0x5E: // CRASH
@@ -384,7 +384,7 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_UNSTABLE_INSTRUCTION, 0x6BCF);
 			return 16;
 
-		case 0x6C: // CMP SP, #nnnn
+		case 0x6C: // CP SP, #nnnn
 			I16 = Fetch16();
 			SUB16(MinxCPU.SP.W.L, I16);
 			return 16;
@@ -392,7 +392,7 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_UNSTABLE_INSTRUCTION, 0x6DCF);
 			return 16;
 
-		case 0x6E: // MOV SP, #nnnn
+		case 0x6E: // LD SP, #nnnn
 			I16 = Fetch16();
 			MinxCPU.SP.W.L = I16;
 			return 16;
@@ -400,57 +400,57 @@ int MinxCPU_ExecCF(void)
 			MinxCPU_OnException(EXCEPTION_UNSTABLE_INSTRUCTION, 0x6FCF);
 			return 16;
 
-		case 0x70: // MOV BA, [SP+#ss]
+		case 0x70: // LD BA, [SP+#ss]
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU.BA.B.L = MinxCPU_OnRead(1, I16++);
 			MinxCPU.BA.B.H = MinxCPU_OnRead(1, I16);
 			return 24;
-		case 0x71: // MOV HL, [SP+#ss]
+		case 0x71: // LD HL, [SP+#ss]
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU.HL.B.L = MinxCPU_OnRead(1, I16++);
 			MinxCPU.HL.B.H = MinxCPU_OnRead(1, I16);
 			return 24;
-		case 0x72: // MOV X, [SP+#ss]
+		case 0x72: // LD IX, [SP+#ss]
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU.X.B.L = MinxCPU_OnRead(1, I16++);
 			MinxCPU.X.B.H = MinxCPU_OnRead(1, I16);
 			return 24;
-		case 0x73: // MOV Y, [SP+#ss]
+		case 0x73: // LD IY, [SP+#ss]
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU.Y.B.L = MinxCPU_OnRead(1, I16++);
 			MinxCPU.Y.B.H = MinxCPU_OnRead(1, I16);
 			return 24;
 
-		case 0x74: // MOV [SP+#ss], BA
+		case 0x74: // LD [SP+#ss], BA
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU_OnWrite(1, I16++, MinxCPU.BA.B.L);
 			MinxCPU_OnWrite(1, I16, MinxCPU.BA.B.H);
 			return 24;
-		case 0x75: // MOV [SP+#ss], HL
+		case 0x75: // LD [SP+#ss], HL
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU_OnWrite(1, I16++, MinxCPU.HL.B.L);
 			MinxCPU_OnWrite(1, I16, MinxCPU.HL.B.H);
 			return 24;
-		case 0x76: // MOV [SP+#ss], X
+		case 0x76: // LD [SP+#ss], IX
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU_OnWrite(1, I16++, MinxCPU.X.B.L);
 			MinxCPU_OnWrite(1, I16, MinxCPU.X.B.H);
 			return 24;
-		case 0x77: // MOV [SP+#ss], Y
+		case 0x77: // LD [SP+#ss], IY
 			I8A = Fetch8();
 			I16 = MinxCPU.SP.W.L + S8_TO_16(I8A);
 			MinxCPU_OnWrite(1, I16++, MinxCPU.Y.B.L);
 			MinxCPU_OnWrite(1, I16, MinxCPU.Y.B.H);
 			return 24;
 
-		case 0x78: // MOV SP, [#nnnn]
+		case 0x78: // LD SP, [#nnnn]
 			I16 = Fetch16();
 			MinxCPU.SP.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16++);
 			MinxCPU.SP.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
@@ -461,7 +461,7 @@ int MinxCPU_ExecCF(void)
 		case 0x7B: // ??? #nn
 			return MinxCPU_ExecSPCF();
 
-		case 0x7C: // MOV [#nnnn], SP
+		case 0x7C: // LD [#nnnn], SP
 			I16 = Fetch16();
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16++, MinxCPU.SP.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.SP.B.H);
@@ -507,7 +507,7 @@ int MinxCPU_ExecCF(void)
 		case 0xB7: // POP H
 			MinxCPU.HL.B.H = POP();
 			return 12;
-		case 0xB8: // PUSHA
+		case 0xB8: // PUSH ALL
 			PUSH(MinxCPU.BA.B.H);
 			PUSH(MinxCPU.BA.B.L);
 			PUSH(MinxCPU.HL.B.H);
@@ -518,7 +518,7 @@ int MinxCPU_ExecCF(void)
 			PUSH(MinxCPU.Y.B.L);
 			PUSH(MinxCPU.N.B.H);
 			return 48;
-		case 0xB9: // PUSHAX
+		case 0xB9: // PUSH ALE
 			PUSH(MinxCPU.BA.B.H);
 			PUSH(MinxCPU.BA.B.L);
 			PUSH(MinxCPU.HL.B.H);
@@ -536,7 +536,7 @@ int MinxCPU_ExecCF(void)
 		case 0xBA: case 0xBB: // ??? #n
 			return MinxCPU_ExecSPCF();
 
-		case 0xBC: // POPA
+		case 0xBC: // POP ALL
 			MinxCPU.N.B.H = POP();
 			MinxCPU.Y.B.L = POP();
 			MinxCPU.Y.B.H = POP();
@@ -548,7 +548,7 @@ int MinxCPU_ExecCF(void)
 			MinxCPU.BA.B.H = POP();
 			return 44;
 
-		case 0xBD: // POPAX
+		case 0xBD: // POP ALE
 			MinxCPU.Y.B.I = POP();
 			MinxCPU.X.B.I = POP();
 			MinxCPU.HL.B.I = POP();
@@ -567,230 +567,230 @@ int MinxCPU_ExecCF(void)
 		case 0xBE: case 0xBF: // ??? #n
 			return MinxCPU_ExecSPCF();
 
-		case 0xC0: // MOV BA, [HL]
+		case 0xC0: // LD BA, [HL]
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU.BA.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16++);
 			MinxCPU.BA.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
-		case 0xC1: // MOV HL, [HL]
+		case 0xC1: // LD HL, [HL]
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU.HL.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16++);
 			MinxCPU.HL.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
-		case 0xC2: // MOV X, [HL]
+		case 0xC2: // LD IX, [HL]
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU.X.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16++);
 			MinxCPU.X.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
-		case 0xC3: // MOV Y, [HL]
+		case 0xC3: // LD IY, [HL]
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU.Y.B.L = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16++);
 			MinxCPU.Y.B.H = MinxCPU_OnRead(1, (MinxCPU.HL.B.I << 16) | I16);
 			return 20;
 
-		case 0xC4: // MOV [HL], BA
+		case 0xC4: // LD [HL], BA
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16++, MinxCPU.BA.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.BA.B.H);
 			return 20;
-		case 0xC5: // MOV [HL], HL
+		case 0xC5: // LD [HL], HL
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16++, MinxCPU.HL.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.HL.B.H);
 			return 20;
-		case 0xC6: // MOV [HL], X
+		case 0xC6: // LD [HL], IX
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16++, MinxCPU.X.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.X.B.H);
 			return 20;
-		case 0xC7: // MOV [HL], Y
+		case 0xC7: // LD [HL], IY
 			I16 = MinxCPU.HL.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16++, MinxCPU.Y.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.HL.B.I << 16) | I16, MinxCPU.Y.B.H);
 			return 20;
 
-		case 0xC8: case 0xC9: case 0xCA: case 0xCB: // MOV B, V
+		case 0xC8: case 0xC9: case 0xCA: case 0xCB: // LD B, V
 		case 0xCC: case 0xCD: case 0xCE: case 0xCF:
 			MinxCPU.BA.B.H = MinxCPU.PC.B.I;
 			return 12;
 
-		case 0xD0: // MOV BA, [X]
+		case 0xD0: // LD BA, [IX]
 			I16 = MinxCPU.X.W.L;
 			MinxCPU.BA.B.L = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16++);
 			MinxCPU.BA.B.H = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16);
 			return 20;
-		case 0xD1: // MOV HL, [X]
+		case 0xD1: // LD HL, [IX]
 			I16 = MinxCPU.X.W.L;
 			MinxCPU.HL.B.L = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16++);
 			MinxCPU.HL.B.H = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16);
 			return 20;
-		case 0xD2: // MOV X, [X]
+		case 0xD2: // LD IX, [IX]
 			I16 = MinxCPU.X.W.L;
 			MinxCPU.X.B.L = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16++);
 			MinxCPU.X.B.H = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16);
 			return 20;
-		case 0xD3: // MOV Y, [X]
+		case 0xD3: // LD IY, [IX]
 			I16 = MinxCPU.X.W.L;
 			MinxCPU.Y.B.L = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16++);
 			MinxCPU.Y.B.H = MinxCPU_OnRead(1, (MinxCPU.X.B.I << 16) | I16);
 			return 20;
 
-		case 0xD4: // MOV [X], BA
+		case 0xD4: // LD [IX], BA
 			I16 = MinxCPU.X.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16++, MinxCPU.BA.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16, MinxCPU.BA.B.H);
 			return 20;
-		case 0xD5: // MOV [X], HL
+		case 0xD5: // LD [IX], HL
 			I16 = MinxCPU.X.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16++, MinxCPU.HL.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16, MinxCPU.HL.B.H);
 			return 20;
-		case 0xD6: // MOV [X], X
+		case 0xD6: // LD [IX], IX
 			I16 = MinxCPU.X.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16++, MinxCPU.X.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16, MinxCPU.X.B.H);
 			return 20;
-		case 0xD7: // MOV [X], Y
+		case 0xD7: // LD [IX], IY
 			I16 = MinxCPU.X.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16++, MinxCPU.Y.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.X.B.I << 16) | I16, MinxCPU.Y.B.H);
 			return 20;
 
-		case 0xD8: // MOV BA, [Y]
+		case 0xD8: // LD BA, [IY]
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU.BA.B.L = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16++);
 			MinxCPU.BA.B.H = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16);
 			return 20;
-		case 0xD9: // MOV HL, [Y]
+		case 0xD9: // LD HL, [IY]
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU.HL.B.L = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16++);
 			MinxCPU.HL.B.H = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16);
 			return 20;
-		case 0xDA: // MOV X, [Y]
+		case 0xDA: // LD IX, [IY]
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU.X.B.L = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16++);
 			MinxCPU.X.B.H = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16);
 			return 20;
-		case 0xDB: // MOV Y, [Y]
+		case 0xDB: // LD IY, [IY]
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU.Y.B.L = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16++);
 			MinxCPU.Y.B.H = MinxCPU_OnRead(1, (MinxCPU.Y.B.I << 16) | I16);
 			return 20;
 
-		case 0xDC: // MOV [Y], BA
+		case 0xDC: // LD [IY], BA
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16++, MinxCPU.BA.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16, MinxCPU.BA.B.H);
 			return 20;
-		case 0xDD: // MOV [Y], HL
+		case 0xDD: // LD [IY], HL
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16++, MinxCPU.HL.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16, MinxCPU.HL.B.H);
 			return 20;
-		case 0xDE: // MOV [Y], X
+		case 0xDE: // LD [IY], IX
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16++, MinxCPU.X.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16, MinxCPU.X.B.H);
 			return 20;
-		case 0xDF: // MOV [Y], Y
+		case 0xDF: // LD [IY], IY
 			I16 = MinxCPU.Y.W.L;
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16++, MinxCPU.Y.B.L);
 			MinxCPU_OnWrite(1, (MinxCPU.Y.B.I << 16) | I16, MinxCPU.Y.B.H);
 			return 20;
 
-		case 0xE0: // MOV BA, BA
+		case 0xE0: // LD BA, BA
 			return 8;
-		case 0xE1: // MOV BA, HL
+		case 0xE1: // LD BA, HL
 			MinxCPU.BA.W.L = MinxCPU.HL.W.L;
 			return 8;
-		case 0xE2: // MOV BA, X
+		case 0xE2: // LD BA, IX
 			MinxCPU.BA.W.L = MinxCPU.X.W.L;
 			return 8;
-		case 0xE3: // MOV BA, Y
+		case 0xE3: // LD BA, IY
 			MinxCPU.BA.W.L = MinxCPU.Y.W.L;
 			return 8;
 
-		case 0xE4: // MOV HL, BA
+		case 0xE4: // LD HL, BA
 			MinxCPU.HL.W.L = MinxCPU.BA.W.L;
 			return 8;
-		case 0xE5: // MOV HL, HL
+		case 0xE5: // LD HL, HL
 			return 8;
-		case 0xE6: // MOV HL, X
+		case 0xE6: // LD HL, IX
 			MinxCPU.HL.W.L = MinxCPU.X.W.L;
 			return 8;
-		case 0xE7: // MOV HL, Y
+		case 0xE7: // LD HL, IY
 			MinxCPU.HL.W.L = MinxCPU.Y.W.L;
 			return 8;
 
-		case 0xE8: // MOV X, BA
+		case 0xE8: // LD IX, BA
 			MinxCPU.X.W.L = MinxCPU.BA.W.L;
 			return 8;
-		case 0xE9: // MOV X, HL
+		case 0xE9: // LD IX, HL
 			MinxCPU.X.W.L = MinxCPU.HL.W.L;
 			return 8;
-		case 0xEA: // MOV X, X
+		case 0xEA: // LD IX, IX
 			return 8;
-		case 0xEB: // MOV X, Y
+		case 0xEB: // LD IX, IY
 			MinxCPU.X.W.L = MinxCPU.Y.W.L;
 			return 8;
 
-		case 0xEC: // MOV Y, BA
+		case 0xEC: // LD IY, BA
 			MinxCPU.Y.W.L = MinxCPU.BA.W.L;
 			return 8;
-		case 0xED: // MOV Y, HL
+		case 0xED: // LD IY, HL
 			MinxCPU.Y.W.L = MinxCPU.HL.W.L;
 			return 8;
-		case 0xEE: // MOV Y, X
+		case 0xEE: // LD IY, IX
 			MinxCPU.Y.W.L = MinxCPU.X.W.L;
 			return 8;
-		case 0xEF: // MOV Y, Y
+		case 0xEF: // LD IY, IY
 			return 8;
 
-		case 0xF0: // MOV SP, BA
+		case 0xF0: // LD SP, BA
 			MinxCPU.SP.W.L = MinxCPU.BA.W.L;
 			return 8;
-		case 0xF1: // MOV SP, HL
+		case 0xF1: // LD SP, HL
 			MinxCPU.SP.W.L = MinxCPU.HL.W.L;
 			return 8;
-		case 0xF2: // MOV SP, X
+		case 0xF2: // LD SP, IX
 			MinxCPU.SP.W.L = MinxCPU.X.W.L;
 			return 8;
-		case 0xF3: // MOV SP, Y
+		case 0xF3: // LD SP, IY
 			MinxCPU.SP.W.L = MinxCPU.Y.W.L;
 			return 8;
 
-		case 0xF4: // MOV HL, SP
+		case 0xF4: // LD HL, SP
 			MinxCPU.HL.W.L = MinxCPU.SP.W.L;
 			return 8;
-		case 0xF5: // MOV HL, PC
+		case 0xF5: // LD HL, PC
 			MinxCPU.HL.W.L = MinxCPU.PC.W.L;
 			return 8;
-		case 0xF6: // ??? X
+		case 0xF6: // ??? IX
 			MinxCPU.X.B.H = MinxCPU.PC.B.I;
 			return 12;
-		case 0xF7: // ??? Y
+		case 0xF7: // ??? IY
 			MinxCPU.Y.B.H = MinxCPU.PC.B.I;
 			return 12;
 
-		case 0xF8: // MOV BA, SP
+		case 0xF8: // LD BA, SP
 			MinxCPU.BA.W.L = MinxCPU.SP.W.L;
 			return 8;
-		case 0xF9: // MOV BA, PC
+		case 0xF9: // LD BA, PC
 			MinxCPU.BA.W.L = MinxCPU.PC.W.L;
 			return 8;
 
-		case 0xFA: // MOV X, SP
+		case 0xFA: // LD IX, SP
 			MinxCPU.X.W.L = MinxCPU.SP.W.L;
 			return 8;
 
 		case 0xFB: // NOTHING
 		case 0xFC: // NOTHING
 			return 12;
-		case 0xFD: // MOV A, E
+		case 0xFD: // LD A, E
 			MinxCPU.BA.B.L = MinxCPU.E;
 			return 12;
 
-		case 0xFE: // MOV Y, SP
+		case 0xFE: // LD IY, SP
 			MinxCPU.Y.W.L = MinxCPU.SP.W.L;
 			return 8;
 

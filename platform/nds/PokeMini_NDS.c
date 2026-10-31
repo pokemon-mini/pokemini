@@ -306,8 +306,8 @@ int main(int argc, char **argv)
 
 	// Init video
 	printf("%s\n\n", AppName);
-	if (argv) PokeMini_InitDirs(argv[0], NULL);
-	else PokeMini_InitDirs("/", NULL);
+	if (argv) if (!PokeMini_InitDirs(argv[0], NULL)) return 1;
+	else if (!PokeMini_InitDirs("/", NULL)) return 1;
 	CommandLineInit();
 	//CommandLine.low_battery = 2;	// NDS can report battery status
 	CommandLine.lcdfilter = 0;	// Disable LCD filtering

@@ -334,8 +334,8 @@ int DisasmSingleOpcode(InstructionInfo *opcode, uint32_t addr, uint8_t *data, ch
 		// Instruction
 		strcpy(sout, sopcdec->opcode_pre);
 		strcpy(sout, sopcdec->opcode_dict[opcode->opc]);
-		if (opcode->opclen == 1) strcat(sout, "b");
-		if (opcode->opclen == 2) strcat(sout, "w");
+		// if (opcode->opclen == 1) strcat(sout, "b");
+		// if (opcode->opclen == 2) strcat(sout, "w");
 		if (opcode->p1) {
 			strcat(sout, sopcdec->opcode_post);
 			if (!ParseOperandStringDec(sopcdec->operand_dict[opcode->p1], addr, (uint8_t *)data + opcode->p1off, tmp, sopcdec)) return 0;
@@ -457,8 +457,8 @@ InstructionInfo *AsmSingleOpcode(char *sin, uint32_t addr, uint8_t *data, TSOpcD
 		// XX Opcode
 		opcode = (InstructionInfo *)&DebugCPUInstructions_XX[i];
 		strcpy(tmp, sopcdec->opcode_dict[opcode->opc]);
-		if (opcode->opclen == 1) strcat(tmp, "b");
-		if (opcode->opclen == 2) strcat(tmp, "w");
+		// if (opcode->opclen == 1) strcat(tmp, "b");
+		// if (opcode->opclen == 2) strcat(tmp, "w");
 		if ((!strcasecmp(opcname, tmp)) || (!strcasecmp(opcname, sopcdec->opcode_dict[opcode->opc]))) {
 			data[0] = i;
 			if (opcode->p1 == 0) return opcode;
@@ -473,8 +473,8 @@ InstructionInfo *AsmSingleOpcode(char *sin, uint32_t addr, uint8_t *data, TSOpcD
 		// CE Opcode
 		opcode = (InstructionInfo *)&DebugCPUInstructions_CE[i];
 		strcpy(tmp, sopcdec->opcode_dict[opcode->opc]);
-		if (opcode->opclen == 1) strcat(tmp, "b");
-		if (opcode->opclen == 2) strcat(tmp, "w");
+		// if (opcode->opclen == 1) strcat(tmp, "b");
+		// if (opcode->opclen == 2) strcat(tmp, "w");
 		if ((!strcasecmp(opcname, tmp)) || (!strcasecmp(opcname, sopcdec->opcode_dict[opcode->opc]))) {
 			data[0] = 0xCE;
 			data[1] = i;
@@ -490,8 +490,8 @@ InstructionInfo *AsmSingleOpcode(char *sin, uint32_t addr, uint8_t *data, TSOpcD
 		// CF Opcode
 		opcode = (InstructionInfo *)&DebugCPUInstructions_CF[i];
 		strcpy(tmp, sopcdec->opcode_dict[opcode->opc]);
-		if (opcode->opclen == 1) strcat(tmp, "b");
-		if (opcode->opclen == 2) strcat(tmp, "w");
+		// if (opcode->opclen == 1) strcat(tmp, "b");
+		// if (opcode->opclen == 2) strcat(tmp, "w");
 		if ((!strcasecmp(opcname, tmp)) || (!strcasecmp(opcname, sopcdec->opcode_dict[opcode->opc]))) {
 			data[0] = 0xCF;
 			data[1] = i;

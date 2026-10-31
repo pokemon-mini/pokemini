@@ -328,7 +328,7 @@ static void PRCMapW_Negative(GtkWidget *widget, gpointer data)
 static void PRCMapW_Zoom(GtkWidget *widget, gpointer data)
 {
 	if (PRCMapWindow_InConfigs) return;
-	dclc_zoom_prcmap = (int)data;
+	dclc_zoom_prcmap = GPOINTER_TO_INT(data);
 	FullRedraw = 1;
 	PRCMapWindow_Refresh(1);
 }
@@ -341,7 +341,7 @@ static void PRCMapW_RefreshNow(GtkWidget *widget, gpointer data)
 
 static void PRCMapW_Refresh(GtkWidget *widget, gpointer data)
 {
-	int val, index = (int)data;
+	int val, index = GPOINTER_TO_INT(data);
 	static int lastrefrindex = -2;
 
 	if (lastrefrindex == index) return;
@@ -373,42 +373,42 @@ static gboolean PRCMapWindow_state_event(GtkWidget *widget, GdkEventWindowState 
 
 static GtkItemFactoryEntry PRCMapWindow_MenuItems[] = {
 	{ "/_View",                              NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Show Visible",                  NULL,           PRCMapW_ShowVisible,      0, "<CheckItem>" },
-	{ "/View/Show Grid",                     NULL,           PRCMapW_ShowGrid,         0, "<CheckItem>" },
-	{ "/View/Show Negative",                 NULL,           PRCMapW_Negative,         0, "<CheckItem>" },
+	{ "/View/Show Visible",                  NULL,           (GtkItemFactoryCallback)PRCMapW_ShowVisible,      0, "<CheckItem>" },
+	{ "/View/Show Grid",                     NULL,           (GtkItemFactoryCallback)PRCMapW_ShowGrid,         0, "<CheckItem>" },
+	{ "/View/Show Negative",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Negative,         0, "<CheckItem>" },
 	{ "/View/Zoom",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/View/Zoom/100%",                     NULL,           PRCMapW_Zoom,             1, "<RadioItem>" },
-	{ "/View/Zoom/200%",                     NULL,           PRCMapW_Zoom,             2, "/View/Zoom/100%" },
-	{ "/View/Zoom/300%",                     NULL,           PRCMapW_Zoom,             3, "/View/Zoom/100%" },
-	{ "/View/Zoom/400%",                     NULL,           PRCMapW_Zoom,             4, "/View/Zoom/100%" },
-	{ "/View/Zoom/500%",                     NULL,           PRCMapW_Zoom,             5, "/View/Zoom/100%" },
-	{ "/View/Zoom/600%",                     NULL,           PRCMapW_Zoom,             6, "/View/Zoom/100%" },
-	{ "/View/Zoom/700%",                     NULL,           PRCMapW_Zoom,             7, "/View/Zoom/100%" },
-	{ "/View/Zoom/800%",                     NULL,           PRCMapW_Zoom,             8, "/View/Zoom/100%" },
+	{ "/View/Zoom/100%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             1, "<RadioItem>" },
+	{ "/View/Zoom/200%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             2, "/View/Zoom/100%" },
+	{ "/View/Zoom/300%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             3, "/View/Zoom/100%" },
+	{ "/View/Zoom/400%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             4, "/View/Zoom/100%" },
+	{ "/View/Zoom/500%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             5, "/View/Zoom/100%" },
+	{ "/View/Zoom/600%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             6, "/View/Zoom/100%" },
+	{ "/View/Zoom/700%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             7, "/View/Zoom/100%" },
+	{ "/View/Zoom/800%",                     NULL,           (GtkItemFactoryCallback)PRCMapW_Zoom,             8, "/View/Zoom/100%" },
 
 	{ "/_Debugger",                          NULL,           NULL,                     0, "<Branch>" },
-	{ "/Debugger/Run full speed",            "F5",           Menu_Debug_RunFull,       0, "<Item>" },
-	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    Menu_Debug_RunDFrameSnd,  0, "<Item>" },
-	{ "/Debugger/Run debug frames",          "<CTRL>F5",     Menu_Debug_RunDFrame,     0, "<Item>" },
-	{ "/Debugger/Run debug steps",           "<CTRL>F3",     Menu_Debug_RunDStep,      0, "<Item>" },
-	{ "/Debugger/Single frame",              "F4",           Menu_Debug_SingleFrame,   0, "<Item>" },
-	{ "/Debugger/Single step",               "F3",           Menu_Debug_SingleStep,    0, "<Item>" },
-	{ "/Debugger/Step skip",                 "<SHIFT>F3",    Menu_Debug_StepSkip,      0, "<Item>" },
-	{ "/Debugger/Stop",                      "F2",           Menu_Debug_Stop,          0, "<Item>" },
+	{ "/Debugger/Run full speed",            "F5",           (GtkItemFactoryCallback)Menu_Debug_RunFull,       0, "<Item>" },
+	{ "/Debugger/Run debug frames (Sound)",  "<SHIFT>F5",    (GtkItemFactoryCallback)Menu_Debug_RunDFrameSnd,  0, "<Item>" },
+	{ "/Debugger/Run debug frames",          "<CTRL>F5",     (GtkItemFactoryCallback)Menu_Debug_RunDFrame,     0, "<Item>" },
+	{ "/Debugger/Run debug steps",           "<CTRL>F3",     (GtkItemFactoryCallback)Menu_Debug_RunDStep,      0, "<Item>" },
+	{ "/Debugger/Single frame",              "F4",           (GtkItemFactoryCallback)Menu_Debug_SingleFrame,   0, "<Item>" },
+	{ "/Debugger/Single step",               "F3",           (GtkItemFactoryCallback)Menu_Debug_SingleStep,    0, "<Item>" },
+	{ "/Debugger/Step skip",                 "<SHIFT>F3",    (GtkItemFactoryCallback)Menu_Debug_StepSkip,      0, "<Item>" },
+	{ "/Debugger/Stop",                      "F2",           (GtkItemFactoryCallback)Menu_Debug_Stop,          0, "<Item>" },
 
 	{ "/_Refresh",                           NULL,           NULL,                     0, "<Branch>" },
-	{ "/Refresh/Now!",                       NULL,           PRCMapW_RefreshNow,       0, "<Item>" },
+	{ "/Refresh/Now!",                       NULL,           (GtkItemFactoryCallback)PRCMapW_RefreshNow,       0, "<Item>" },
 	{ "/Refresh/sep1",                       NULL,           NULL,                     0, "<Separator>" },
-	{ "/Refresh/100% 72fps",                 NULL,           PRCMapW_Refresh,          0, "<RadioItem>" },
-	{ "/Refresh/ 50% 36fps",                 NULL,           PRCMapW_Refresh,          1, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 33% 24fps",                 NULL,           PRCMapW_Refresh,          2, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 25% 18fps",                 NULL,           PRCMapW_Refresh,          3, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 17% 12fps",                 NULL,           PRCMapW_Refresh,          5, "/Refresh/100% 72fps" },
-	{ "/Refresh/ 12%  9fps",                 NULL,           PRCMapW_Refresh,          7, "/Refresh/100% 72fps" },
-	{ "/Refresh/  8%  6fps",                 NULL,           PRCMapW_Refresh,         11, "/Refresh/100% 72fps" },
-	{ "/Refresh/  3%  2fps",                 NULL,           PRCMapW_Refresh,         35, "/Refresh/100% 72fps" },
-	{ "/Refresh/  1%  1fps",                 NULL,           PRCMapW_Refresh,         71, "/Refresh/100% 72fps" },
-	{ "/Refresh/Custom...",                  NULL,           PRCMapW_Refresh,         -1, "/Refresh/100% 72fps" },
+	{ "/Refresh/100% 72fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          0, "<RadioItem>" },
+	{ "/Refresh/ 50% 36fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          1, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 33% 24fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          2, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 25% 18fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          3, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 17% 12fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          5, "/Refresh/100% 72fps" },
+	{ "/Refresh/ 12%  9fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,          7, "/Refresh/100% 72fps" },
+	{ "/Refresh/  8%  6fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,         11, "/Refresh/100% 72fps" },
+	{ "/Refresh/  3%  2fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,         35, "/Refresh/100% 72fps" },
+	{ "/Refresh/  1%  1fps",                 NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,         71, "/Refresh/100% 72fps" },
+	{ "/Refresh/Custom...",                  NULL,           (GtkItemFactoryCallback)PRCMapW_Refresh,         -1, "/Refresh/100% 72fps" },
 };
 static gint PRCMapWindow_MenuItemsNum = sizeof(PRCMapWindow_MenuItems) / sizeof(*PRCMapWindow_MenuItems);
 

@@ -133,7 +133,7 @@ int SeparateAtChars(char *s, char *chs, char **key, char **value);
 int GetArgument(const char *runcmd, int args, char *out, int len, char **runcmd_found);
 
 // Directories
-void PokeMini_InitDirs(char *argv0, char *exec);
+int PokeMini_InitDirs(char *argv0, char *exec);
 void PokeMini_GetCustomDir(char *dir, int max);
 void PokeMini_SetCurrentDir(const char *dir);
 void PokeMini_GotoCustomDir(const char *dir);

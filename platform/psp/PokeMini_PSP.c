@@ -269,7 +269,8 @@ int main(int argc, char **argv)
 
 	// Init video
 	PokeDPrint(POKEMSG_OUT, "%s\n\n", AppName);
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	CommandLineInit();
 	CommandLine.low_battery = 2;	// PSP can report battery status
 	CommandLineConfFile("pokemini.cfg", "pokemini_psp.cfg", CustomConf);

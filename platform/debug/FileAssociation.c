@@ -55,7 +55,7 @@ int FileAssociation_DoRegister(void)
 	const char *tenam5 = "debug";
 	const char *tenam6 = "&Debug";
 	const char *tenam7 = "&Color map";
-	char tmp[PMTMPV];
+	char tmp[PMTMPV + 24];
 	char tmp2[PMTMPV];
 	char argv0[PMTMPV];
 	int i;

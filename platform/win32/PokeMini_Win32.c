@@ -1141,7 +1141,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	LocalFree(pathnam);
 
 	// Process arguments
-	PokeMini_InitDirs(argv[0], NULL);
+	if (!PokeMini_InitDirs(argv[0], NULL))
+		return 1;
 	CommandLineInit();
 	CommandLineConfFile("pokemini.cfg", "pokemini_win32.cfg", CustomConf);
 	if (!CommandLineArgs(argc, argv, CustomArgs)) {

@@ -40,7 +40,7 @@ enum {
 
 typedef struct {
 	int forcefreebios;
-	char min_file[PMTMPV];
+	char min_file[PMTMPV - 4];  // remove 4 to fit .eep
 	char bios_file[PMTMPV];
 	char eeprom_file[PMTMPV];
 	char state_file[PMTMPV];
