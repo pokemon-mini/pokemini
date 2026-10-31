@@ -276,6 +276,106 @@ TUIMenu_Item UIItems_Platform[] = {
 	{ 9,  0, "Platform", UIItems_PlatformDefC }
 };
 
+
+#ifdef INTEGRATE_GRAPHICS
+#include <gdk/gdkkeysyms.h>
+// Globals for our new GTK screen
+GtkWidget *main_emu_window = NULL;
+GtkWidget *main_drawing_area = NULL;
+SDL_Surface *gtk_surface = NULL;
+// Modifier translation
+SDLMod gdk_state_to_sdl_mod(guint state)
+{
+	int mod = KMOD_NONE;
+	if (state & GDK_SHIFT_MASK)   mod |= KMOD_SHIFT;
+	if (state & GDK_CONTROL_MASK) mod |= KMOD_CTRL;
+	if (state & GDK_MOD1_MASK)    mod |= KMOD_ALT;
+	return (SDLMod)mod;
+}
+
+// Keyval translation
+SDLKey gdk_keyval_to_sdl_sym(guint keyval)
+{
+	if (keyval >= 0x020 && keyval <= 0x07E) {
+		if (keyval >= 'A' && keyval <= 'Z') return (SDLKey)(keyval + 32);
+		return (SDLKey)keyval;
+	}
+	switch (keyval) {
+		case GDK_Tab:       return SDLK_TAB;
+		case GDK_Return:    return SDLK_RETURN;
+		case GDK_Escape:    return SDLK_ESCAPE;
+		case GDK_BackSpace: return SDLK_BACKSPACE;
+		case GDK_Up:        return SDLK_UP;
+		case GDK_Down:      return SDLK_DOWN;
+		case GDK_Left:      return SDLK_LEFT;
+		case GDK_Right:     return SDLK_RIGHT;
+		case GDK_F9:        return SDLK_F9;
+		case GDK_F10:       return SDLK_F10;
+		case GDK_F11:       return SDLK_F11;
+		case GDK_Shift_L:   return SDLK_LSHIFT;
+		case GDK_Shift_R:   return SDLK_RSHIFT;
+		case GDK_Control_L: return SDLK_LCTRL;
+		case GDK_Control_R: return SDLK_RCTRL;
+		case GDK_Alt_L:     return SDLK_LALT;
+		case GDK_Alt_R:     return SDLK_RALT;
+		default:            return SDLK_UNKNOWN;
+	}
+}
+
+// GTK Event callbacks to pump SDL event loop
+gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	SDL_Event sdl_ev;
+	sdl_ev.type = SDL_KEYDOWN;
+	sdl_ev.key.state = SDL_PRESSED;
+	sdl_ev.key.keysym.sym = gdk_keyval_to_sdl_sym(event->keyval);
+	sdl_ev.key.keysym.mod = gdk_state_to_sdl_mod(event->state);
+	SDL_PushEvent(&sdl_ev);
+	return TRUE;
+}
+
+gboolean on_key_release(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	SDL_Event sdl_ev;
+	sdl_ev.type = SDL_KEYUP;
+	sdl_ev.key.state = SDL_RELEASED;
+	sdl_ev.key.keysym.sym = gdk_keyval_to_sdl_sym(event->keyval);
+	sdl_ev.key.keysym.mod = gdk_state_to_sdl_mod(event->state);
+	SDL_PushEvent(&sdl_ev);
+	return TRUE;
+}
+
+gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	SDL_Event sdl_ev;
+	sdl_ev.type = SDL_QUIT;
+	SDL_PushEvent(&sdl_ev);
+	return TRUE;
+}
+
+gboolean on_expose_event(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	if (!screen || !gtk_surface) return TRUE;
+	// Let SDL handle the format conversion (fixes transparency and color swapping)
+	SDL_BlitSurface(screen, NULL, gtk_surface, NULL);
+	// Point GTK at new guaranteed 24-bit RGB surface
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data(
+		(guchar *)gtk_surface->pixels,
+		GDK_COLORSPACE_RGB,
+		FALSE, // NO alpha channel. Forces the screen to be opaque!
+		8,
+		gtk_surface->w, gtk_surface->h, gtk_surface->pitch,
+		NULL, NULL);
+	gdk_draw_pixbuf(widget->window, widget->style->fg_gc[GTK_WIDGET_STATE(widget)],
+		pixbuf, 0, 0, 0, 0, gtk_surface->w, gtk_surface->h,
+		GDK_RGB_DITHER_NONE, 0, 0);
+
+	g_object_unref(pixbuf);
+	return TRUE;
+}
+#endif
+
+
 // Setup screen
 void setup_screen(void)
 {
@@ -303,6 +403,11 @@ void setup_screen(void)
 		PMWidth = 592; PMHeight = 400; PMOffX = 8; PMOffY = 8; PMZoom = 6;
 	}
 
+	#ifdef INTEGRATE_GRAPHICS
+	// FORCE 32-bit depth so GdkPixbuf
+	clc_bpp = 32;
+	#endif
+
 	// Set video spec and check if is supported
 	depth = PokeMini_SetVideo(videospec, clc_bpp, CommandLine.lcdfilter, CommandLine.lcdmode);
 	if (!depth) {
@@ -311,7 +416,11 @@ void setup_screen(void)
 	}
 
 	// Set video mode
+	#ifdef INTEGRATE_GRAPHICS
+	screen = SDL_SetVideoMode(PMWidth, PMHeight, depth, SDL_SWSURFACE);
+	#else
 	screen = SDL_SetVideoMode(PMWidth, PMHeight, depth, SDL_HWSURFACE | SDL_DOUBLEBUF | (clc_fullscreen ? SDL_FULLSCREEN : 0));
+	#endif
 	if (!screen) {
 		fprintf(stderr, "Couldn't set video mode: %s\n", SDL_GetError());
 		exit(1);
@@ -326,6 +435,37 @@ void setup_screen(void)
 		PMOff = (PMOffY * screen->pitch) + (PMOffX * 2);
 	}
 	clc_bpp = depth;
+
+#ifdef INTEGRATE_GRAPHICS
+	// Update the GTK Window size and Fullscreen state
+	if (gtk_surface) {
+		SDL_FreeSurface(gtk_surface);
+		gtk_surface = NULL;
+	}
+
+	// Create a surface mapped exactly to GTK's expected R-G-B byte order
+	gtk_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, PMWidth, PMHeight, 24,
+	#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+		0x000000FF, 0x0000FF00, 0x00FF0000, 0
+	#else
+		0xFF000000, 0x00FF0000, 0x0000FF00, 0
+	#endif
+	);
+
+	if (main_emu_window != NULL && main_drawing_area != NULL) {
+		// Resize the internal drawing canvas
+		gtk_widget_set_size_request(main_drawing_area, PMWidth, PMHeight);
+
+		// Handle F10 Fullscreen toggle
+		if (clc_fullscreen) {
+			gtk_window_fullscreen(GTK_WINDOW(main_emu_window));
+		} else {
+			gtk_window_unfullscreen(GTK_WINDOW(main_emu_window));
+			// Snap the window to wrap tightly around the new zoom size
+			gtk_window_resize(GTK_WINDOW(main_emu_window), PMWidth, PMHeight); 
+		}
+	}
+#endif
 }
 
 // Capture screen
@@ -607,6 +747,9 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize SDL
+	#ifdef INTEGRATE_GRAPHICS
+	setenv("SDL_VIDEODRIVER", "dummy", 1); // we are driving it with gtk now
+	#endif
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
 		fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
 		return 1;
@@ -616,6 +759,20 @@ int main(int argc, char **argv)
 
 	// Initialize the display
 	setup_screen();
+
+	#ifdef INTEGRATE_GRAPHICS
+	// Initialize the gtk emulator display window and wire the buffers together
+	main_emu_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	main_drawing_area = gtk_drawing_area_new();
+	gtk_widget_set_size_request(main_drawing_area, screen->w, screen->h);
+	gtk_container_add(GTK_CONTAINER(main_emu_window), main_drawing_area);
+	gtk_widget_add_events(main_emu_window, GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK);
+	g_signal_connect(main_emu_window, "key-press-event", G_CALLBACK(on_key_press), NULL);
+	g_signal_connect(main_emu_window, "key-release-event", G_CALLBACK(on_key_release), NULL);
+	g_signal_connect(main_emu_window, "delete-event", G_CALLBACK(on_delete_event), NULL);
+	g_signal_connect(main_drawing_area, "expose-event", G_CALLBACK(on_expose_event), NULL);
+	gtk_widget_show_all(main_emu_window);
+	#endif
 
 	// Initialize the sound
 	SDL_AudioSpec audfmt;
@@ -636,7 +793,11 @@ int main(int argc, char **argv)
 	}
 
 	// Set the window manager title bar
+	#ifdef INTEGRATE_GRAPHICS
+	gtk_window_set_title(GTK_WINDOW(main_emu_window), LCDName);
+	#else
 	SDL_WM_SetCaption(LCDName, "PokeMini");
+	#endif
 	SDL_EnableKeyRepeat(0, 0);
 
 	// Restore current directory
@@ -765,23 +926,44 @@ int main(int argc, char **argv)
 
 			// Unlock surface
 			SDL_UnlockSurface(screen);
+			#ifndef INTEGRATE_GRAPHICS
 			SDL_Flip(screen);
+			#endif
 		}
+		// Tell gtk to redraw
+		#ifdef INTEGRATE_GRAPHICS
+		gtk_widget_queue_draw(main_drawing_area);
+		#endif
+
 		CPUWindow_FrameRendered();
 
 		// Handle events
+		// GTK must go before SDL because GTK translates and passes events to SDL now
+		#ifdef INTEGRATE_GRAPHICS
+		while (gtk_events_pending()) gtk_main_iteration();
+		while (SDL_PollEvent(&event)) handleevents(&event);
+		#else
 		while (SDL_PollEvent(&event)) handleevents(&event);
 		while (gtk_events_pending()) gtk_main_iteration();
+		#endif
 
 		// calculate FPS
 		fpscnt++;
 		if (time >= NewTickFPS) {
 				if (emumode == EMUMODE_STOP) {
 					sprintf(title, "%s - Stopped", LCDName);
+					#ifdef INTEGRATE_GRAPHICS
+					gtk_window_set_title(GTK_WINDOW(main_emu_window), title);
+					#else
 					SDL_WM_SetCaption(title, "PokeMini");
+					#endif
 				} else {
 					sprintf(title, "%s - %d%%", LCDName, fpscnt * 100 / 72);
+					#ifdef INTEGRATE_GRAPHICS
+					gtk_window_set_title(GTK_WINDOW(main_emu_window), title);
+					#else
 					SDL_WM_SetCaption(title, "PokeMini");
+					#endif
 				}
 				NewTickFPS = time + 1000;
 				fpscnt = 0;

@@ -11,6 +11,10 @@ WINRES_SRC = $(POKEROOT)resource/pokemini.rc
 CFLAGS += -Wall `$(SDL_BASE)sdl-config --cflags` `pkg-config --cflags gtk+-2.0` $(INCLUDE)
 SLFLAGS += `$(SDL_BASE)sdl-config --libs` `pkg-config --libs gtk+-2.0` -lm -lz
 
+ifeq ($(INTEGRATED_GRAPHICS), 1)
+    CFLAGS += -DINTEGRATE_GRAPHICS
+endif
+
 INCDIRS = source sourcex resource freebios dependencies/minizip
 
 OBJS = \
@@ -153,4 +157,4 @@ win:
 
 clean:
 	-rm -f $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG)
-	-rmdir --ignore-fail-on-non-empty $(BUILD)
+	-rm -rf $(BUILD)
