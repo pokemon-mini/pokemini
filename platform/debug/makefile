@@ -4,6 +4,8 @@ POKEROOT = ../../
 BUILD = Build
 TARGET = PokeMiniD
 
+APP_BUNDLE = $(BUILD)/$(TARGET).app
+
 WINTARGET = PokeMiniD.exe
 WINRES_TRG = $(BUILD)/pokemini_rc.o
 WINRES_SRC = $(POKEROOT)resource/pokemini.rc
@@ -139,7 +141,7 @@ DEPENDSHDR = $(addprefix $(POKEROOT), $(DEPENDS))
 INCLUDE = $(foreach inc, $(INCDIRS), -I$(POKEROOT)$(inc))
 VPATH = $(addprefix $(POKEROOT),$(INCDIRS))
 
-.PHONY: all win clean
+.PHONY: all win clean mac_bundle
 
 all: $(BUILD) $(TARGET)
 
@@ -154,6 +156,20 @@ $(TARGET): $(BUILDOBJS)
 
 win:
 	make -f makefile.win
+
+mac_bundle: $(BUILD) $(TARGET)
+	mkdir -p $(APP_BUNDLE)/Contents/MacOS
+	mkdir -p $(APP_BUNDLE)/Contents/Resources
+	mkdir -p $(APP_BUNDLE)/Contents/Frameworks
+	sed -e "s/__TARGET__/$(TARGET)/g" $(POKEROOT)resource/Info.plist > $(APP_BUNDLE)/Contents/Info.plist
+	cp $(POKEROOT)resource/$(TARGET).icns $(APP_BUNDLE)/Contents/Resources/
+	cp $(TARGET) $(APP_BUNDLE)/Contents/MacOS/
+	dylibbundler -od -b -x $(APP_BUNDLE)/Contents/MacOS/$(TARGET) -d $(APP_BUNDLE)/Contents/Frameworks/ -p @executable_path/../Frameworks/
+	cp $$(pkg-config --variable=libdir sdl2)/libSDL2*.dylib $(APP_BUNDLE)/Contents/Frameworks/
+	chmod +w $(APP_BUNDLE)/Contents/Frameworks/*.dylib
+	install_name_tool -add_rpath @executable_path/../Frameworks $(APP_BUNDLE)/Contents/MacOS/$(TARGET)
+	codesign --force --deep --sign - $(APP_BUNDLE)
+	xattr -cr $(APP_BUNDLE)
 
 clean:
 	-rm -f $(BUILDOBJS) $(TARGET) $(WINTARGET) $(WINRES_TRG)
